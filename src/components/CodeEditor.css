@@ -1,0 +1,32 @@
+
+.CodeMirror {
+    height: 100%;
+ 
+    text-align: left; 
+    display: flex; 
+    flex-direction: column; 
+  }
+  
+  .CodeMirror-scroll {
+    min-height: 100%;
+  }
+  
+
+.CodeMirror {
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+  }
+  
+
+  .code-editor-wrapper {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .CodeMirror-placeholder {
+    content: none; 
+    display: none; 
+  }
+  
