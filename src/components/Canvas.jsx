@@ -11,7 +11,7 @@ const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) =>
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    if (components && components.length) {
+    if (components.length > 0) {
       const newRenderedComponents = components.map((component, idx) => {
         if (component.id === 'navbar') {
           return (
@@ -33,23 +33,16 @@ const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) =>
 
   const handleDrop = (event) => {
     event.preventDefault();
-    const componentId = event.dataTransfer.getData("component");
+    const componentId = event.dataTransfer.getData('component');
 
-    let newCode = "";
-    if (componentId === 'navbar') {
-      newCode = componentsCode['navbar'];
-    } else if (componentId === 'mainbody') {
-      newCode = componentsCode['mainbody'];
-    } else if (componentId === 'footer') {
-      newCode = componentsCode['footer'];
-    }
+    let newCode = componentsCode[componentId] || '';
 
     if (newCode) {
       setComponents((prevComponents) => [
         ...prevComponents,
-        { id: componentId, code: newCode }
+        { id: componentId, code: newCode },
       ]);
-      setCode((prevCode) => prevCode + "\n" + newCode);
+      setCode((prevCode) => prevCode + '\n' + newCode);
     }
   };
 
@@ -58,7 +51,6 @@ const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) =>
   };
 
   return (
-<<<<<<< HEAD
     <div
       ref={setNodeRef}
       className="canvas flex-1 bg-gray-100 p-2 h-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-start"
@@ -66,32 +58,22 @@ const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) =>
       onDragOver={handleDragOver}
       style={{ width: canvasSize.width, height: canvasSize.height, overflow: 'auto' }}
     >
-      {renderedComponents.length === 0 ? (
-        <span className="text-gray-500 text-lg">Canvas Area</span>
-      ) : (
+      {renderedComponents.length > 0 ? (
         renderedComponents
+      ) : (
+        <div className="w-full h-full bg-slate-200 flex flex-col">
+          <div className="first-layout flex items-center justify-center text-2xl h-16 bg-gray-300">
+            <h1>Header</h1>
+          </div>
+          <div className="second-layout flex items-center justify-center text-2xl flex-grow bg-white">
+            <h1>Main-body</h1>
+          </div>
+          <div className="h-20 flex items-center justify-center text-2xl bg-gray-300">
+            <h1>Footer</h1>
+          </div>
+        </div>
       )}
       {isOver && <div className="overlay">Drop Here</div>}
-=======
-    <div   className='w-full h-full  bg-slate-200 '   onDrop={handleDrop} onDragOver={handleDragOver}>
-      
-         <div  className='first-layout flex items-center justify-center text-2xl '>
-               <h1>Header</h1>  
-         </div>
-
-
-         <div className='second-layout flex items-center justify-center text-2xl'>
-              <h1>Main-body</h1>
-         </div>
-   
-
-         <div  className='h-20 flex items-center justify-center text-2xl' >
-              
-              <h1>Footer</h1>
-
-         </div>
-          
->>>>>>> 55a560dc5b4dd7413372c20db7f77a73a47a88c4
     </div>
   );
 };
