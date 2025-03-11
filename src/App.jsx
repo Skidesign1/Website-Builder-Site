@@ -11,6 +11,7 @@ import { CodeProvider } from "./context/CodeContext";
 
 const App = () => {
   return (
+    // structure of my code editor
     <CodeProvider>
       <Routes>
         <Route path="/" element={<AppLayout />} />
