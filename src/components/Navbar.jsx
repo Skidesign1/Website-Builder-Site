@@ -1,9 +1,9 @@
-import React, { useState } from 'react';  
-import { 
-  MinusIcon, PlusIcon, ArrowPathIcon, DocumentIcon, PhotoIcon, 
-  ArchiveBoxIcon, AdjustmentsHorizontalIcon 
-} from '@heroicons/react/24/solid';  
-import { PencilSquareIcon } from '@heroicons/react/24/outline';  
+import React, { useState } from 'react';
+import {
+  MinusIcon, PlusIcon, ArrowPathIcon, DocumentIcon, PhotoIcon,
+  ArchiveBoxIcon, AdjustmentsHorizontalIcon
+} from '@heroicons/react/24/solid';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 
 const resolutions = {
   "Mobile Resolutions": [
@@ -69,7 +69,7 @@ const Navbar = ({
   };
 
   return (
-    <nav className="top-0 left-0 w-full bg-gray-100 h-16 flex items-center justify-between px-5 border-b-2 border-gray-300 z-50">
+    <nav className="top-0 left-0 w-full bg-gray-100 h-16 flex items-center justify-around px-5 border-b-2 border-gray-300 z-50">
       {/* Left Section */}
       <div className="flex items-center space-x-4">
         <span className="text-gray-800 font-bold text-sm">Canvas</span>

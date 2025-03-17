@@ -33,17 +33,19 @@ const AppLayout = () => {
     <DndContext onDragEnd={handleDragEnd}>
       <div className='maincont bg-black relative'>
         <Navbar onChangeView={handleChangeView} onToggleEditor={handleToggleEditor} />
-        <div className="mygrid relative">
-          <div className='myborder'>
+        <div className="flex relative">
+          <div className='myborder basis-[10%]'>
             <Sidebar />
           </div>
-          <div className='border-2 border-dashed bg-black'>
+          <div className='border-2 border-dashed bg-black basis-[80%]'>
             <Canvas components={components} setComponents={setComponents} canvasSize={canvasSize} />
             {components.map((item, index) => (
               <OverComponent key={index} name={item.name} />
             ))}
           </div>
+          <div className='basis-[10%]'> <Sidebar /></div>
         </div>
+
       </div>
     </DndContext>
   );
