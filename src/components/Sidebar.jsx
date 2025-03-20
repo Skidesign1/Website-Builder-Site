@@ -1,27 +1,20 @@
 import React, { useState } from 'react';
 import { MagnifyingGlassIcon, XCircleIcon, HomeIcon, Squares2X2Icon, Cog6ToothIcon, QuestionMarkCircleIcon, WrenchScrewdriverIcon, ChartBarIcon, DocumentTextIcon } from '@heroicons/react/24/solid';
-import ResponsiveNavbar from '../components/ResponsiveNavbar';
 import Draggable from './Draggable';
+import final from './lib/db';
+
 
 const Sidebar = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const coreItems = [
-    { id: 'navbar', text: 'Navbar', icon: <HomeIcon className="w-4 h-4" />, component: <ResponsiveNavbar /> },
-    { id: 'header', text: 'Header', icon: <ChartBarIcon className="w-4 h-4" /> },
-    { id: 'sidebar', text: 'Side Bar', icon: <QuestionMarkCircleIcon className="w-4 h-4" /> },
-    { id: 'mainbody', text: 'Main body', icon: <Cog6ToothIcon className="w-4 h-4" /> },
-    { id: 'footer', text: 'Footer', icon: <DocumentTextIcon className="w-4 h-4" /> },
-  ];
+  // const presentsItems = [
+  //   { id: 'buttons', text: 'Buttons', icon: <WrenchScrewdriverIcon className="w-4 h-4" /> },
+  //   { id: 'labels', text: 'Labels', icon: <Squares2X2Icon className="w-4 h-4" /> },
+  //   { id: 'icon', text: 'Icon', icon: <Cog6ToothIcon className="w-4 h-4" /> },
+  // ];
 
-  const presentsItems = [
-    { id: 'buttons', text: 'Buttons', icon: <WrenchScrewdriverIcon className="w-4 h-4" /> },
-    { id: 'labels', text: 'Labels', icon: <Squares2X2Icon className="w-4 h-4" /> },
-    { id: 'icon', text: 'Icon', icon: <Cog6ToothIcon className="w-4 h-4" /> },
-  ];
-
-  const filteredCoreItems = coreItems.filter(item => item.text.toLowerCase().includes(searchTerm.toLowerCase()));
-  const filteredPresentsItems = presentsItems.filter(item => item.text.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredCoreItems = final.filter(item => item?.text?.toLowerCase().includes(searchTerm.toLowerCase()));
+  // const filteredPresentsItems = presentsItems.filter(item => item.text.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
     <aside className="bg-gray-100 h-full w-full p-4 relative">
@@ -38,7 +31,7 @@ const Sidebar = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           {searchTerm && (
-            <XCircleIcon 
+            <XCircleIcon
               className="w-4 cursor-pointer text-gray-500 hover:text-red-500 mr-2"
               onClick={() => setSearchTerm("")}
             />
@@ -63,18 +56,18 @@ const Sidebar = () => {
         </ul>
 
         {/* Example Components */}
-        <h2 className="mt-3"><strong>Examples</strong></h2>
+        {/* <h2 className="mt-3"><strong>Examples</strong></h2>
         <ul className="w-full">
           {filteredPresentsItems.length > 0 ? (
             filteredPresentsItems.map(item => (
               <li key={item.id} className="flex items-center gap-1 p-1 hover:bg-gray-200 rounded">
-                <Draggable id={item.id} icon={item.icon} name={item.text} />
+                <Draggable component={item.component} id={item.id} icon={item.icon} name={item.text} />
               </li>
             ))
           ) : (
             <p className="text-gray-500">No examples found</p>
           )}
-        </ul>
+        </ul> */}
       </div>
     </aside>
   );

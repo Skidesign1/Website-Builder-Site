@@ -1,22 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { useCode } from '../context/CodeContext';
-import ResponsiveNavbar from './ResponsiveNavbar';
-import { componentsCode } from './componentsCode';
+// import { componentsCode } from './componentsCode';
+import final from './lib/db';
+
 
 const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) => {
   const { isOver, setNodeRef } = useDroppable({ id: 'canvas' });
   const { code, setCode } = useCode();
   const [renderedComponents, setRenderedComponents] = useState([]);
   const canvasRef = useRef(null);
-
   useEffect(() => {
     if (components.length > 0) {
       const newRenderedComponents = components.map((component, idx) => {
-        if (component.id === 'navbar') {
+        let current = final.find(item => item.id == component.id)
+        if (component.id === current.id) {
+          setCode(current.component)
           return (
             <div key={idx} className="w-full">
-              <ResponsiveNavbar isMobileView={isMobileView} />
+              {current.component}
             </div>
           );
         } else {
@@ -35,7 +37,7 @@ const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) =>
     event.preventDefault();
     const componentId = event.dataTransfer.getData('component');
 
-    let newCode = componentsCode[componentId] || '';
+    let newCode = final[componentId] || '';
 
     if (newCode) {
       setComponents((prevComponents) => [
@@ -43,17 +45,26 @@ const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) =>
         { id: componentId, code: newCode },
       ]);
       setCode((prevCode) => prevCode + '\n' + newCode);
+
     }
   };
 
   const handleDragOver = (event) => {
     event.preventDefault();
   };
+  useEffect(() => {
+    if (canvasRef.current) {
+      canvasRef.current.scrollTop = canvasRef.current.scrollHeight;
+    }
+  }, [components]);
 
   return (
     <div
-      ref={setNodeRef}
-      className="canvas flex-1 bg-gray-100 p-2 h-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-start"
+      ref={(node) => {
+        setNodeRef(node);
+        canvasRef.current = node; // ✅ Attach ref to enable scrolling
+      }}
+      className="canvas flex-1 bg-gray-100 p-2 max-h-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-start"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       style={{ width: canvasSize.width, height: canvasSize.height, overflow: 'auto' }}

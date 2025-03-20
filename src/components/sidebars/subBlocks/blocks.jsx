@@ -1,55 +1,57 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import ImageComponent from '../../dragableComponnents.jsx/img';
+import Draggable from '../../Draggable';
+import { myImage } from '../../../assets/assets';
 
-const slides = [
+export const blocks = [
     {
-        title: "Boost Your Business",
+        id: "flower",
         subtitle: "With Expert Solutions",
-        image: "/path-to-image1.jpg",
+        image: myImage,
+        component: <ImageComponent />
     },
     {
-        title: "Collaborate Efficiently",
+        id: "best",
         subtitle: "Teamwork at its best",
-        image: "/path-to-image2.jpg",
+        image: myImage,
+        component: <ImageComponent />
     },
     {
-        title: "Online Training Programs",
-        subtitle: "Enhance your skills anywhere",
-        image: "/path-to-image3.jpg",
-        buttonText: "Get Started",
+        id: "Online",
+        subtitle: "Enhance",
+        image: myImage,
+        component: <ImageComponent />
     },
     {
-        title: "Boost Your Business",
+        id: " Business",
         subtitle: "With Expert Solutions",
-        image: "/path-to-image1.jpg",
+
         buttonText: "Learn More",
+        component: <ImageComponent />
     },
     {
-        title: "Collaborate Efficiently",
+        id: "Collaborate",
         subtitle: "Teamwork at its best",
-        image: "/path-to-image2.jpg",
+        image: myImage,
+        component: <ImageComponent />
     },
     {
-        title: "Online Training Programs",
+        id: "skill",
         subtitle: "Enhance your skills anywhere",
-        image: "/path-to-image3.jpg",
-        buttonText: "Get Started",
+        image: myImage,
+        component: <ImageComponent />
     },
     {
-        title: "Boost Your Business",
+        id: "Boost",
         subtitle: "With Expert Solutions",
-        image: "/path-to-image1.jpg",
-        buttonText: "Learn More",
+        image: myImage,
+        component: <ImageComponent />
     },
     {
-        title: "Collaborate Efficiently",
+        id: "team",
         subtitle: "Teamwork at its best",
-        image: "/path-to-image2.jpg",
-    },
-    {
-        title: "Online Training Programs",
-        subtitle: "Enhance your skills anywhere",
-        image: "/path-to-image3.jpg",
-        buttonText: "Get Started",
+        image: myImage,
+        component: <ImageComponent />
     },
 ];
 
@@ -57,24 +59,20 @@ const Blocks = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     return (
-        <div className="flex p-2">
-            <div className="bg-gray-100 p-2 rounded shadow">
+        <div className="p-2 no-scrollbar relative">
+            <div className="bg-gray-100 no-scrollbar p-2 rounded shadow">
                 <h2 className="text-xl font-bold mb-4">Blocks</h2>
-                <div className="space-y-4">
-                    {slides.map((slide, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                            <span className="font-bold text-lg">{index + 1}</span>
-                            <div
-                                className={`p-2 border rounded cursor-pointer ${currentSlide === index ? "border-blue-600" : "border-gray-300"}`}
-                                onClick={() => setCurrentSlide(index)}
-                            >
-                                <img src={slide.image} alt={slide.title} className="h-16 object-cover rounded" />
-                            </div>
-                        </div>
+                <ul className="space-y-4 max-h-[80vh]">
+                    {blocks.map((slide) => (
+                        <li key={slide.id} className="flex items-center gap-2 p-1 hover:bg-gray-200 rounded">
+                            <Draggable id={slide.id} img={slide.component} component={slide.component} />
+
+                        </li>
                     ))}
-                </div>
+                </ul>
             </div>
         </div>
+
     );
 };
 

@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const CodeContext = createContext();
 
 export const CodeProvider = ({ children }) => {
-  const [code, setCode] = useState(""); // Stores JSX/HTML Code
+  const [code, setCode] = useState([]); // Stores JSX/HTML Code
 
   return (
     <CodeContext.Provider value={{ code, setCode }}>

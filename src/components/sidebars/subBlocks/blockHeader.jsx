@@ -1,6 +1,8 @@
-import React from "react";
+
+import React, { useState } from "react";
 
 const BlockHeader = () => {
+    let [close, setClose] = useState(true)
     return (
 
         <div className="p-3 grid grid-cols-2">

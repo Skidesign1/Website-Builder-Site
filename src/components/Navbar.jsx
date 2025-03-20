@@ -1,5 +1,7 @@
 
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { Link } from "react-router-dom"
+import { BlockContext } from "../context/miniNavContext"
 import {
   ChevronDown,
   ChevronLeft,
@@ -137,25 +139,33 @@ export default function WebsiteBuilderToolbar() {
     handleChangeView(size)
   }
 
+  //  mini block navigation function
+
+  let { close, setClose } = useContext(BlockContext)
+  function handleBlockNav() {
+    setClose(!close)
+  }
+  // 
+
   return (
     <div className="flex items-center justify-between w-full h-12 px-2 bg-[#2d2d2d] text-white border-b border-[#222]">
       {/* Left section */}
       <div className="flex items-center space-x-2">
 
         {/* Block dropdown */}
-        <div className="flex items-center px-2 py-1 space-x-1 text-sm">
+        <div onClick={handleBlockNav} className="flex cursor-pointer  items-center px-2 py-1 space-x-1 text-sm">
           <div className="w-6 h-5 flex justify-center items-center text-2xl bg-blue-500">+</div>
           <span>Block</span>
           <ChevronDown className="w-4 h-4" />
         </div>
 
         {/* Element dropdown */}
-        <div className="flex items-center px-2 py-1 space-x-1 text-sm">
+        <Link to='/code-editor'><div className="flex items-center px-2 py-1 space-x-1 text-sm">
           <div className="w-6 h-5 flex justify-center items-center rounded-[50px] text-2xl bg-blue-500">+</div>
           <span>Element</span>
           <ChevronDown className="w-4 h-4" />
         </div>
-
+        </Link>
         {/* Divider */}
         <div className="h-6 border-l border-[#444]"></div>
 

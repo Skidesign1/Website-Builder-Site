@@ -19,9 +19,8 @@ const FileTree = ({ files }) => {
         {item.type === 'folder' ? (
           <div>
             <div
-              className={`file-tree-folder ${
-                expandedFolders.includes(item.name) ? 'expanded' : ''
-              }`}
+              className={`file-tree-folder ${expandedFolders.includes(item.name) ? 'expanded' : ''
+                }`}
               onClick={() => toggleFolder(item.name)}
             >
               {expandedFolders.includes(item.name) ? '📂' : '📁'} {item.name}

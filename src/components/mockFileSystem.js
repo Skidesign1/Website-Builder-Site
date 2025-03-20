@@ -10,8 +10,9 @@ const mockFileSystem = [
         type: 'folder',
         name: 'components',
         children: [
-          { type: 'file', name: 'Navbar.js' },
+          { type: 'file', name: '' },
           { type: 'file', name: 'Sidebar.js' },
+          { type: 'file', name: 'shoppinCartComponent.js' },
           { type: 'file', name: 'CodeEditor.js' }
         ]
       }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, usecontext } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import { useNavigate, useLocation } from 'react-router-dom';
 import 'codemirror/lib/codemirror.css';
@@ -9,14 +9,17 @@ import 'codemirror/addon/hint/show-hint.css';
 import 'codemirror/addon/hint/javascript-hint';
 import 'codemirror/addon/hint/html-hint';
 import 'codemirror/addon/hint/css-hint';
+import { useCode } from '../context/CodeContext';
 import { EditorView } from "@codemirror/view";
 import { javascript } from "@codemirror/lang-javascript";
 
 import './CodeEditor.css';
-import { componentsCode } from './componentsCode';
+// import { componentsCode } from './componentsCode';
+import final from './lib/db';
 
 const CodeEditor = () => {
-  const [code, setCode] = useState(""); // Define the state for code
+  let { code, setCode } = useCode()
+  const [cod, setCod] = useState(""); // Define the state for code
   const navigate = useNavigate();
   const location = useLocation();
   const { components } = location.state || { components: [] };
@@ -24,16 +27,19 @@ const CodeEditor = () => {
   const language = "xml"; // Defined to avoid errors
 
   useEffect(() => {
-    if (components.length > 0) {
-      const generatedCode = components.map((comp) => {
-        return componentsCode[comp.id] || `<div>${comp.id}</div>`;
+    if (components?.length > 0) {
+      let user = final.find(div => {
+        return div.id === components.id
+      })
+      const generatedCode = components?.map((comp) => {
+        return comp.components
       }).join("\n\n");
 
-      setCode(generatedCode);
+      setCod(generatedCode);
     } else {
       const savedCode = localStorage.getItem('code');
       if (savedCode) {
-        setCode(savedCode);
+        setCod(savedCode);
       }
     }
   }, [components]);
@@ -48,12 +54,14 @@ const CodeEditor = () => {
   //   import("codemirror/addon/hint/html-hint");
   //   import("codemirror/addon/hint/css-hint");
   // }, []);
-  
+
 
   const saveCode = () => {
-    localStorage.setItem('code', code);
+    localStorage.setItem('code', code.code);
     alert('Code saved successfully!');
   };
+  console.log('code', code)
+
 
   return (
     <div className="flex h-screen bg-white">
@@ -64,7 +72,7 @@ const CodeEditor = () => {
         </div>
         <div className="code-editor-wrapper flex-grow" style={{ height: 'calc(100vh - 96px)', overflow: 'auto' }}>
           <CodeMirror
-            value={code}
+            value={code || 'no content'}
             options={{
               mode: language,
               lineNumbers: true,
@@ -73,7 +81,7 @@ const CodeEditor = () => {
               lineWrapping: true,
             }}
             onBeforeChange={(editor, data, value) => {
-              setCode(value);
+              setCod(value);
             }}
             editorDidMount={(editor) => {
               editor.refresh();
