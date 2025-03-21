@@ -16,6 +16,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import './CodeEditor.css';
 // import { componentsCode } from './componentsCode';
 import final from './lib/db';
+import { Download } from 'lucide-react';
 
 const CodeEditor = () => {
   let { code, setCode } = useCode()
@@ -68,6 +69,9 @@ const CodeEditor = () => {
       <div className="flex flex-col w-full p-4">
         <div className="flex mb-4">
           <button className="mr-2 bg-gray-200 p-2" onClick={saveCode}>Save</button>
+          <div title="export code" className="flex items-center ml-auto">
+            <Download className="w-7 h-7 mr-1" />
+          </div>
           <button className="ml-auto bg-gray-200 p-2" onClick={() => navigate('/')}>Back to Builder</button>
         </div>
         <div className="code-editor-wrapper flex-grow" style={{ height: 'calc(100vh - 96px)', overflow: 'auto' }}>

@@ -76,8 +76,8 @@ body::-webkit-scrollbar {
   align-items: center;
   justify-content: center;
   color: white;
-  padding-left: 2rem;
-  padding-right: 6rem;
+  /* padding-left: 2rem;
+  padding-right: 6rem; */
 }
 
 .sub-over {

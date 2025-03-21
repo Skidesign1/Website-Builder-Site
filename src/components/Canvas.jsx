@@ -1,25 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { useCode } from '../context/CodeContext';
-// import { componentsCode } from './componentsCode';
+import { useComponents } from '../context/componentsContext';
+import OverComponent from './OverComponent';
 import final from './lib/db';
 
+const Canvas = ({ canvasSize, isMobileView }) => {
 
-const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) => {
   const { isOver, setNodeRef } = useDroppable({ id: 'canvas' });
   const { code, setCode } = useCode();
+  let { components, setComponents } = useComponents()
   const [renderedComponents, setRenderedComponents] = useState([]);
   const canvasRef = useRef(null);
+
   useEffect(() => {
     if (components.length > 0) {
       const newRenderedComponents = components.map((component, idx) => {
         let current = final.find(item => item.id == component.id)
         if (component.id === current.id) {
           setCode(current.component)
+          // setBlocksContent((prevBlocks) => [...prevBlocks, current]);
           return (
-            <div key={idx} className="w-full">
-              {current.component}
-            </div>
+            // <div key={idx} className="w-full">
+            //   {current.component}
+            // </div>
+            <OverComponent key={component.id} name={component.id} />
+
           );
         } else {
           return (
@@ -46,12 +52,14 @@ const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) =>
       ]);
       setCode((prevCode) => prevCode + '\n' + newCode);
 
+
     }
   };
 
   const handleDragOver = (event) => {
     event.preventDefault();
   };
+
   useEffect(() => {
     if (canvasRef.current) {
       canvasRef.current.scrollTop = canvasRef.current.scrollHeight;
@@ -64,7 +72,7 @@ const Canvas = ({ canvasSize, components = [], setComponents, isMobileView }) =>
         setNodeRef(node);
         canvasRef.current = node; // ✅ Attach ref to enable scrolling
       }}
-      className="canvas flex-1 bg-gray-100 p-2 max-h-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-start"
+      className="canvas mx-auto flex-1 bg-gray-100 p-2 max-h-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-start"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       style={{ width: canvasSize.width, height: canvasSize.height, overflow: 'auto' }}

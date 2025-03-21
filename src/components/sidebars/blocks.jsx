@@ -1,13 +1,15 @@
-import React from 'react';
-
+import React, { useContext } from 'react';
 import BlockHeader from './subBlocks/blockHeader';
 import Blocks from './subBlocks/blocks';
-const MainBlock = () => {
+import { BlockContext } from '../../context/miniNavContext';
 
+const MainBlock = () => {
+    let { close } = useContext(BlockContext)
 
     return (
         <div>
-            <BlockHeader /> <Blocks />
+            {close && (<div><BlockHeader />
+                <Blocks /></div>)}
 
         </div>
     );

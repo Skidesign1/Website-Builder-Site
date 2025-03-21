@@ -1,3 +1,5 @@
-import imageFile from "../assets/images.png"
+import myImage from "../assets/images.png";
+import logo from "../assets/skye_logo.png";
 
-export const myImage = imageFile
+// Export them together in an object
+export { myImage, logo }

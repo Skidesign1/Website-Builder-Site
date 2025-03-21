@@ -10,10 +10,12 @@ import { componentsCode } from './componentsCode';
 import MainBlock from './sidebars/blocks';
 import OverComponent from './OverComponent'; // Ensure this is correctly imported
 import { BlockContext } from '../context/miniNavContext';
+import { useComponents } from '../context/componentsContext';
+import { ComponentsContext } from '../context/componentsContext';
 const AppLayout = () => {
   let { close } = useContext(BlockContext)
   let { setCode } = useCode()
-  const [components, setComponents] = useState([]);
+  let { components, setComponents } = useComponents()
   const [canvasSize, setCanvasSize] = useState({ width: '100%', height: '100%' });
   const navigate = useNavigate();
   let sidetoggle = close ? <MainBlock /> : <Sidebar />
@@ -49,18 +51,17 @@ const AppLayout = () => {
             {sidetoggle}
           </div>
           {/* middle commponent */}
-          <div className='h-[100vh] mx-2 border-dashed bg-black'>
+          <div className='h-[100vh] relative mx-2 border-dashed bg-black'>
             <Canvas components={components} setComponents={setComponents} canvasSize={canvasSize} />
-            {/* {components.map((item) => (
+            {components.map((item) => (
               <OverComponent key={item.id} name={item.id} />
-            ))} */}
+            ))}
           </div>
           {/* right component */}
-          <div className='scrollbar-hide no-scrollbar max-h-[100vh] overflow-y-scroll'>
+          <div className='scrollbar-hide no-scrollbar max-h-[100vh] relative overflow-y-scroll'>
             <TextEditor />
           </div>
         </div>
-
       </div>
     </DndContext>
   );
