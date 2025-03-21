@@ -14,7 +14,7 @@ const Draggable = ({ id, name, img, component }) => {
       style={style}
       {...listeners}
       {...attributes}
-      className="cursor-move flex items-center"
+      className="cursor-move  flex items-center"
     >
       {/* {icon} */}
       <span className="ml-2">{name}</span>

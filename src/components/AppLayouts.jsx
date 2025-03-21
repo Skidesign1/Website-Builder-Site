@@ -53,9 +53,9 @@ const AppLayout = () => {
           {/* middle commponent */}
           <div className='h-[100vh] relative mx-2 border-dashed bg-black'>
             <Canvas components={components} setComponents={setComponents} canvasSize={canvasSize} />
-            {components.map((item) => (
+            {/* {components.map((item) => (
               <OverComponent key={item.id} name={item.id} />
-            ))}
+            ))} */}
           </div>
           {/* right component */}
           <div className='scrollbar-hide no-scrollbar max-h-[100vh] relative overflow-y-scroll'>

@@ -24,6 +24,7 @@ const Canvas = ({ canvasSize, isMobileView }) => {
             // <div key={idx} className="w-full">
             //   {current.component}
             // </div>
+
             <OverComponent key={component.id} name={component.id} />
 
           );
@@ -37,6 +38,7 @@ const Canvas = ({ canvasSize, isMobileView }) => {
       });
       setRenderedComponents(newRenderedComponents);
     }
+
   }, [components, isMobileView]);
 
   const handleDrop = (event) => {
@@ -51,7 +53,6 @@ const Canvas = ({ canvasSize, isMobileView }) => {
         { id: componentId, code: newCode },
       ]);
       setCode((prevCode) => prevCode + '\n' + newCode);
-
 
     }
   };
@@ -79,6 +80,7 @@ const Canvas = ({ canvasSize, isMobileView }) => {
     >
       {renderedComponents.length > 0 ? (
         renderedComponents
+
       ) : (
         <div className="w-full h-full bg-slate-200 flex flex-col">
           <div className="first-layout flex items-center justify-center text-2xl h-16 bg-gray-300">
