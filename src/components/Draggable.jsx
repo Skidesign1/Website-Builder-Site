@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDraggable } from '@dnd-kit/core';
 
-const Draggable = ({ id, name, img, component }) => {
+const Draggable = ({ id, name, img, component, icon }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
 
   const style = {
@@ -14,11 +14,12 @@ const Draggable = ({ id, name, img, component }) => {
       style={style}
       {...listeners}
       {...attributes}
-      className="cursor-move  flex items-center"
+      className="cursor-move z-100 flex items-center"
     >
-      {/* {icon} */}
+      {icon}
       <span className="ml-2">{name}</span>
-      {img}
+
+
       {component && <div className="hidden">{component}</div>}
     </div>
   );

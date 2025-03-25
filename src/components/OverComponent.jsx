@@ -22,6 +22,7 @@ const OverComponent = ({ name }) => {
         e.stopPropagation(); // Prevent clicking the component again to toggle the icon
         divRef.current.remove(); // Remove the component
     };
+    console.log(current)
 
     if (name === current.id) {
         return (
@@ -58,6 +59,7 @@ const OverComponent = ({ name }) => {
                     position: "absolute",
                     width: "50%",
                     top: "83px",
+                    zIndex: '10',
                     height: "435px",
                     backgroundColor: "darkblue",
                     color: "white",

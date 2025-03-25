@@ -42,6 +42,8 @@ body::-webkit-scrollbar {
 
 .canvas-inner {
   max-height: 100vh;
+  position: relative;
+  z-index: 10000;
 }
 
 /* second developer style */

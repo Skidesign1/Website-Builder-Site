@@ -8,7 +8,8 @@ const MainBlock = () => {
 
     return (
         <div>
-            {close && (<div><BlockHeader />
+            {close && (<div>
+                {/* <BlockHeader /> */}
                 <Blocks /></div>)}
 
         </div>

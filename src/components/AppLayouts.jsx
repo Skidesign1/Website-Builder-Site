@@ -12,21 +12,37 @@ import OverComponent from './OverComponent'; // Ensure this is correctly importe
 import { BlockContext } from '../context/miniNavContext';
 import { useComponents } from '../context/componentsContext';
 import { ComponentsContext } from '../context/componentsContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { canvasMountComponent } from './reduxState/getComponents';
+import { fetchComponents } from './reduxState/getComponents';
+import Blocks from './sidebars/subBlocks/blocks';
 const AppLayout = () => {
+  let dispatch = useDispatch()
   let { close } = useContext(BlockContext)
   let { setCode } = useCode()
   let { components, setComponents } = useComponents()
   const [canvasSize, setCanvasSize] = useState({ width: '100%', height: '100%' });
   const navigate = useNavigate();
-  let sidetoggle = close ? <MainBlock /> : <Sidebar />
+
+  useEffect(() => {
+    dispatch(fetchComponents())
+  }, [dispatch, fetchComponents])
 
   const handleDragEnd = (event) => {
-    const { active } = event;
-    if (active.id) {
+    const { active, over } = event;
+
+    // Ensure item is dropped inside the Canvas
+    if (!over) return;  // Stop if dropped outside any valid drop area
+
+    if (over.id === "canvas-drop-area") {
       const newComponent = componentsCode[active.id];
+
       setComponents((prev) => [...prev, { id: active.id, code: newComponent }]);
+      dispatch(canvasMountComponent({ id: active.id, code: newComponent }));
     }
   };
+
+
 
   const handleChangeView = (resolution) => {
     setCanvasSize({ width: `${resolution[0]}px`, height: `${resolution[1]}px` });
@@ -48,7 +64,7 @@ const AppLayout = () => {
         <div className="grid grid-cols-[200px_1fr_200px] gap-1 relative">
           <div className='myborder  no-scrollbar'>
             {/* left sidebar componnets */}
-            {sidetoggle}
+            <Sidebar />
           </div>
           {/* middle commponent */}
           <div className='h-[100vh] relative mx-2 border-dashed bg-black'>

@@ -32,7 +32,7 @@ const Blocks = () => {
     return (
         <div className="p-2 no-scrollbar relative">
             <div className="bg-gray-100 no-scrollbar p-2 rounded shadow">
-                <h2 className="text-xl font-bold mb-4">Blocks</h2>
+                <h2 className="text-xl font-bold mb-4">Layouts</h2>
                 <ul className="space-y-4 max-h-[80vh]">
                     {real}
                 </ul>
