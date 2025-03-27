@@ -12,17 +12,12 @@ const OverComponent = ({ name }) => {
     // State to manage the visibility of the delete icon
     const [isSelected, setIsSelected] = useState(false);
 
-    // Handle click to toggle selection and visibility of the delete button
+    // Handle click to toggle selection
     const handleClick = () => {
         setIsSelected((prev) => !prev); // Toggle the selected state
     };
 
-    // Handle the deletion of the component
-    const handleDelete = (e) => {
-        e.stopPropagation(); // Prevent clicking the component again to toggle the icon
-        divRef.current.remove(); // Remove the component
-    };
-    console.log(current)
+    console.log(current);
 
     if (name === current.id) {
         return (
@@ -33,20 +28,6 @@ const OverComponent = ({ name }) => {
                 onClick={handleClick} // Set component as selected when clicked
             >
                 <div className="relative min-w-full">
-                    {/* Delete icon, only visible when isSelected is true */}
-                    {isSelected && (
-                        <i
-                            className="fa fa-times"
-                            onClick={handleDelete}
-                            style={{
-                                position: "absolute",
-                                top: "0px",
-                                right: "0px",
-                                cursor: "pointer",
-                                color: 'red'
-                            }}
-                        ></i>
-                    )}
                     {current.component}
                 </div>
             </div>
@@ -67,19 +48,6 @@ const OverComponent = ({ name }) => {
                 className="overstyle"
                 onClick={handleClick} // Set component as selected when clicked
             >
-                {/* Delete icon, only visible when isSelected is true */}
-                {isSelected && (
-                    <i
-                        className="fa fa-times"
-                        onClick={handleDelete}
-                        style={{
-                            position: "absolute",
-                            top: "0px",
-                            right: "40px",
-                            cursor: "pointer",
-                        }}
-                    ></i>
-                )}
                 <h1>{name}</h1>
             </div>
         );

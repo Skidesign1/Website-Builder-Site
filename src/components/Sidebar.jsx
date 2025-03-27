@@ -4,8 +4,14 @@ import Draggable from './Draggable';
 import { BlockContext } from '../context/miniNavContext';
 import final from './lib/db';
 import Blocks from './sidebars/subBlocks/blocks';
+import Container from './container';
+import { useDraggable } from '@dnd-kit/core';
 
 const Sidebar = () => {
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: "sidebar-container",
+    data: { type: "container" },
+  });
   const { close, setClose } = useContext(BlockContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [openCategories, setOpenCategories] = useState({});
@@ -32,8 +38,8 @@ const Sidebar = () => {
           <button onClick={() => setClose(!close)} className="font-semibold cursor-pointer">Layouts</button>
         </div>
         {/* the block component */}
-        {!close && <Blocks />}
-        {close && (<div className="flex border-b flex-col p-3 gap-2 mt-2">
+        {close && <Blocks />}
+        {!close && (<div className="flex border-b flex-col p-3 gap-2 mt-2">
           <div className="flex rounded-full items-center gap-2 px-2 w-full border rounded focus-within:ring-2 focus-within:ring-blue-400">
             <MagnifyingGlassIcon className="w-4 cursor-pointer text-gray-500" />
             <input
@@ -51,8 +57,13 @@ const Sidebar = () => {
             )}
           </div>
         </div>)}
+        {!close && (<div className="">
+          <div ref={setNodeRef}>
+            <Container />
+          </div>
 
-        {close && (<div className="">
+
+
           {Object.entries(groupedComponents).map(([category, components]) => (
             <div key={category} className="mb-4 border-b">
               <div

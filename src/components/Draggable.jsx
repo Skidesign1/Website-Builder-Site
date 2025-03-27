@@ -14,13 +14,10 @@ const Draggable = ({ id, name, img, component, icon }) => {
       style={style}
       {...listeners}
       {...attributes}
-      className="cursor-move z-100 flex items-center"
+      className="cursor-move z-1000000 flex items-center"
     >
       {icon}
       <span className="ml-2">{name}</span>
-
-
-      {component && <div className="hidden">{component}</div>}
     </div>
   );
 };
