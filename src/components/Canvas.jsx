@@ -1,57 +1,60 @@
-import React, { useState, useEffect, useRef } from "react";
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, useSortable, arrayMove } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import Container from "./container";
-import SortableItem from "./sortableItem";
+import React, { useState } from "react";
+import { DndContext, closestCenter, DragOverlay } from "@dnd-kit/core";
+import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import SortableItem from "./SortableItem";
 
 const Canvas = ({ canvasSize }) => {
   const [containers, setContainers] = useState([]);
-  // const [container,setContainer]=useState(false)
-  const canvasRef = useRef(null);
+  const [activeContainer, setActiveContainer] = useState(null);
 
-  useEffect(() => {
-    if (canvasRef.current) {
-      canvasRef.current.scrollTop = canvasRef.current.scrollHeight;
-    }
-  }, [containers]);
+  // Handles when dragging starts
+  const onDragStart = (event) => {
+    const draggedItem = containers.find((c) => c.id === event.active.id);
+    setActiveContainer(draggedItem || null);
+  };
 
-  const onDragOver = (event) => {
+  // Handles when dragging ends
+  const onDragEnd = (event) => {
     const { active, over } = event;
+    setActiveContainer(null);
+
     if (!over || active.id === over.id) return;
 
     setContainers((prev) => {
       const oldIndex = prev.findIndex((c) => c.id === active.id);
       const newIndex = prev.findIndex((c) => c.id === over.id);
-      return arrayMove(prev, oldIndex, newIndex);
+      return oldIndex !== -1 && newIndex !== -1 ? arrayMove(prev, oldIndex, newIndex) : prev;
     });
   };
 
+  // Handles dropping new containers onto the canvas
   const handleDrop = (event) => {
     event.preventDefault();
-    setContainers((prev) => [...prev, { id: `container-${prev.length + 1}`, isOnCanvas: true }]);
+    setContainers((prev) => [
+      ...prev,
+      { id: `container-${Date.now()}`, isOnCanvas: true }, // Unique ID
+    ]);
   };
 
+  // Handles deleting a container
   const deleteContainer = (containerId) => {
-    setContainers((prev) => prev.filter((c) => c.id !== containerId));
+    // setContainers((prev) => prev.filter((c) => c.id !== containerId));
+    setContainers([])
+    return containers
   };
-  console.log(containers)
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragOver={onDragOver}>
+    <DndContext collisionDetection={closestCenter} onDragStart={onDragStart} onDragEnd={onDragEnd}>
       <SortableContext items={containers.map((c) => c.id)}>
         <div
-          ref={canvasRef}
-          className="canvas z-10 bg-gray-100 flex-col px-2 mx-auto"
+          className="canvas bg-gray-100 p-4 mx-auto border border-gray-300"
           onDrop={handleDrop}
           onDragOver={(event) => event.preventDefault()}
           style={{ width: canvasSize.width, height: canvasSize.height, overflowY: "auto" }}
         >
           {containers.length > 0 ? (
             containers.map((container) => (
-              <div>
-                <SortableItem key={container.id} container={container} isOnCanvas={container.isOnCanvas} deleteContainer={deleteContainer} />
-              </div>
+              <SortableItem key={container.id} container={container} deleteContainer={deleteContainer} />
             ))
           ) : (
             <div className="w-full h-full flex flex-col bg-slate-200">
@@ -62,27 +65,19 @@ const Canvas = ({ canvasSize }) => {
           )}
         </div>
       </SortableContext>
+
+      {/* DragOverlay Fix */}
+      <DragOverlay>
+        {activeContainer ? (
+          <div className="cursor-move bg-gray-200 rounded-md shadow-md min-h-[100px]">
+            <div className="min-h-[50px] text-center border-2 border-dashed border-gray-400 rounded-md p-2">
+              {`Container ${activeContainer.id}`}
+            </div>
+          </div>
+        ) : null}
+      </DragOverlay>
     </DndContext>
   );
 };
-// const SortableItem = ({ container }) => {
-//   const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id: container.id });
-
-//   const style = {
-//     transform: CSS.Transform.toString(transform),
-//     zIndex: isDragging ? 10 : "auto",
-//     opacity: isDragging ? 1 : 1,
-//     transition: isDragging ? "none" : "transform",
-//     pointerEvents: isDragging ? "none" : "auto",
-//   };
-
-//   return (
-//     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-//       <div className="relative z-100000 cursor-grabbing" style={{ pointerEvents: "auto" }}>
-//         <Container id={container.id} />
-//       </div>
-//     </div>
-//   );
-// };
 
 export default Canvas;

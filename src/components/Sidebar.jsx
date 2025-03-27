@@ -58,9 +58,9 @@ const Sidebar = () => {
           </div>
         </div>)}
         {!close && (<div className="">
-          <div ref={setNodeRef}>
-            <Container />
-          </div>
+          {/* <div ref={setNodeRef}> */}
+          <Container />
+          {/* </div> */}
 
 
 
@@ -86,10 +86,11 @@ const Sidebar = () => {
               )}
             </div>
           ))}
-        </div>)}
-      </aside>
+        </div>)
+        }
+      </aside >
 
-    </div>
+    </div >
   );
 };
 
