@@ -1,82 +1,137 @@
-import React, { useState, useContext, createContext, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useImmer } from 'use-immer';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { DndContext, useSensors, useSensor, PointerSensor, closestCorners } from '@dnd-kit/core';
+import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { DragOverlay } from '@dnd-kit/core';
 import Navbar from './Navbar';
-import Canvas from './Canvas';
-import { useCode } from '../context/CodeContext';
 import Sidebar from './Sidebar';
+import Canvas from './Canvas';
 import TextEditor from './sidebars/textEditor';
-import { DndContext } from '@dnd-kit/core';
-import { componentsCode } from './componentsCode';
-import MainBlock from './sidebars/blocks';
-import OverComponent from './OverComponent'; // Ensure this is correctly imported
-import { BlockContext } from '../context/miniNavContext';
-import { useComponents } from '../context/componentsContext';
-import { ComponentsContext } from '../context/componentsContext';
-import { useSelector, useDispatch } from 'react-redux';
-import { canvasMountComponent } from './reduxState/getComponents';
-import { fetchComponents } from './reduxState/getComponents';
-import Blocks from './sidebars/subBlocks/blocks';
+import SortableItem from './sortableItem';
+
 const AppLayout = () => {
-  let dispatch = useDispatch()
-  let { close } = useContext(BlockContext)
-  let { setCode } = useCode()
-  let { components, setComponents } = useComponents()
-  const [canvasSize, setCanvasSize] = useState({ width: '100%', height: '100%' });
+  const dispatch = useDispatch();
+  const { containers } = useSelector(state => state.canvas);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(fetchComponents())
-  }, [dispatch, fetchComponents])
+  const [canvasSize, setCanvasSize] = useState({ width: '100%', height: '100%' });
+  const [activeSidebarField, setActiveSidebarField] = useState(null);
+  const [activeField, setActiveField] = useState(null);
+  const [idData, setIdData] = useState(null);
+  const currentDragFieldRef = useRef(null);
+  const spacerInsertedRef = useRef(false);
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
+  const [data, updateData] = useImmer({ fields: [] });
+  const { fields } = data;
 
-    // Ensure item is dropped inside the Canvas
-    if (!over) return;  // Stop if dropped outside any valid drop area
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+  );
 
-    if (over.id === "canvas-drop-area") {
-      const newComponent = componentsCode[active.id];
+  const getData = (prop) => prop?.data?.current ?? {};
 
-      setComponents((prev) => [...prev, { id: active.id, code: newComponent }]);
-      dispatch(canvasMountComponent({ id: active.id, code: newComponent }));
+  const createSpacer = (id) => ({ id, type: 'spacer', title: 'Spacer' });
+
+  const cleanUp = useCallback(() => {
+    currentDragFieldRef.current = null;
+    spacerInsertedRef.current = false;
+  }, []);
+
+  const handleDragBegin = useCallback((e) => {
+    const { active } = e;
+    const activeData = getData(active);
+
+    if (activeData.fromSidebar) {
+      setActiveSidebarField(activeData.field);
+      currentDragFieldRef.current = {
+        id: active.id,
+        type: activeData.field.type,
+        name: `${activeData.field.type}${fields.length + 1}`,
+        parent: null
+      };
+      return;
     }
-  };
 
+    setActiveField(activeData.field);
+    currentDragFieldRef.current = activeData.field;
+  }, [fields.length]);
 
+  const handleDraggingOver = useCallback((e) => {
+    const { active, over } = e;
+    const activeData = getData(active);
+    const overData = getData(over);
 
-  const handleChangeView = (resolution) => {
-    setCanvasSize({ width: `${resolution[0]}px`, height: `${resolution[1]}px` });
-  };
+    if (activeData.fromSidebar) {
+      if (!spacerInsertedRef.current) {
+        updateData(draft => {
+          draft.fields.push(createSpacer(active.id + '-spacer'));
+        });
+        spacerInsertedRef.current = true;
+      } else if (!over) {
+        updateData(draft => {
+          draft.fields = draft.fields.filter(f => f.type !== 'spacer');
+        });
+        spacerInsertedRef.current = false;
+      } else {
+        updateData(draft => {
+          const spacerIndex = draft.fields.findIndex(f => f.id === active.id + '-spacer');
+          const nextIndex = overData.index > -1 ? overData.index : draft.fields.length - 1;
+          if (spacerIndex !== -1 && nextIndex !== spacerIndex) {
+            draft.fields = arrayMove(draft.fields, spacerIndex, nextIndex);
+          }
+        });
+      }
+    }
+  }, [updateData]);
 
-  const handleToggleEditor = () => {
-    navigate('/code-editor', { state: { components } });
-  };
-  console.log(components)
-  useEffect(() => {
-    let general = components.map(nam => nam.code).join(', ');
-    setCode(general);
-  }, [components]);
+  const handleDraggingEnd = useCallback((e) => {
+    const { active, over } = e;
+    setIdData(active.id);
+
+    if (!over) {
+      cleanUp();
+      updateData(draft => {
+        draft.fields = draft.fields.filter(f => f.type !== 'spacer');
+      });
+      return;
+    }
+
+    let nextField = currentDragFieldRef.current;
+    if (nextField) {
+      updateData(draft => {
+        let spacerIndex = draft.fields.findIndex(f => f.type === 'spacer');
+        if (spacerIndex !== -1) {
+          draft.fields.splice(spacerIndex, 1, nextField);
+          draft.fields = draft.fields.filter(f => f.type !== 'spacer'); // Ensure spacers are removed after sorting
+        }
+      });
+    }
+    cleanUp();
+  }, [cleanUp, updateData]);
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCorners}
+      onDragStart={handleDragBegin}
+      onDragOver={handleDraggingOver}
+      onDragEnd={handleDraggingEnd}
+    >
       <div className='maincont relative'>
-        <Navbar onChangeView={handleChangeView} onToggleEditor={handleToggleEditor} />
-        <div className="grid grid-cols-[200px_1fr_200px] gap-1 relative">
-          <div className='myborder  no-scrollbar'>
-            {/* left sidebar componnets */}
-            <Sidebar />
-          </div>
-          {/* middle commponent */}
-          <div className='h-[100vh] relative mx-2 border-dashed bg-black'>
-            <Canvas components={components} setComponents={setComponents} canvasSize={canvasSize} />
-            {/* {components.map((item) => (
-              <OverComponent key={item.id} name={item.id} />
-            ))} */}
-          </div>
-          {/* right component */}
-          <div className='scrollbar-hide no-scrollbar max-h-[100vh] relative overflow-y-scroll'>
-            <TextEditor />
-          </div>
+        <Navbar />
+        <div className='grid grid-cols-[200px_1fr_200px] gap-1 relative'>
+          <Sidebar className='myborder no-scrollbar' />
+          <SortableContext strategy={verticalListSortingStrategy} items={fields.map(f => f.id)}>
+            <div className='h-[10vh] relative mx-2 border-dashed bg-black'>
+              <Canvas fields={fields} canvasSize={canvasSize} />
+            </div>
+          </SortableContext>
+          <DragOverlay dropAnimation={false}>
+            {activeSidebarField && <SortableItem id={idData} overlay />}
+          </DragOverlay>
+          <TextEditor className='scrollbar-hide no-scrollbar max-h-[100vh] relative overflow-y-scroll' />
         </div>
       </div>
     </DndContext>

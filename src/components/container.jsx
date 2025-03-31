@@ -1,19 +1,46 @@
-const Container = ({ id, isOnCanvas, deleteContainer }) => {
+import { useMemo } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { useDraggable } from "@dnd-kit/core";
+
+const Container = ({ id, sty, container }) => {
+    const { attributes: draggableAttributes, listeners: draggableListeners, setNodeRef: setDraggableRef, transform: draggableTransform } = useDraggable({
+        id, data: {
+            fromSidebar: false,
+        }
+    });
+    const { attributes: sortableAttributes, listeners: sortableListeners, setNodeRef: setSortableRef, transform: sortableTransform, transition, isDragging } = useSortable({
+        id, data: {
+            fromSidebar: false,
+        }
+    });
+    const transform = sortableTransform || draggableTransform;
+    const style = {
+        transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : "none",
+        transition,
+        opacity: 1,
+    };
+
+    const setCombinedRef = (node) => {
+        setDraggableRef(node);
+        setSortableRef(node);
+    };
+
+    console.log(container)
     return (
-        <div className="relative cursor-move p-4 bg-gray-200 my-1 shadow-md min-h-[100px]">
-            <div className="min-h-[100px] text-center border-2 border-dashed border-gray-400 rounded-md p-2">
-                {isOnCanvas ? 'Drag Component here' : "Drag container to the canvas"}
-            </div>
-            {/* {isOnCanvas && (
-                <button
-                    className={`absolute ${isOnCanvas}  top-1 right-1 bg-red-500 text-white px-2 py-1 rounded`}
-                    onClick={() => deleteContainer(id)}
-                >
-                    ✖
-                </button>
-            )} */}
+        <div
+            ref={setCombinedRef}
+            style={style}
+            {...draggableListeners}
+            {...draggableAttributes}
+            {...sortableListeners}
+            {...sortableAttributes}
+            className={`cursor-move ${sty} relative z-20 flex items-center p-2 border rounded-md`}
+        >
+
+            <span className="ml-2">container-{id}</span>
         </div>
     );
 };
+
 
 export default Container;

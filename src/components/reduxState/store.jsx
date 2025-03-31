@@ -1,9 +1,10 @@
-// src/app/store.js
-import { configureStore } from '@reduxjs/toolkit';
-import componentReducer from './getComponents'
+import { configureStore } from "@reduxjs/toolkit";
+import canvasSlice from "./containerSlice";
 
 export const store = configureStore({
     reducer: {
-        component: componentReducer
+        canvas: canvasSlice.reducer,
     },
 });
+
+export default store;
