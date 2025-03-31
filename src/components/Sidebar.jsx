@@ -4,23 +4,16 @@ import Draggable from './Draggable';
 import { BlockContext } from '../context/miniNavContext';
 import final from './lib/db';
 import Blocks from './sidebars/subBlocks/blocks';
-import Container from './container';
-import { useDraggable } from '@dnd-kit/core';
-import { DndContext } from '@dnd-kit/core';
-import { useSelector } from 'react-redux';
 import SortableItem from './sortableItem';
+import { DraggableSidebarItem } from './testable/draggable-sidebar-items';
 
-const Sidebar = () => {
+const Sidebar = ({ id, title }) => {
   const { close, setClose } = useContext(BlockContext);
-  const [id, setId] = useState('')
   const [searchTerm, setSearchTerm] = useState("");
   const [openCategories, setOpenCategories] = useState({});
   console.log(id)
-  useEffect(() => { setId(Math.floor(Math.random() * 10002)) }, [setId])
 
-  let continerId = Date.now()
-  let componentId = Math.floor(Math.random() * 33002);
-  console.log(continerId)
+
 
   const filteredItems = final.filter(item => item?.text?.toLowerCase().includes(searchTerm.toLowerCase()));
 
@@ -64,7 +57,7 @@ const Sidebar = () => {
         </div>
       </div>)}
       {!close && (<div className="">
-        <SortableItem id={continerId} sty={'h-15 shadow-[10px] z-100 justify-center border-dashed border w-full'} />
+        <DraggableSidebarItem id={id} title={title} sty={'h-15 shadow-[10px] z-100 justify-center border-dashed border w-full'} />
         {Object.entries(groupedComponents).map(([category, components]) => (
           <div key={category} className="mb-4 border-b">
             <div

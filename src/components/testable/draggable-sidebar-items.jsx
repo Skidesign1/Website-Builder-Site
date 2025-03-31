@@ -3,7 +3,7 @@ import { CSS } from "@dnd-kit/utilities"
 import { Move } from "lucide-react"
 
 export function DraggableSidebarItem({ id, title }) {
-    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
         id,
     })
 
@@ -17,7 +17,7 @@ export function DraggableSidebarItem({ id, title }) {
         <div
             ref={setNodeRef}
             style={style}
-            className="flex cursor-grab items-center rounded-md border bg-card p-3 shadow-sm"
+            className={`flex w-full cursor-grab items-center rounded-md border bg-card p-3 ${isDragging ? 'w-10' : 'w-[200px]'} shadow-sm`}
             {...listeners}
             {...attributes}
         >

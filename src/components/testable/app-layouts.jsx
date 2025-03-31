@@ -15,6 +15,7 @@ import { CanvasDroppable } from "./canvasDropable"
 import { ContainerItem } from "./container-items"
 import WebsiteBuilderToolbar from "../Navbar"
 import TextEditor from "../sidebars/textEditor"
+import Sidebar from "../Sidebar"
 
 
 export default function DragAndDropPage() {
@@ -94,14 +95,16 @@ export default function DragAndDropPage() {
 
     return (
         <DndContext sensors={sensors} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
-            <WebsiteBuilderToolbar />
+            <div className=""><WebsiteBuilderToolbar /></div>
+
             <div className="grid grid-cols-[200px_1fr_200px] gap-1 h-[100vh] relative">
-                <div className=" bg-muted/40 p-4">
+                {/* <div className=" bg-muted/40 p-4">
                     <h2 className="mb-4 font-semibold">Sidebar</h2>
                     <div className="mb-4">
                         <DraggableSidebarItem id="sidebar-container" title="Drag me to canvas" />
                     </div>
-                </div>
+                </div> */}
+                <Sidebar id="sidebar-container" title="Drag me to the Canvas" />
                 <div>
                     <CanvasDroppable
                         containers={containers}
@@ -114,7 +117,7 @@ export default function DragAndDropPage() {
                     <DragOverlay>
                         {activeId ? (
                             activeId === "sidebar-container" ? (
-                                <ContainerItem title="New Container" isSidebar={false} />
+                                <ContainerItem isSidebar={false} />
                             ) : (
                                 <ContainerItem
                                     title={containers.find((c) => c.id === activeId)?.title || "Container"}
