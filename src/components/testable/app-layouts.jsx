@@ -88,11 +88,14 @@ export default function DragAndDropPage() {
 
         setOverIndex(null)
     }
+    function deleteContainer(id) {
+        setContainers(containers.filter(container => container.id !== id));
+    }
 
     return (
         <DndContext sensors={sensors} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
             <WebsiteBuilderToolbar />
-            <div className="grid grid-cols-[200px_1fr_200px] gap-1 relative">
+            <div className="grid grid-cols-[200px_1fr_200px] gap-1 h-[100vh] relative">
                 <div className=" bg-muted/40 p-4">
                     <h2 className="mb-4 font-semibold">Sidebar</h2>
                     <div className="mb-4">
@@ -104,21 +107,24 @@ export default function DragAndDropPage() {
                         containers={containers}
                         overIndex={overIndex}
                         isDraggingNew={activeId === "sidebar-container"}
+                        onDelete={deleteContainer}
                     />
                 </div>
-                <DragOverlay>
-                    {activeId ? (
-                        activeId === "sidebar-container" ? (
-                            <ContainerItem title="New Container" isSidebar={false} />
-                        ) : (
-                            <ContainerItem
-                                title={containers.find((c) => c.id === activeId)?.title || "Container"}
-                                isSidebar={false}
-                            />
-                        )
-                    ) : null}
-                </DragOverlay>
-                <TextEditor />
+                <div>
+                    <DragOverlay>
+                        {activeId ? (
+                            activeId === "sidebar-container" ? (
+                                <ContainerItem title="New Container" isSidebar={false} />
+                            ) : (
+                                <ContainerItem
+                                    title={containers.find((c) => c.id === activeId)?.title || "Container"}
+                                    isSidebar={false}
+                                />
+                            )
+                        ) : null}
+                    </DragOverlay>
+
+                    <TextEditor /> </div>
             </div>
 
 

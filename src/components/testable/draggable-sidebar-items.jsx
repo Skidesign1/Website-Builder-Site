@@ -21,7 +21,7 @@ export function DraggableSidebarItem({ id, title }) {
             {...listeners}
             {...attributes}
         >
-            <Move className="mr-2 h-5 w-5 text-muted-foreground" />
+            <Move className="mr-2 h-5 w-10 text-muted-foreground" />
             <span>{title}</span>
         </div>
     )
