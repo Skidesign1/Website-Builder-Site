@@ -1,5 +1,4 @@
 
-
 import { useState } from "react"
 import {
     DndContext,
@@ -10,18 +9,31 @@ import {
     useSensors,
 } from "@dnd-kit/core"
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable"
-import { DraggableSidebarItem } from "./draggable-sidebar-items"
+import { DraggableComponent } from "./draggable-component.jsx"
+import { DraggableSidebarItem } from "./draggable-sidebar-item.jsx"
 import { CanvasDroppable } from "./canvasDropable"
 import { ContainerItem } from "./container-items"
-import WebsiteBuilderToolbar from "../Navbar"
-import TextEditor from "../sidebars/textEditor"
-import Sidebar from "../Sidebar"
+import { ComponentOverlay } from "./componentOverlay.jsx"
+import final from "../lib/db.jsx"
+import WebsiteBuilderToolbar from "../Navbar.jsx"
+import TextEditor from "../sidebars/textEditor.jsx"
+import Sidebar from "../Sidebar.jsx"
 
+// Component types that can be dragged from sidebar
+const componentTypes = [
+    { categories: 'button,', type: "button", label: "Button", icon: "B" },
+    { categpries: 'input', type: "input", label: "Input Field", icon: "I" },
+    { type: "text", label: "Text Block", icon: "T" },
+    { type: "image", label: "Image", icon: "🖼️" },
+    { type: "card", label: "Card", icon: "C" },
+]
 
 export default function DragAndDropPage() {
     const [containers, setContainers] = useState([])
     const [activeId, setActiveId] = useState(null)
     const [overIndex, setOverIndex] = useState(null)
+    const [activeComponent, setActiveComponent] = useState(null)
+    const [activeDroppableId, setActiveDroppableId] = useState(null)
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -34,6 +46,16 @@ export default function DragAndDropPage() {
         const { active } = event
         setActiveId(active.id)
         setOverIndex(null)
+        console.log(active)
+
+        if (active.data.current?.isComponent) {
+            setActiveComponent({
+                type: active.data.current.type,
+                label: active.data.current.label,
+            })
+        } else {
+            setActiveComponent(null)
+        }
     }
 
     function handleDragOver(event) {
@@ -41,6 +63,16 @@ export default function DragAndDropPage() {
 
         if (!over) {
             setOverIndex(null)
+            setActiveDroppableId(null)
+            return
+        }
+
+        if (active.data.current?.isComponent) {
+            if (over.id.toString().startsWith("droppable-")) {
+                setActiveDroppableId(over.id.toString())
+            } else {
+                setActiveDroppableId(null)
+            }
             return
         }
 
@@ -65,17 +97,73 @@ export default function DragAndDropPage() {
 
     function handleDragEnd(event) {
         const { active, over } = event
+
         setActiveId(null)
+        setActiveComponent(null)
 
         if (!over) {
             setOverIndex(null)
+            setActiveDroppableId(null)
             return
         }
 
-        if (active.id === "sidebar-container") {
+        if (active.data.current?.isComponent && over.id.toString().startsWith("droppable-")) {
+            const targetContainerId = over.data.current?.containerId
+
+            if (targetContainerId) {
+                if (active.data.current?.isExistingComponent) {
+                    const sourceContainerId = active.data.current.sourceContainerId
+
+                    if (sourceContainerId !== targetContainerId) {
+                        const sourceContainer = containers.find((c) => c.id === sourceContainerId)
+                        const componentToMove = sourceContainer?.component
+
+                        if (componentToMove) {
+                            setContainers(
+                                containers.map((container) => {
+                                    if (container.id === sourceContainerId) {
+                                        return {
+                                            ...container,
+                                            component: null,
+                                        }
+                                    }
+                                    if (container.id === targetContainerId) {
+                                        return {
+                                            ...container,
+                                            component: componentToMove,
+                                        }
+                                    }
+                                    return container
+                                }),
+                            )
+                        }
+                    }
+                } else {
+                    setContainers(
+                        containers.map((container) => {
+                            if (container.id === targetContainerId) {
+                                console.log(active)
+                                return {
+                                    ...container,
+                                    component: {
+                                        id: `${active.data.current.type}-${Date.now()}`,
+                                        type: active.data.current.type,
+                                        label: active.data.current.label,
+                                        component: active.data.current.component
+                                    },
+                                }
+                            }
+                            return container
+                        }),
+                    )
+                }
+            }
+        } else if (active.id === "sidebar-container") {
+            console.log(active)
             const newContainer = {
                 id: `container-${Date.now()}`,
                 title: `Container ${containers.length + 1}`,
+                component: active.component
             }
 
             if (overIndex !== null) {
@@ -88,49 +176,56 @@ export default function DragAndDropPage() {
         }
 
         setOverIndex(null)
-    }
-    function deleteContainer(id) {
-        setContainers(containers.filter(container => container.id !== id));
+        setActiveDroppableId(null)
     }
 
     return (
         <DndContext sensors={sensors} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
-            <div className=""><WebsiteBuilderToolbar /></div>
-
+            <WebsiteBuilderToolbar />
             <div className="grid grid-cols-[200px_1fr_200px] gap-1 h-[100vh] relative">
-                {/* <div className=" bg-muted/40 p-4">
-                    <h2 className="mb-4 font-semibold">Sidebar</h2>
-                    <div className="mb-4">
-                        <DraggableSidebarItem id="sidebar-container" title="Drag me to canvas" />
-                    </div>
-                </div> */}
-                <Sidebar id="sidebar-container" title="Drag me to the Canvas" />
-                <div>
-                    <CanvasDroppable
-                        containers={containers}
-                        overIndex={overIndex}
-                        isDraggingNew={activeId === "sidebar-container"}
-                        onDelete={deleteContainer}
-                    />
+                <div className=" border-r bg-muted/40">
+                    {/* <h2 className="mb-4 font-semibold">Sidebar</h2> */}
+
+                    {/* <DraggableSidebarItem id="sidebar-container" title="Container" isContainer={true} />
+
+                    <h3 className="text-sm font-medium mb-2">Components</h3>
+                    <div className="space-y-1">
+                        {final.map((component, index) => (
+                            <DraggableComponent
+                                key={index}
+                                id={`component-${component.type}`}
+                                type={component.type}
+                                label={component.label}
+                                icon={component.icon}
+                            />
+                        ))}
+                    </div> */}
+                    <Sidebar id='sidebar-container' title='container' isContainer={true} />
                 </div>
-                <div>
-                    <DragOverlay>
-                        {activeId ? (
-                            activeId === "sidebar-container" ? (
-                                <ContainerItem isSidebar={false} />
-                            ) : (
-                                <ContainerItem
-                                    title={containers.find((c) => c.id === activeId)?.title || "Container"}
-                                    isSidebar={false}
-                                />
-                            )
-                        ) : null}
-                    </DragOverlay>
 
-                    <TextEditor /> </div>
+                <CanvasDroppable
+                    containers={containers}
+                    overIndex={overIndex}
+                    isDraggingNew={activeId === "sidebar-container"}
+                    activeDroppableId={activeDroppableId}
+                />
+
+                <DragOverlay>
+                    {activeId ? (
+                        activeComponent ? (
+                            <ComponentOverlay type={activeComponent.type} label={activeComponent.label} />
+                        ) : activeId === "sidebar-container" ? (
+                            <ContainerItem title="New Container" isSidebar={false} />
+                        ) : (
+                            <ContainerItem
+                                title={containers.find((c) => c.id === activeId)?.title || "Container"}
+                                isSidebar={false}
+                            />
+                        )
+                    ) : null}
+                </DragOverlay>
+                <div className="border-l"><TextEditor /></div>
             </div>
-
-
         </DndContext>
     )
 }

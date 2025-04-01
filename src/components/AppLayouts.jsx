@@ -121,7 +121,7 @@ const AppLayout = () => {
     >
       <div className='maincont relative'>
         <Navbar />
-        <div className='grid grid-cols-[200px_1fr_200px] gap-1 relative'>
+        <div className='grid grid-cols-[200px_1fr_200px] gap-1 h-[100vh] relative'>
           <Sidebar className='myborder no-scrollbar' />
           <SortableContext strategy={verticalListSortingStrategy} items={fields.map(f => f.id)}>
             <div className='h-[10vh] relative mx-2 border-dashed bg-black'>
