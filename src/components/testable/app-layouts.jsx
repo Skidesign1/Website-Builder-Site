@@ -107,6 +107,7 @@ export default function DragAndDropPage() {
             return
         }
 
+
         if (active.data.current?.isComponent && over.id.toString().startsWith("droppable-")) {
             const targetContainerId = over.data.current?.containerId
 
@@ -179,6 +180,11 @@ export default function DragAndDropPage() {
         setActiveDroppableId(null)
     }
 
+    function handleDeleteContainer(containerId) {
+        setContainers((prevContainers) => prevContainers.filter(c => c.id !== containerId));
+    }
+
+
     return (
         <DndContext sensors={sensors} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
             <WebsiteBuilderToolbar />
@@ -208,6 +214,8 @@ export default function DragAndDropPage() {
                     overIndex={overIndex}
                     isDraggingNew={activeId === "sidebar-container"}
                     activeDroppableId={activeDroppableId}
+                    handleDeleteContainer={handleDeleteContainer}
+
                 />
 
                 <DragOverlay>
@@ -215,7 +223,7 @@ export default function DragAndDropPage() {
                         activeComponent ? (
                             <ComponentOverlay type={activeComponent.type} label={activeComponent.label} />
                         ) : activeId === "sidebar-container" ? (
-                            <ContainerItem title="New Container" isSidebar={false} />
+                            <ContainerItem isSidebar={false} />
                         ) : (
                             <ContainerItem
                                 title={containers.find((c) => c.id === activeId)?.title || "Container"}

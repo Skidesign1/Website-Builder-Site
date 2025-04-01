@@ -19,7 +19,7 @@ export function ContainerComponentItem({ component, containerId }) {
             component: component.component
         },
     })
-    let current = final.find(m => m.type === component.label)
+    let current = final.find(m => m.label === component.label)
     const style = transform
         ? {
             transform: CSS.Translate.toString(transform),
@@ -30,9 +30,9 @@ export function ContainerComponentItem({ component, containerId }) {
     const renderComponent = () => {
 
         switch (component.type) {
-            case current.type:
+            case current.label:
                 return (
-                    <button className="w-full rounded-md bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90">
+                    <button className="w-full rounded-md bg-primary text-primary-foreground hover:bg-primary/90">
                         {current.component}
                     </button>
 
@@ -78,12 +78,12 @@ export function ContainerComponentItem({ component, containerId }) {
             {...attributes}
         >
             <div
-                className="absolute top-0 right-0 p-1 cursor-grab z-10 bg-background rounded-bl-md border-l border-b"
+                className="absolute bg-white top-0 right-0 p-1 cursor-grab z-10 bg-background rounded-bl-md"
                 {...listeners}
             >
                 <GripVertical className="h-4 w-4 text-muted-foreground" />
             </div>
-            <div className="w-full h-full p-2">{renderComponent()}</div>
+            <div className="w-full h-full">{renderComponent()}</div>
         </div>
     )
 }

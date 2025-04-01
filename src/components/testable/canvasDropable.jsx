@@ -4,7 +4,7 @@ import { cn } from "../lib/utils"
 import { SortableContainer } from "./sortable-container"
 
 
-export function CanvasDroppable({ containers, overIndex, isDraggingNew, activeDroppableId }) {
+export function CanvasDroppable({ containers, overIndex, isDraggingNew, activeDroppableId, handleDeleteContainer }) {
     const { setNodeRef, isOver } = useDroppable({
         id: "canvas-droppable",
     })
@@ -12,10 +12,10 @@ export function CanvasDroppable({ containers, overIndex, isDraggingNew, activeDr
     return (
         <div
             ref={setNodeRef}
-            className={cn("flex-1 flex flex-col h-full overflow-auto", isOver && containers.length === 0 && "bg-muted/20")}
+            className={cn("flex-1 min-w-[200px] flex flex-col h-full overflow-auto", isOver && containers.length === 0 && "bg-muted/20")}
         >
             <div className="flex-1 p-8 min-h-full">
-                <h2 className="mb-6 text-xl font-semibold">Canvas</h2>
+                {/* <h2 className="mb-6 text-xl font-semibold">Canvas</h2>  */}
 
                 {/* Sortable containers */}
                 <div className="flex flex-col">
@@ -32,6 +32,7 @@ export function CanvasDroppable({ containers, overIndex, isDraggingNew, activeDr
                                     title={container.title}
                                     component={container.component}
                                     isOver={activeDroppableId === `droppable-${container.id}`}
+                                    handleDeleteContainer={handleDeleteContainer}
                                 />
                             </div>
                         ))}
