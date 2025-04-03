@@ -31,7 +31,7 @@ export function DraggableContainerItem({ item, containerId }) {
       {...listeners}
       {...attributes}
     >
-      <GripVertical className="mr-1 h-4 w-4 text-muted-foreground" />
+      <GripVertical className="mr-1 bg-red-800 h-4 w-4 text-muted-foreground" />
       <span className="mr-2 flex h-5 w-5 items-center justify-center bg-primary/10 text-primary">
         {item.type.charAt(0)}
       </span>

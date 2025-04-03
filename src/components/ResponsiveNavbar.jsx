@@ -11,8 +11,8 @@ const ResponsiveNavbar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 text-white">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+    <nav className="bg-gray-800 text-white min-w-[50vw]">
+      <div className=" min-w-[50vw] mx-auto px-4 py-3 flex justify-between items-center">
         {/* Brand Logo */}
         <div className="text-2xl font-bold">
           <a href="#">MyWebsite</a>

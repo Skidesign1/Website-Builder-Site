@@ -42,10 +42,10 @@ export function ContainerComponentItem({
       {...attributes}
     >
       <div
-        className="absolute top-0 right-0 p-1 cursor-grab z-10 bg-background rounded-bl-md border-l border-b"
+        className="absolute  top-0 right-0 p-1 cursor-grab z-10 bg-white rounded-bl-md border-l border-b"
         {...listeners}
       >
-        <GripVertical className="h-4 w-4 text-muted-foreground" />
+        <GripVertical className="h-4 bg-white w-4" />
       </div>
 
       <button

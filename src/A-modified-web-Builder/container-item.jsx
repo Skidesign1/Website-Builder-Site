@@ -10,7 +10,7 @@ export function ContainerItem({ title, isSidebar }) {
         isSidebar ? "w-52" : "w-full"
       )}
     >
-      <GripVertical className="mr-2 h-5 w-5 text-muted-foreground" />
+      <GripVertical className="mr-2 bg-white h-5 w-5 text-muted-foreground" />
       <span>{title}</span>
     </div>
   );

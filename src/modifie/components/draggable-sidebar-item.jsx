@@ -19,13 +19,13 @@ export function DraggableSidebarItem({ id, title, isContainer = false }) {
       ref={setNodeRef}
       style={style}
       className={cn(
-        "flex cursor-grab items-center border bg-card p-3 shadow-sm",
+        "flex cursor-grab overflow-hidden items-center border  p-3 shadow-sm",
         isContainer ? "mb-6" : "mb-2",
       )}
       {...listeners}
       {...attributes}
     >
-      <Move className="mr-2 h-5 w-5 text-muted-foreground" />
+      <Move className="mr-2 h-full w-10 text-muted-foreground" />
       <span>{title}</span>
     </div>
   )

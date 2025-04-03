@@ -10,7 +10,11 @@ import { CommentSection } from "../../../components/dragableComponnents.jsx/comm
 import HeroSection from "../../../components/dragableComponnents.jsx/herosection"
 import ShoppingCart from "./components/shopping-cart"
 import PhotoImage from "./components/photo-image"
-import Footer from "./components/footer"
+// import Footer from "./components/footer"
+import Footer from "../../../components/dragableComponnents.jsx/footer"
+import Body from "../../../components/dragableComponnents.jsx/bodyComponent"
+// import HeroSection from "./components/hero-section"
+
 
 const sidebarComponents = [
   {
@@ -37,7 +41,7 @@ const sidebarComponents = [
     text: "body-001",
     category: "body",
     icon: <Cog6ToothIcon className="w-4 h-4" />,
-    component: <ResponsiveNavbar />,
+    component: <Body />,
     label: "body",
   },
   {

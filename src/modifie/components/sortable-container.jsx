@@ -20,13 +20,14 @@ export function SortableContainer({ id, title, component, isOver }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isContainerControlsVisible, setIsContainerControlsVisible] = useState(false)
 
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging, } = useSortable({ id })
 
   const { setNodeRef: setDroppableRef } = useDroppable({
     id: `droppable-${id}`,
     data: {
       accepts: "component",
       containerId: id,
+      component: component
     },
   })
 
@@ -85,20 +86,20 @@ export function SortableContainer({ id, title, component, isOver }) {
       {/* Container controls - only visible when double-clicked */}
       <div
         className={cn(
-          "absolute top-0 left-0 right-0 flex items-center justify-between p-1 z-20 bg-background/80 backdrop-blur-sm border-b",
+          "absolute top-0 left-0 right-0 flex items-center justify-between p-1 z-20 backdrop-blur-sm ",
           isContainerControlsVisible ? "opacity-100" : "opacity-0",
           "transition-opacity duration-200",
         )}
       >
         {/* Move handle on the left */}
         <div className="cursor-grab touch-none flex items-center" {...listeners}>
-          <GripVertical className="h-4 w-4 text-muted-foreground" />
-          <span className="text-xs font-medium ml-1">{title}</span>
+          <GripVertical className="h-5 w-4 bg-white  text-muted-foreground" />
+          <span className="text-2xl font-medium ml-1">{title}</span>
         </div>
 
         {/* Delete button on the right */}
-        <button className="text-destructive hover:bg-destructive/10 p-1 rounded-sm" onClick={handleDeleteContainer}>
-          <Trash2 className="h-4 w-4" />
+        <button className="text-destructive bg-white p-1 rounded-sm" onClick={handleDeleteContainer}>
+          <Trash2 className="h-4 w-4 text-red-800" />
         </button>
       </div>
 
@@ -107,9 +108,10 @@ export function SortableContainer({ id, title, component, isOver }) {
         ref={setDroppableRef}
         className={cn(
           "w-full",
-          !component && isSelected ? "min-h-[100px] border border-dashed border-primary/50" : "",
+          !component && isSelected ? "min-h-[50vh] border border-dashed border-primary/50" : "",
           !component && !isSelected ? "min-h-[100px] border border-dashed border-muted-foreground/30" : "",
           isOver && !component ? "bg-primary/5" : "",
+          // isOver ? 'h-[100vh]' : '',
           isOver && component ? "bg-primary/5" : "",
         )}
       >
@@ -120,13 +122,13 @@ export function SortableContainer({ id, title, component, isOver }) {
             {/* Component delete button - visible on container hover */}
             <button
               className={cn(
-                "absolute top-2 right-2 z-30 p-1 rounded-md bg-destructive text-destructive-foreground",
+                "absolute bg-white bottom-0 right-[-2px] z-30 p-1 rounded-md bg-destructive text-destructive-foreground",
                 isHovered ? "opacity-100" : "opacity-0",
                 "transition-opacity duration-200",
               )}
               onClick={handleDeleteComponent}
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="h-4 w-[fit-content] bg-white rounded text-red-900 bg-white cursor-pointer" />
             </button>
           </div>
         ) : (

@@ -11,7 +11,7 @@ function Body() {
     ];
 
     return (
-        <div className="bg-gray-100 max-h-screen">
+        <div className="bg-gray-100 min-w-[50vw]  max-h-screen">
             {/* Main Content */}
             <main className="py-12 px-4">
                 <div className="max-w-7xl mx-auto">
