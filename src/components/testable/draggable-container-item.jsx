@@ -2,6 +2,7 @@
 import { CSS } from "@dnd-kit/utilities"
 import { GripVertical } from "lucide-react"
 import { cn } from "../lib/utils"
+import final from "../lib/db"
 
 export function DraggableContainerItem({ item, containerId }) {
     const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
@@ -12,6 +13,7 @@ export function DraggableContainerItem({ item, containerId }) {
             isComponent: true,
             isExistingComponent: true,
             sourceContainerId: containerId,
+            component: final
         },
     })
 

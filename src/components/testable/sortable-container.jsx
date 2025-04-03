@@ -10,9 +10,11 @@ import { current } from "@reduxjs/toolkit"
 import final from "../lib/db"
 
 export function SortableContainer({ id, title, component, isOver, handleDeleteContainer }) {
+    // console.log(component)
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
     const [visible, setVisible] = useState(true)
-
+    let curr = final.find(m => m.type === component?.type)
+    // console.log(curr)
     const { setNodeRef: setDroppableRef } = useDroppable({
         id: `droppable-${id}`,
         data: {
@@ -26,7 +28,6 @@ export function SortableContainer({ id, title, component, isOver, handleDeleteCo
         transition,
         opacity: isDragging ? 0.5 : 1,
     }
-
     return (
         <div
             ref={setNodeRef}
@@ -56,7 +57,7 @@ export function SortableContainer({ id, title, component, isOver, handleDeleteCo
 
             <div ref={setDroppableRef} className={cn(" w-full", isOver && !component ? "bg-primary/5" : "")}>
                 {component ? (
-                    <ContainerComponentItem component={component} containerId={id} />
+                    <ContainerComponentItem curr={curr} component={component} containerId={id} />
                 ) : (
                     <div className="flex h-[150px] items-center justify-center text-sm text-muted-foreground">
                         Drag a component here

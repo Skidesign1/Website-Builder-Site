@@ -6,9 +6,10 @@ import final from './lib/db';
 import Blocks from './sidebars/subBlocks/blocks';
 // import { DraggableItem } from './testable/draggable-sidebar-item.jsx.jsx';
 // import { DraggableSidebarItem } from './testable/draggable-container-item.jsx';
-import { DraggableSidebarItem } from './testable/draggable-sidebar-item.jsx';
+// import { DraggableSidebarItem } from './testable/draggable-sidebar-item.jsx';
 import { DraggableComponent } from './testable/draggable-component';
-const Sidebar = ({ id, title }) => {
+import { DraggableSidebarItem } from '../modifie/components/draggable-sidebar-item.jsx';
+const Sidebar = ({ id, title, isContainer }) => {
   const { close, setClose } = useContext(BlockContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [openCategories, setOpenCategories] = useState({});
@@ -32,7 +33,7 @@ const Sidebar = ({ id, title }) => {
 
   return (
 
-    <aside className="bg-gray-100 h-full w-full relative">
+    <aside className="bg-gray-100 p-1 w-full relative">
       <div className='flex container text-[13px] mx-auto p-3 justify-between border-b'>
         <button onClick={() => setClose(!close)} className="font-semibold cursor-pointer">components</button>
         <button onClick={() => setClose(!close)} className="font-semibold cursor-pointer">Layouts</button>
@@ -58,8 +59,9 @@ const Sidebar = ({ id, title }) => {
         </div>
       </div>)}
       {!close && (<div className="">
-        <DraggableSidebarItem id={id} title={title} sty={'h-15 shadow-[10px] z-100 justify-center border-dashed border w-full'} />
-        <div className="space-y-1">
+        {/* id="sidebar-container" title="Container" isContainer={true} */}
+        <DraggableSidebarItem id={id} title={title} isContainer={isContainer} sty={'h-15 shadow-[10px] z-100 justify-center border-dashed border w-full'} />
+        {/* <div className="space-y-1">
           {final.map((component, index) => (
             <DraggableComponent
               key={index}
@@ -69,7 +71,7 @@ const Sidebar = ({ id, title }) => {
               icon={component.icon}
             />
           ))}
-        </div>
+        </div> */}
 
       </div>)
       }

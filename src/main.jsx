@@ -9,7 +9,9 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { store } from './components/reduxState/store.jsx';
 import App from './App.jsx';
-import DragAndDropPage from './components/testable/app-layouts.jsx';
+// import DragAndDropPage from './components/testable/app-layouts.jsx';
+// import DragAndDropPage from './A-modified-web-Builder/page.jsx';
+import DragAndDropPage from './modifie/page.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

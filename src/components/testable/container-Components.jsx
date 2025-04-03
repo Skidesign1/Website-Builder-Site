@@ -6,8 +6,9 @@ import { useDraggable } from "@dnd-kit/core"
 import final from "../lib/db"
 
 
-export function ContainerComponentItem({ component, containerId }) {
-    console.log(component)
+export function ContainerComponentItem({ curr, component, containerId }) {
+    // console.log(curr)
+    let current = final.find(m => m.label === component.label)
     const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
         id: component.id,
         data: {
@@ -16,10 +17,9 @@ export function ContainerComponentItem({ component, containerId }) {
             isComponent: true,
             isExistingComponent: true,
             sourceContainerId: containerId,
-            component: component.component
+            component: 'hello'
         },
     })
-    let current = final.find(m => m.label === component.label)
     const style = transform
         ? {
             transform: CSS.Translate.toString(transform),
@@ -30,11 +30,10 @@ export function ContainerComponentItem({ component, containerId }) {
     const renderComponent = () => {
 
         switch (component.type) {
-            case current.label:
+            case current?.label:
                 return (
-                    <button className="w-full rounded-md bg-primary text-primary-foreground hover:bg-primary/90">
-                        {current.component}
-                    </button>
+                    <div>  {current.component}</div>
+
 
                 )
             // case "input":

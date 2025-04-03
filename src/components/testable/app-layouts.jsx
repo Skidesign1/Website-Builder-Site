@@ -45,6 +45,7 @@ export default function DragAndDropPage() {
     function handleDragStart(event) {
         const { active } = event
         setActiveId(active.id)
+        console.log(active.component)
         setOverIndex(null)
         console.log(active)
 
@@ -52,6 +53,7 @@ export default function DragAndDropPage() {
             setActiveComponent({
                 type: active.data.current.type,
                 label: active.data.current.label,
+                component: active.data.current.component
             })
         } else {
             setActiveComponent(null)
@@ -125,7 +127,7 @@ export default function DragAndDropPage() {
                                     if (container.id === sourceContainerId) {
                                         return {
                                             ...container,
-                                            component: null,
+                                            component: container.component,
                                         }
                                     }
                                     if (container.id === targetContainerId) {
@@ -184,11 +186,11 @@ export default function DragAndDropPage() {
         setContainers((prevContainers) => prevContainers.filter(c => c.id !== containerId));
     }
 
-
+    console.log(activeId)
     return (
         <DndContext sensors={sensors} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
             <WebsiteBuilderToolbar />
-            <div className="grid grid-cols-[200px_1fr_200px] gap-1 h-[100vh] relative">
+            <div className="grid overflow-y-scroll grid-cols-[200px_1fr_200px] gap-1 pb-10 relative">
                 <div className=" border-r bg-muted/40">
                     {/* <h2 className="mb-4 font-semibold">Sidebar</h2> */}
 
@@ -226,8 +228,10 @@ export default function DragAndDropPage() {
                             <ContainerItem isSidebar={false} />
                         ) : (
                             <ContainerItem
-                                title={containers.find((c) => c.id === activeId)?.title || "Container"}
+                                title={containers.find((c) => c.id === activeId)?.title || "Containers"}
                                 isSidebar={false}
+                                component={containers.find((c) => c.id === activeId)}
+
                             />
                         )
                     ) : null}
