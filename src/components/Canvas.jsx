@@ -4,11 +4,11 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { useDroppable } from "@dnd-kit/core";
 import Container from "./container";
 import Draggable from "./Draggable";
-import { addContainer } from "./reduxState/containerSlice";
+// import { addContainer } from "./reduxState/containerSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { reorderContainers } from "./reduxState/containerSlice";
+// import { reorderContainers } from "./reduxState/containerSlice";
 import { useSensors } from "@dnd-kit/core";
-import { deleteContainer } from "./reduxState/containerSlice";
+// import { deleteContainer } from "./reduxState/containerSlice";
 import SortableItem from "./sortableItem";
 
 const Canvas = ({ canvasSize, fields }) => {

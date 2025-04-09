@@ -1,13 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { MagnifyingGlassIcon, XCircleIcon } from '@heroicons/react/24/solid';
-import Draggable from './Draggable';
+// import Draggable from './Draggable';
 import { BlockContext } from '../context/miniNavContext';
 import final from './lib/db';
 import Blocks from './sidebars/subBlocks/blocks';
 // import { DraggableItem } from './testable/draggable-sidebar-item.jsx.jsx';
 // import { DraggableSidebarItem } from './testable/draggable-container-item.jsx';
 // import { DraggableSidebarItem } from './testable/draggable-sidebar-item.jsx';
-import { DraggableComponent } from './testable/draggable-component';
+// import { DraggableComponent } from './testable/draggable-component';
 import { DraggableSidebarItem } from '../modifie/components/draggable-sidebar-item.jsx';
 const Sidebar = ({ id, title, isContainer }) => {
   const { close, setClose } = useContext(BlockContext);

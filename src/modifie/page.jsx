@@ -22,7 +22,7 @@ import {
   setSelectedContainer,
 } from "./store/containersSlice"
 
-import { DraggableSidebarItem } from "./components/draggable-sidebar-item"
+// import { DraggableSidebarItem } from "./components/draggable-sidebar-item"
 import { DraggableComponent } from "./components/draggable-component"
 import { CanvasDroppable } from "./components/canvas-droppable"
 import { ContainerOverlay } from "./components/container-overlay"
@@ -34,7 +34,7 @@ import Sidebar from "../components/Sidebar"
 // Add click handler to deselect when clicking outside
 function DragAndDropContent() {
   // Get state from Redux
-  const containers = useAppSelector((state) => state.containers.containers)
+  const { containers } = useAppSelector((state) => state.containers)
   const activeDroppableId = useAppSelector((state) => state.containers.activeDroppableId)
   const overIndex = useAppSelector((state) => state.containers.overIndex)
   const dispatch = useAppDispatch()

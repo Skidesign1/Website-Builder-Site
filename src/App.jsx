@@ -9,6 +9,7 @@ import Aboutnavbar from "./components/canvacomponent/Aboutnavbar"
 import Servicesnavbar from './components/canvacomponent/Servicesnavbar';
 import { CodeProvider } from "./context/CodeContext";
 import Presentation from './components/sidebars/blocks';
+// import DragAndDropPage from './components/testable/app-layouts';
 
 const App = () => {
   return (

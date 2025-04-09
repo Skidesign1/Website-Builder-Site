@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
-import { deleteContainer } from "./reduxState/containerSlice";
+// import { deleteContainer } from "./reduxState/containerSlice";
 import { useDispatch } from "react-redux";
 
 const DraggableSortable = ({ id, name, sty, type, getCols }) => {
