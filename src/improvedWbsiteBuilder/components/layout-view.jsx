@@ -36,7 +36,7 @@ export function LayoutView({ containers, activePage, onDeleteContainer, onDelete
                 </div>
 
                 {container.component ? (
-                  <div className="mt-1 pl-2 flex items-center  justify-between">
+                  <div className="mt-1 pl-2 flex items-center  justify-between ">
                     <div className="flex items-center">
                       <File className="h-3 w-3 text-blue-500 mr-2" />
                       <span className="text-xs">{container.component.label}</span>

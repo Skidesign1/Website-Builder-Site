@@ -1,6 +1,6 @@
 export function Navbar001() {
   return (
-    <div className="min-w-[50vw] bg-primary/10 p-3">
+    <div className="min-w-[10vw] bg-primary/10 p-3">
       <div className="flex justify-between items-center">
         <div className="font-bold">Logo</div>
         <div className="flex space-x-4">

@@ -8,7 +8,8 @@ import AppLayout from './components/AppLayouts.jsx';
 import './index.css';
 import { Provider } from 'react-redux';
 // import { store } from './components/reduxState/store.jsx';
-import { store } from './modifie/store/store.jsx';
+// import { store } from './modifie/store/store.jsx';
+import { store } from './improvedWbsiteBuilder/reduxState/store.jsx';
 import App from './App.jsx';
 // import DragAndDropPage from './components/testable/app-layouts.jsx';
 // import DragAndDropPage from './A-modified-web-Builder/page.jsx';
@@ -21,8 +22,8 @@ createRoot(document.getElementById('root')).render(
       <BlockProvider>
         <Provider store={store}>
           <Router>
-            {/* <App /> */}
-            <WebsiteBuilderPage />
+            <App />
+            {/* <WebsiteBuilderPage /> */}
           </Router>
         </Provider>
       </BlockProvider>

@@ -29,7 +29,7 @@ export function ContainerComponentItem({ component, containerId, onDeleteCompone
 
   // Find the component in the registry
   const registryComponent = componentRegistry.find((item) => item.label === component.label)
-  console.log(component)
+  // console.log(component)
   return (
     <div
       ref={setNodeRef}

@@ -50,7 +50,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog"
-
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 // import Input_ from "postcss/lib/input"
@@ -437,9 +436,9 @@ export default function WebsiteBuilderNavbar({
       {/* Right section */}
       <div className="flex items-center space-x-2">
         {/* Action buttons */}
-        <button className="h-8 w-8 flex items-center justify-center" title="Preview code">
+        <Link to='code-editor' className="h-8 w-8 flex items-center justify-center" title="Preview code">
           <Code className="w-4 h-4" />
-        </button>
+        </Link>
         <button className="h-8 w-8 flex items-center justify-center" title="Zoom out">
           <Minus className="w-4 h-4" />
         </button>

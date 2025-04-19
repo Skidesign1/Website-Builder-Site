@@ -17,7 +17,7 @@ export function CanvasDroppable({
       accepts: "container",
     },
   })
-
+  console.log(containers)
   return (
     <div
       ref={setNodeRef}
@@ -29,13 +29,14 @@ export function CanvasDroppable({
     >
       <div className="flex-1 min-h-[50vh] w-full">
         {/* Sortable containers - now with no spacing between them */}
-        <div className="flex ma-h-[100vh] flex-col w-full max-w-full mx-auto">
+        {/* <div>hello</div> */}
+        <div className="flex ma-h-[100vh] pb-[100%] flex-col w-full max-w-full mx-auto">
           <SortableContext items={containers.map((container) => container.id)} strategy={verticalListSortingStrategy}>
             {containers.map((container, index) => (
               <div key={container.id} className="relative w-full">
                 {/* Insert placeholder before this container */}
                 {isDraggingNew && overIndex === index && (
-                  <div className="h-20 w-full rounded-none border-2 border-dashed border-primary bg-primary/10" />
+                  <div className=" w-full rounded-none border-2 border-dashed border-primary bg-primary/10" />
                 )}
                 <SortableContainer
                   id={container.id}
