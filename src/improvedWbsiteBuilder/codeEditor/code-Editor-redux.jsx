@@ -20,7 +20,6 @@ import {
     LayoutPanelLeft,
     Minimize,
 } from "lucide-react";
-import "./CodeEditor.css";
 import { toast } from "sonner";
 import CodePreview from "./codepreview";
 import {
