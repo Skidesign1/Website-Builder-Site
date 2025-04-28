@@ -74,7 +74,7 @@ const CodeEditorRedux = () => {
             const componentName = container.component.component.id;
 
             try {
-                const response = await fetch(`http://localhost:3000/api/component/${componentName}`);
+                const response = await fetch(`https://website-builder-site.onrender.com/api/component/${componentName}`);
                 const data = await response.json();
 
                 const fileData = {
