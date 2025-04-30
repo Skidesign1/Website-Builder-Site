@@ -31,7 +31,7 @@ import {
 const CodeEditorRedux = () => {
     const dispatch = useDispatch();
     const containers = useSelector(selectContainers);
-
+    console.log("Containers from Redux:", containers);
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileContent, setFileContent] = useState("");
     const [expandedFolders, setExpandedFolders] = useState({});
@@ -64,6 +64,9 @@ const CodeEditorRedux = () => {
         localStorage.setItem("code-editor-theme", isDarkMode ? "dark" : "light");
     }, [isDarkMode]);
 
+
+
+    // Read file
     useEffect(() => {
         if (!selectedContainerId) return;
 
@@ -75,8 +78,9 @@ const CodeEditorRedux = () => {
 
             try {
                 const response = await fetch(`https://website-builder-site.onrender.com/api/component/${componentName}`);
+                // const response = await fetch(`http://localhost:3000/api/component/${componentName}`);
                 const data = await response.json();
-
+                console.log("Fetched component data:", data);
                 const fileData = {
                     containerId: selectedContainerId,
                     componentId: container.component.id,
@@ -94,6 +98,45 @@ const CodeEditorRedux = () => {
 
         fetchComponent();
     }, [selectedContainerId, containers]);
+
+
+    // WRITE FILE
+
+    // useEffect(() => {
+    //     const handleKeyDown = async (e) => {
+    //         if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    //             e.preventDefault();
+
+    //             const content = editorRef.current.value;
+
+    //             try {
+    //                 const response = await fetch(`http://localhost:3000/api/component/${componentName}`, {
+    //                     method: 'POST',
+    //                     headers: { 'Content-Type': 'application/json' },
+    //                     body: JSON.stringify({ content })
+    //                 });
+
+    //                 const data = await response.json();
+
+    //                 if (response.ok) {
+    //                     console.log('✅ Saved successfully:', data);
+    //                 } else {
+    //                     console.error('❌ Save failed:', data);
+    //                 }
+    //             } catch (error) {
+    //                 console.error('❌ Network error:', error);
+    //             }
+    //         }
+    //     };
+
+    //     window.addEventListener('keydown', handleKeyDown);
+
+    //     return () => {
+    //         window.removeEventListener('keydown', handleKeyDown);
+    //     };
+    // }, [componentName]);
+
+
 
     const handleFileSelect = (containerId) => {
         if (selectedContainerId !== containerId) {

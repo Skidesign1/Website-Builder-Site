@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import config from "./NewNavbar/Config.json";
-
-const Navbar = () => {
+import config from "./Config";
+const Navbar007 = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(
     config.navigation.links.find((link) => link.active)?.name || ""
@@ -40,17 +39,13 @@ const Navbar = () => {
                 key={link.name}
                 href={link.href}
                 onClick={() => setActiveLink(link.name)}
-                className={`relative px-${
-                  config.navigation.desktop.padding.x
-                } py-${config.navigation.desktop.padding.y} text-${
-                  config.navigation.desktop.textSize
-                } font-medium transition-colors ${
-                  config.styles.hoverTransition
-                } ${
-                  activeLink === link.name
+                className={`relative px-${config.navigation.desktop.padding.x
+                  } py-${config.navigation.desktop.padding.y} text-${config.navigation.desktop.textSize
+                  } font-medium transition-colors ${config.styles.hoverTransition
+                  } ${activeLink === link.name
                     ? `text-${config.navigation.desktop.activeIndicator.color}`
                     : `text-gray-700 hover:text-gray-900`
-                }`}
+                  }`}
               >
                 {link.name}
                 {activeLink === link.name && (
@@ -133,9 +128,8 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden ${mobileMenuOpen ? "block" : "hidden"} bg-${
-          config.mobileMenu.background
-        } backdrop-blur-sm`}
+        className={`md:hidden ${mobileMenuOpen ? "block" : "hidden"} bg-${config.mobileMenu.background
+          } backdrop-blur-sm`}
       >
         <div
           className={`pt-4 pb-8 px-8 space-y-${config.navigation.mobile.spacing} border-t border-${config.mobileMenu.border}`}
@@ -145,15 +139,12 @@ const Navbar = () => {
               key={link.name}
               href={link.href}
               onClick={() => setActiveLink(link.name)}
-              className={`block px-${config.navigation.mobile.padding.x} py-${
-                config.navigation.mobile.padding.y
-              } rounded-xl text-${
-                config.navigation.mobile.textSize
-              } font-medium ${
-                activeLink === link.name
+              className={`block px-${config.navigation.mobile.padding.x} py-${config.navigation.mobile.padding.y
+                } rounded-xl text-${config.navigation.mobile.textSize
+                } font-medium ${activeLink === link.name
                   ? `bg-${config.navigation.mobile.activeBackground} text-${config.navigation.mobile.activeTextColor}`
                   : `text-gray-700 hover:bg-gray-50 hover:text-gray-900`
-              }`}
+                }`}
             >
               {link.name}
             </a>
@@ -180,4 +171,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Navbar007;
