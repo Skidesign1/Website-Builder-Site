@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, ChevronDown, List, Play } from "lucide-react";
+import { Link, List, Play } from "lucide-react";
 
 const HyperlinkOptions = () => {
     const [textShadow, setTextShadow] = useState(false);

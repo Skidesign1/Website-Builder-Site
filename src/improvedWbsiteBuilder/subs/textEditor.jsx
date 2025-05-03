@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Styles from "./stylesSection";
 import HyperlinkOptions from "./hyperlinkSection";
 import Toolbar from "./head";
