@@ -9,7 +9,7 @@ const TextEditor = () => {
 
             {/* Section Tabs */}
             <Toolbar />
-            {/* responsive section */}
+
             <ResponsiveSection />
             {/* Style Section */}
             <Styles />
