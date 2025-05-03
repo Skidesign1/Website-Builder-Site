@@ -64,9 +64,6 @@ const CodeEditorRedux = () => {
         localStorage.setItem("code-editor-theme", isDarkMode ? "dark" : "light");
     }, [isDarkMode]);
 
-
-
-    // Read file
     useEffect(() => {
         if (!selectedContainerId) return;
 
@@ -77,10 +74,10 @@ const CodeEditorRedux = () => {
             const componentName = container.component.component.id;
 
             try {
-                const response = await fetch(`https://website-builder-site.onrender.com/api/component/${componentName}`);
-                // const response = await fetch(`http://localhost:3000/api/component/${componentName}`);
+                const response = await fetch(`http://localhost:3000/api/component/${componentName}`);
                 const data = await response.json();
                 console.log("Fetched component data:", data);
+                console.log("Selected component name:", componentName);
                 const fileData = {
                     containerId: selectedContainerId,
                     componentId: container.component.id,
@@ -99,48 +96,55 @@ const CodeEditorRedux = () => {
         fetchComponent();
     }, [selectedContainerId, containers]);
 
+    const handleFileSelect = async (containerId, fileType) => {
+        const container = containers.find((c) => c.id === containerId);
+        if (!container || !container.component) return;
 
-    // WRITE FILE
+        if (fileType === "jsx") {
+            const componentName = container.component.component.id;
 
-    // useEffect(() => {
-    //     const handleKeyDown = async (e) => {
-    //         if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    //             e.preventDefault();
+            try {
+                const response = await fetch(`https://website-builder-site.onrender.com/api/component/${componentName}`);
+                const data = await response.json();
+                const jsxFileData = {
+                    containerId,
+                    componentId: container.component.id,
+                    name: `${componentName}.jsx`,
+                    content: data.content || "// Component content not found",
+                    type: "jsx",
+                };
 
-    //             const content = editorRef.current.value;
+                // Only update the selected file if it's a different file type or a new selection
+                if (
+                    !selectedFile ||
+                    selectedFile.containerId !== containerId ||
+                    selectedFile.type !== "jsx"
+                ) {
+                    setSelectedFile(jsxFileData);
+                    setFileContent(jsxFileData.content);
+                }
+            } catch (error) {
+                console.error("❌ Failed to fetch JSX file:", error);
+                setFileContent("// Failed to load component from server");
+            }
+        } else if (fileType === "json") {
+            const jsonFileData = {
+                containerId,
+                componentId: container.component.id,
+                name: `${container?.component?.component?.config?.name}.JSON`,
+                content: JSON.stringify(container?.component?.component?.config, null, 2),
+                type: "json",
+            };
 
-    //             try {
-    //                 const response = await fetch(`http://localhost:3000/api/component/${componentName}`, {
-    //                     method: 'POST',
-    //                     headers: { 'Content-Type': 'application/json' },
-    //                     body: JSON.stringify({ content })
-    //                 });
-
-    //                 const data = await response.json();
-
-    //                 if (response.ok) {
-    //                     console.log('✅ Saved successfully:', data);
-    //                 } else {
-    //                     console.error('❌ Save failed:', data);
-    //                 }
-    //             } catch (error) {
-    //                 console.error('❌ Network error:', error);
-    //             }
-    //         }
-    //     };
-
-    //     window.addEventListener('keydown', handleKeyDown);
-
-    //     return () => {
-    //         window.removeEventListener('keydown', handleKeyDown);
-    //     };
-    // }, [componentName]);
-
-
-
-    const handleFileSelect = (containerId) => {
-        if (selectedContainerId !== containerId) {
-            setSelectedContainerId(containerId);
+            // Only update the selected file if it's a different file type or a new selection
+            if (
+                !selectedFile ||
+                selectedFile.containerId !== containerId ||
+                selectedFile.type !== "json"
+            ) {
+                setSelectedFile(jsonFileData);
+                setFileContent(jsonFileData.content);
+            }
         }
     };
 
@@ -185,6 +189,7 @@ const CodeEditorRedux = () => {
         toast.success(`Switched to ${!isDarkMode ? "dark" : "light"} mode`);
     };
 
+    console.log(containers[0]?.component?.component)
     return (
         <div
             className={`flex h-screen ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-black"
@@ -250,26 +255,56 @@ const CodeEditorRedux = () => {
                                 </div>
 
                                 {expandedFolders[container.id] && container.component && (
-                                    <div
-                                        className={`ml-6 p-2 cursor-pointer rounded flex items-center file-explorer-item ${selectedFile &&
-                                            selectedFile.containerId === container.id &&
-                                            selectedFile.componentId === container.component.id
-                                            ? isDarkMode
-                                                ? "bg-blue-900 bg-opacity-30"
-                                                : "selected-file"
-                                            : ""
-                                            } ${isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"
-                                            }`}
-                                        onClick={() => handleFileSelect(container.id)}
-                                    >
-                                        <FileText
-                                            size={16}
-                                            className={`mr-2 ${isDarkMode ? "text-gray-400" : "text-gray-500"
+                                    <div>
+                                        <div
+                                            className={`ml-6 flex-col p-2 cursor-pointer rounded flex items-center file-explorer-item ${selectedFile &&
+                                                selectedFile.containerId === container.id &&
+                                                selectedFile.componentId === container.component.id &&
+                                                selectedFile.type === "jsx"
+                                                ? isDarkMode
+                                                    ? "bg-blue-900 bg-opacity-30"
+                                                    : "selected-file"
+                                                : ""
+                                                } ${isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"
                                                 }`}
-                                        />
-                                        <span className="text-sm">
-                                            {container.component.type}.jsx
-                                        </span>
+                                            onClick={() => handleFileSelect(container.id, "jsx")}
+                                        >
+                                            <div className="flex items-center">
+                                                <FileText
+                                                    size={16}
+                                                    className={`mr-2 ${isDarkMode ? "text-gray-400" : "text-gray-500"
+                                                        }`}
+                                                />
+                                                <span className="text-sm">
+                                                    {container.component.label}.jsx
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            className={`ml-6 flex-col p-2 cursor-pointer rounded flex items-center file-explorer-item ${selectedFile &&
+                                                selectedFile.containerId === container.id &&
+                                                selectedFile.componentId === container.component.id &&
+                                                selectedFile.type === "json"
+                                                ? isDarkMode
+                                                    ? "bg-blue-900 bg-opacity-30"
+                                                    : "selected-file"
+                                                : ""
+                                                } ${isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"
+                                                }`}
+                                            onClick={() => handleFileSelect(container.id, "json")}
+                                        >
+                                            <div className="flex items-center">
+                                                <FileText
+                                                    size={16}
+                                                    className={`mr-2 ${isDarkMode ? "text-gray-400" : "text-gray-500"
+                                                        }`}
+                                                />
+                                                <span className="text-sm">
+                                                    {container?.component?.component?.config?.name}.JSON
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -306,7 +341,7 @@ const CodeEditorRedux = () => {
 
                     <div className="flex-grow mx-2">
                         {selectedFile ? (
-                            <span className="font-medium text-sm">{selectedFile.name}</span>
+                            <span className="font-medium text-sm">{selectedFile?.name}</span>
                         ) : (
                             <span
                                 className={
@@ -384,7 +419,7 @@ const CodeEditorRedux = () => {
                                         <MonacoEditor
                                             height="100%"
                                             defaultLanguage="javascript"
-                                            language={selectedFile.name.endsWith(".jsx") ? "javascript" : "plaintext"}
+                                            language={selectedFile?.name.endsWith(".jsx") ? "javascript" : "plaintext"}
                                             theme={isDarkMode ? "vs-dark" : "light"}
                                             value={fileContent}
                                             onChange={(value) => setFileContent(value || "")}
@@ -416,7 +451,7 @@ const CodeEditorRedux = () => {
                                 <ResizablePanel defaultSize={50} minSize={25}>
                                     <CodePreview
                                         code={fileContent}
-                                        fileName={selectedFile.name}
+                                        fileName={selectedFile?.name}
                                         isDarkMode={isDarkMode}
                                     />
                                 </ResizablePanel>
@@ -426,7 +461,7 @@ const CodeEditorRedux = () => {
                                 <MonacoEditor
                                     height="100%"
                                     defaultLanguage="javascript"
-                                    language={selectedFile.name.endsWith(".jsx") ? "javascript" : "plaintext"}
+                                    language={selectedFile?.name.endsWith(".jsx") ? "javascript" : "plaintext"}
                                     theme={isDarkMode ? "vs-dark" : "light"}
                                     value={fileContent}
                                     onChange={(value) => setFileContent(value || "")}

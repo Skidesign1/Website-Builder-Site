@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Code } from "lucide-react";
-import { Navbar001 } from "../components/ui-components/navbars/navbar-001";
 import componentRegistry from "../components/ui-components/component-registry";
 const CodePreview = ({ isDarkMode, fileName }) => {
     const [renderedOutput, setRenderedOutput] = useState('');
@@ -9,15 +8,15 @@ const CodePreview = ({ isDarkMode, fileName }) => {
     console.log(componentRegistry);
 
     // Remove .jsx extension from fileName
-    const strippedFileName = fileName.replace(/\.jsx$/, "");
+    const strippedFileName = fileName?.replace(/\.jsx$/, "");
     console.log(strippedFileName);
 
-    let current = componentRegistry.find((component) => component.id === strippedFileName);
+    let current = componentRegistry.find((component) => component?.id === strippedFileName);
     console.log(current);
 
     useEffect(() => {
         // Always render Navbar001
-        setRenderedOutput(current.component);
+        setRenderedOutput(current?.component);
         setError(null);
     }, [fileName, current]);
 

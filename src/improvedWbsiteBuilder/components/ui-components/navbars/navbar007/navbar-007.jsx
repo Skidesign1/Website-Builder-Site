@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import config from "./Config";
-const Navbar007 = () => {
+export function Navbar007() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(
     config.navigation.links.find((link) => link.active)?.name || ""
@@ -171,4 +171,4 @@ const Navbar007 = () => {
   );
 };
 
-export default Navbar007;
+// export default Navbar007;

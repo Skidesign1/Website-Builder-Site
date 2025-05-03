@@ -1,7 +1,7 @@
 import React from 'react';
 import footerConfig from './footerConfig';
 
-const Footer = () => {
+const Footer005 = () => {
   return (
     <footer className="bg-gray-900 text-white pt-12 pb-6">
       <div className="container mx-auto px-4">
@@ -10,9 +10,9 @@ const Footer = () => {
           <div className="flex flex-col space-y-4">
             <div className="flex items-center">
               {footerConfig.logo && (
-                <img 
-                  src={footerConfig.logo} 
-                  alt="Logo" 
+                <img
+                  src={footerConfig.logo}
+                  alt="Logo"
                   className="h-8 mr-2"
                 />
               )}
@@ -23,10 +23,10 @@ const Footer = () => {
             <p className="text-gray-400">{footerConfig.description}</p>
             <div className="flex space-x-4">
               {footerConfig.socialLinks.map((social, index) => (
-                <a 
-                  key={index} 
-                  href={social.url} 
-                  target="_blank" 
+                <a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-indigo-400 transition-colors duration-300"
                 >
@@ -46,8 +46,8 @@ const Footer = () => {
               <ul className="space-y-2">
                 {section.items.map((item, itemIndex) => (
                   <li key={itemIndex}>
-                    <a 
-                      href={item.url} 
+                    <a
+                      href={item.url}
                       className="text-gray-400 hover:text-indigo-400 transition-colors duration-300"
                     >
                       {item.name}
@@ -69,9 +69,9 @@ const Footer = () => {
           </p>
           <div className="flex space-x-6">
             {footerConfig.bottomLinks.map((link, index) => (
-              <a 
-                key={index} 
-                href={link.url} 
+              <a
+                key={index}
+                href={link.url}
                 className="text-gray-500 hover:text-indigo-400 text-sm transition-colors duration-300"
               >
                 {link.name}
@@ -84,4 +84,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default Footer005;

@@ -19,8 +19,14 @@ import { Body002 } from "./bodies/body-002"
 import { Footer001 } from "./footers/footer-001"
 import { Footer002 } from "./footers/footer-002"
 import { Footer003 } from "./footers/footer-003"
-import Navbar from "./navbars/navbar-007"
+import { Navbar007 } from "./navbars/navbar007/navbar-007"
 import { Footer004 } from "./footers/footer-004"
+import Footer005 from "./footers/footer005/Footer005"
+
+
+import footerConfig from "./footers/footer005/footerConfig"
+import config from "./navbars/navbar007/config"
+
 import ResponsiveNavbar from "../../../components/ResponsiveNavbar"
 import HeroSection from "../../../components/dragableComponnents.jsx/herosection"
 import Body from "../../../components/dragableComponnents.jsx/bodyComponent"
@@ -112,6 +118,20 @@ const componentRegistry = [
     label: "Navbar006",
     thumbnail: "/placeholder.svg?height=60&width=100",
   },
+  {
+    type: "navbar",
+    id: "navbar-007",
+    text: "Navbar007",
+    category: "navbar",
+    icon: <HomeIcon className="w-4 h-4 text-purple-500" />,
+    component: <Navbar007 />,
+    config: {
+      name: 'Config',
+      file: config
+    },
+    label: "Navbar007",
+    thumbnail: "/placeholder.svg?height=60&width=100",
+  },
   // {
   //   type: "navbar",
   //   id: "navbar-007",
@@ -122,16 +142,7 @@ const componentRegistry = [
   //   label: "Navbar007",
   //   thumbnail: "/placeholder.svg?height=60&width=100",
   // },
-  {
-    type: "navbar",
-    id: "navbar-007",
-    text: "Navbar007",
-    category: "navbar",
-    icon: <HomeIcon className="w-4 h-4 text-purple-500" />,
-    component: <Navbar />,
-    label: "Navbar007",
-    thumbnail: "/placeholder.svg?height=60&width=100",
-  },
+
   // Hero components
   {
     type: "hero",
@@ -262,8 +273,22 @@ const componentRegistry = [
     text: "Footer005",
     category: "footer",
     icon: <FooterIcon className="w-4 h-4 text-purple-500" />,
-    component: <Footer />,
+    component: <Footer005 />,
+    config: {
+      name: 'Config',
+      file: footerConfig
+    },
     label: "Footer005",
+    thumbnail: "/placeholder.svg?height=60&width=100",
+  },
+  {
+    type: "footer",
+    id: "footer-006",
+    text: "Footer006",
+    category: "footer",
+    icon: <FooterIcon className="w-4 h-4 text-purple-500" />,
+    component: <Footer />,
+    label: "Footer006",
     thumbnail: "/placeholder.svg?height=60&width=100",
   },
 ]

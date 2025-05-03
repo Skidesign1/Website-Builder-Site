@@ -6,7 +6,6 @@ import { sortableKeyboardCoordinates } from "@dnd-kit/sortable"
 import { CanvasDroppable } from "./components/canvas-droppable"
 import { ContainerItem } from "./components/container-item"
 import { ComponentPreview } from "./components/component-preview"
-import TextEditor from "../components/sidebars/textEditor"
 import { useDispatch, useSelector } from "react-redux"
 import {
   selectActivePage,
@@ -34,6 +33,8 @@ import {
 // import { useCode } from "../context/CodeContext"
 import { Link } from "react-router-dom"
 import { Code } from "lucide-react"
+import MyComponent from "./components/stylesSection"
+import TextEditor from "./subs/textEditor"
 
 export default function WebsiteBuilderPage() {
   const dispatch = useDispatch()
@@ -258,7 +259,7 @@ export default function WebsiteBuilderPage() {
             />
           </div>
           <div>
-          <TextEditor />  
+          <TextEditor/>  
             {/* <div className="mt-4 p-4 border-t border-gray-200">
               <Link
                 to="/code-editor"
