@@ -21,11 +21,9 @@ import { Footer002 } from "./footers/footer-002"
 import { Footer003 } from "./footers/footer-003"
 import { Navbar007 } from "./navbars/navbar007/navbar-007"
 import { Footer004 } from "./footers/footer-004"
-import Footer005 from "./footers/footer005/Footer005"
+import Footer005 from "./footers/footer05/Footer005"
 
-
-
-import footerConfig from "./footers/footer005/footerConfig"
+import footerConfig from "./footers/footer05/footerConfig"
 import config from "./navbars/navbar007/config"
 
 import ResponsiveNavbar from "../../../components/ResponsiveNavbar"
@@ -133,16 +131,6 @@ const componentRegistry = [
     label: "Navbar007",
     thumbnail: "/placeholder.svg?height=60&width=100",
   },
-  // {
-  //   type: "navbar",
-  //   id: "navbar-007",
-  //   text: "Navbar007",
-  //   category: "navbar",
-  //   icon: <HomeIcon className="w-4 h-4 text-purple-500" />,
-  //   component: <ResponsiveNavbar />,
-  //   label: "Navbar007",
-  //   thumbnail: "/placeholder.svg?height=60&width=100",
-  // },
 
   // Hero components
   {
