@@ -23,8 +23,8 @@ import { Navbar007 } from "./navbars/navbar007/navbar-007"
 import { Footer004 } from "./footers/footer-004"
 import Footer005 from "./footers/footer05/Footer005"
 
-import footerConfig from "./footers/footer05/footerConfig.json"
-import config from "./navbars/navbar007/config.json"
+import config from "./navbars/navbar007/Config.json"
+import footerConfig from "./footers/footer05/FooterConfig.json"
 
 import ResponsiveNavbar from "../../../components/ResponsiveNavbar"
 import HeroSection from "../../../components/dragableComponnents.jsx/herosection"
