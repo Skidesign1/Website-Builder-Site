@@ -24,6 +24,7 @@ import { Footer004 } from "./footers/footer-004"
 import Footer005 from "./footers/footer005/Footer005"
 
 
+
 import footerConfig from "./footers/footer005/footerConfig"
 import config from "./navbars/navbar007/config"
 

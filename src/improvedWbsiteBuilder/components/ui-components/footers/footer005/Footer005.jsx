@@ -1,5 +1,5 @@
 import React from 'react';
-import footerConfig from './footerConfig';
+import footerConfig from './footerConfig.js'; // Import your footer configuration
 
 const Footer005 = () => {
   return (
