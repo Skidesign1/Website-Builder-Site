@@ -1,5 +1,5 @@
 import React from 'react';
-import footerConfig from './footerConfig.js'; // Ensure this path is correct and matches the file structure
+import footerConfig from './footerConfig'; // Ensure this path is correct and matches the file structure
 
 const Footer005 = () => {
   return (
