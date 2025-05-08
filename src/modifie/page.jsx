@@ -28,7 +28,7 @@ import { CanvasDroppable } from "./components/canvas-droppable"
 import { ContainerOverlay } from "./components/container-overlay"
 import sidebarComponents from "./components/sidebar/sidebar-components"
 // import WebsiteBuilderToolbar from "../components/Navbar"
-import WebsiteBuilderToolbar from "../improvedWbsiteBuilder/components/navbar"
+
 import TextEditor from "../components/sidebars/textEditor"
 import Sidebar from "../components/Sidebar"
 
@@ -230,7 +230,7 @@ function DragAndDropContent() {
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
-      <WebsiteBuilderToolbar />
+
       <div className="grid grid-cols-[200px_1fr_200px] h-screen">
         {/* Sidebar */}
         <div className=" border-r bg-muted/40">

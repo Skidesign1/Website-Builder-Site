@@ -9,7 +9,7 @@ import Sidebar from './Sidebar';
 import Canvas from './Canvas';
 import TextEditor from './sidebars/textEditor';
 import SortableItem from './sortableItem';
-import WebsiteBuilderToolbar from '../improvedWbsiteBuilder/components/navbar';
+
 
 
 const AppLayout = () => {
@@ -121,7 +121,7 @@ const AppLayout = () => {
       onDragEnd={handleDraggingEnd}
     >
       <div className='maincont relative'>
-        <WebsiteBuilderToolbar />
+
         <div className='grid grid-cols-[200px_1fr_200px] gap-1 h-[100vh] relative'>
           <Sidebar className='myborder no-scrollbar' />
           <SortableContext strategy={verticalListSortingStrategy} items={fields.map(f => f.id)}>

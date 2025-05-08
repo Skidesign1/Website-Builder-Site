@@ -99,7 +99,7 @@ export function CanvasDroppable({
                 height: `${canvasSize[1]}px`,
               }}
             >
-              Drag container here to add to canvas
+              Drag container here
             </div>
           )}
         </div>
