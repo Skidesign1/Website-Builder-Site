@@ -8,7 +8,7 @@
         "height": 12
       }
     },
-    "name": "Brand",
+    "name": "Micah",
     "textSize": "3xl",
     "textColor": "gray-900",
     "spacing": 4
@@ -79,8 +79,8 @@
       },
       "textColor": "white",
       "size": {
-        "x": 8,
-        "y": 4
+        "x": "8",
+        "y": "4"
       },
       "rounded": "xl",
       "icon": {

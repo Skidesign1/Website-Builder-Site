@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import config from "./Config";
+import config from "./Config.json";
 export function Navbar007() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(
@@ -39,13 +39,17 @@ export function Navbar007() {
                 key={link.name}
                 href={link.href}
                 onClick={() => setActiveLink(link.name)}
-                className={`relative px-${config.navigation.desktop.padding.x
-                  } py-${config.navigation.desktop.padding.y} text-${config.navigation.desktop.textSize
-                  } font-medium transition-colors ${config.styles.hoverTransition
-                  } ${activeLink === link.name
+                className={`relative px-${
+                  config.navigation.desktop.padding.x
+                } py-${config.navigation.desktop.padding.y} text-${
+                  config.navigation.desktop.textSize
+                } font-medium transition-colors ${
+                  config.styles.hoverTransition
+                } ${
+                  activeLink === link.name
                     ? `text-${config.navigation.desktop.activeIndicator.color}`
                     : `text-gray-700 hover:text-gray-900`
-                  }`}
+                }`}
               >
                 {link.name}
                 {activeLink === link.name && (
@@ -61,12 +65,6 @@ export function Navbar007() {
           <div
             className={`hidden md:flex items-center space-x-${config.cta.spacing}`}
           >
-            <a
-              href={config.cta.secondary.href}
-              className={`px-${config.cta.secondary.size.x} py-${config.cta.secondary.size.y} text-${config.navigation.desktop.textSize} font-medium text-${config.cta.secondary.textColor} hover:text-${config.cta.secondary.hoverTextColor} transition-colors ${config.styles.hoverTransition}`}
-            >
-              {config.cta.secondary.text}
-            </a>
             <a
               href={config.cta.primary.href}
               className={`px-${config.cta.primary.size.x} py-${config.cta.primary.size.y} rounded-${config.cta.primary.rounded} bg-gradient-to-r from-${config.cta.primary.color.from} to-${config.cta.primary.color.to} text-${config.cta.primary.textColor} text-${config.navigation.desktop.textSize} font-medium hover:from-${config.cta.primary.color.hoverFrom} hover:to-${config.cta.primary.color.hoverTo} transition-all shadow-${config.styles.shadow.default} hover:shadow-${config.styles.shadow.hover}`}
@@ -128,8 +126,9 @@ export function Navbar007() {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden ${mobileMenuOpen ? "block" : "hidden"} bg-${config.mobileMenu.background
-          } backdrop-blur-sm`}
+        className={`md:hidden ${mobileMenuOpen ? "block" : "hidden"} bg-${
+          config.mobileMenu.background
+        } backdrop-blur-sm`}
       >
         <div
           className={`pt-4 pb-8 px-8 space-y-${config.navigation.mobile.spacing} border-t border-${config.mobileMenu.border}`}
@@ -139,12 +138,15 @@ export function Navbar007() {
               key={link.name}
               href={link.href}
               onClick={() => setActiveLink(link.name)}
-              className={`block px-${config.navigation.mobile.padding.x} py-${config.navigation.mobile.padding.y
-                } rounded-xl text-${config.navigation.mobile.textSize
-                } font-medium ${activeLink === link.name
+              className={`block px-${config.navigation.mobile.padding.x} py-${
+                config.navigation.mobile.padding.y
+              } rounded-xl text-${
+                config.navigation.mobile.textSize
+              } font-medium ${
+                activeLink === link.name
                   ? `bg-${config.navigation.mobile.activeBackground} text-${config.navigation.mobile.activeTextColor}`
                   : `text-gray-700 hover:bg-gray-50 hover:text-gray-900`
-                }`}
+              }`}
             >
               {link.name}
             </a>
@@ -169,6 +171,6 @@ export function Navbar007() {
       </div>
     </header>
   );
-};
+}
 
 // export default Navbar007;
