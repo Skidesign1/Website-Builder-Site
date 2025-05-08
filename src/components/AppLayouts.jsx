@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DndContext, useSensors, useSensor, PointerSensor, closestCorners } from '@dnd-kit/core';
 import { SortableContext, arrayMove, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { DragOverlay } from '@dnd-kit/core';
-import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Canvas from './Canvas';
 import TextEditor from './sidebars/textEditor';
 import SortableItem from './sortableItem';
+import WebsiteBuilderToolbar from '../improvedWbsiteBuilder/components/navbar';
+
 
 const AppLayout = () => {
   const dispatch = useDispatch();
@@ -120,7 +121,7 @@ const AppLayout = () => {
       onDragEnd={handleDraggingEnd}
     >
       <div className='maincont relative'>
-        <Navbar />
+        <WebsiteBuilderToolbar />
         <div className='grid grid-cols-[200px_1fr_200px] gap-1 h-[100vh] relative'>
           <Sidebar className='myborder no-scrollbar' />
           <SortableContext strategy={verticalListSortingStrategy} items={fields.map(f => f.id)}>

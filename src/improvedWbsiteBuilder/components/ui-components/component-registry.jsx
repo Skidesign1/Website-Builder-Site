@@ -21,7 +21,7 @@ import { Footer002 } from "./footers/footer-002"
 import { Footer003 } from "./footers/footer-003"
 import { Navbar007 } from "./navbars/navbar007/navbar-007"
 import { Footer004 } from "./footers/footer-004"
-import Footer005 from "./footers/footer05/Footer005"
+import Footer005 from "./footers/footer05/Footer-005"
 
 import config from "./navbars/navbar007/Config.json"
 import footerConfig from "./footers/footer05/FooterConfig.json"

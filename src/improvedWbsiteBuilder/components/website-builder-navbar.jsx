@@ -1,4 +1,7 @@
-
+"use client"
+import { Link } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux"
+import { setCanvasSize, setActiveDevice, setSelectedResolution, resetCanvas } from "../reduxState/canvasSlice"
 import { useState } from "react"
 import {
   ChevronDown,
@@ -24,7 +27,6 @@ import {
   Check,
   X,
 } from "lucide-react"
-import { Link } from "react-router-dom"
 import {
   Select,
   SelectContent,
@@ -109,9 +111,8 @@ export default function WebsiteBuilderNavbar({
   onRenamePage,
   onDeletePage,
 }) {
-  const [activeDevice, setActiveDevice] = useState("desktop")
-  const [selectedResolution, setSelectedResolution] = useState("")
-  const [viewSize, setViewSize] = useState([1920, 1080])
+  const dispatch = useDispatch()
+  const { canvasSize, activeDevice, selectedResolution } = useSelector((state) => state.canvas)
   const [isEditingPage, setIsEditingPage] = useState(false)
   const [editPageName, setEditPageName] = useState("")
   const [newPageDialogOpen, setNewPageDialogOpen] = useState(false)
@@ -119,9 +120,26 @@ export default function WebsiteBuilderNavbar({
 
   // Handle device view changes
   const handleChangeView = (size) => {
-    setViewSize(size)
-    // This would typically update a parent component's state
-    // to change the preview size
+    dispatch(setCanvasSize(size))
+  }
+
+  // Handle device button clicks
+  const handleDeviceChange = (device, defaultSize) => {
+    dispatch(setActiveDevice(device))
+    handleChangeView(defaultSize)
+    dispatch(setSelectedResolution(`${defaultSize[0]}x${defaultSize[1]}`))
+  }
+
+  // Handle resolution dropdown changes
+  const handleResolutionChange = (value) => {
+    dispatch(setSelectedResolution(value))
+    const size = value.split("x").map(Number)
+    handleChangeView(size)
+  }
+
+  // Reset canvas to default state
+  const handleReset = () => {
+    dispatch(resetCanvas())
   }
 
   // Page management functions
@@ -159,19 +177,6 @@ export default function WebsiteBuilderNavbar({
     onDeletePage(pageId)
   }
 
-  // Other toolbar functions
-  const handleReset = () => {
-    setActiveDevice("desktop")
-    setSelectedResolution("")
-    setViewSize([1920, 1080])
-  }
-
-  const handleResolutionChange = (value) => {
-    setSelectedResolution(value)
-    const size = value.split("x").map(Number)
-    handleChangeView(size)
-  }
-
   return (
     <div className="flex items-center justify-between w-full h-12 bg-[#2d2d2d] text-white border-b border-[#222]">
       {/* Left section */}
@@ -189,14 +194,14 @@ export default function WebsiteBuilderNavbar({
           {/* Page selector dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center space-x-1 px-2 py-0.5 bg-[#444] rounded cursor-pointer">
+              <div className="flex items-center space-x-1 px-2 py-0.5 bg-[#444] rounded-lg cursor-pointer hover:bg-[#555] transition-colors">
                 <span>
                   Page:{" "}
                   {isEditingPage ? (
                     <Input
                       value={editPageName}
                       onChange={(e) => setEditPageName(e.target.value)}
-                      className="h-6 w-32 bg-[#333] border-[#555] text-white"
+                      className="h-6 w-32 bg-[#333] border-[#555] text-white rounded-md"
                       onClick={(e) => e.stopPropagation()}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
@@ -243,67 +248,37 @@ export default function WebsiteBuilderNavbar({
                 )}
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-56 bg-[#333] border-[#444] text-white">
+            <DropdownMenuContent
+              align="start"
+              className="w-56 bg-black border-[#444] text-white rounded-lg shadow-lg overflow-hidden"
+            >
               {pages.map((page) => (
                 <DropdownMenuItem
                   key={page.id}
                   className={cn(
-                    "flex items-center cursor-pointer justify-between group",
-                    activePage.id === page.id && "bg-primary/20",
+                    "flex items-center cursor-pointer justify-between group px-3 py-2 hover:bg-[#444] transition-colors",
+                    activePage.id === page.id && "bg-primary/20"
                   )}
                   onSelect={() => handlePageSelect(page)}
                 >
                   <span>{page.name}</span>
-                  {/* <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100">
-                    {!page.isDefault && (
-                      <>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-6 w-6"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            if (activePage.id === page.id) {
-                              startEditingPage(page)
-                            } else {
-                              handlePageSelect(page)
-                              setTimeout(() => startEditingPage(page), 100)
-                            }
-                          }}
-                        >
-                          <Pencil className="h-3 w-3" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-6 w-6 hover:bg-red-500/20 hover:text-red-400"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleDeletePage(page.id)
-                          }}
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </>
-                    )}
-                  </div> */}
                 </DropdownMenuItem>
               ))}
-              <DropdownMenuSeparator />
+              {/* <DropdownMenuSeparator className="border-[#555]" /> */}
               <Dialog open={newPageDialogOpen} onOpenChange={setNewPageDialogOpen}>
-                <DialogTrigger asChild>
-                  {/* <DropdownMenuItem
+                {/* <DialogTrigger asChild>
+                  <DropdownMenuItem
                     onSelect={(e) => {
                       e.preventDefault()
                       setNewPageDialogOpen(true)
                     }}
-                    className="text-primary"
+                    className="text-primary px-3 py-2 hover:bg-[#444] transition-colors"
                   >
                     <PlusIcon className="mr-2 h-4 w-4" />
                     <span>Create New Page</span>
-                  </DropdownMenuItem> */}
-                </DialogTrigger>
-                <DialogContent className="bg-[#333] border-[#444] text-white">
+                  </DropdownMenuItem>
+                </DialogTrigger> */}
+                <DialogContent className="bg-black border-[#444] text-white rounded-lg shadow-lg">
                   <DialogHeader>
                     <DialogTitle>Create New Page</DialogTitle>
                     <DialogDescription className="text-muted-foreground">
@@ -314,18 +289,20 @@ export default function WebsiteBuilderNavbar({
                     value={newPageName}
                     onChange={(e) => setNewPageName(e.target.value)}
                     placeholder="Page name"
-                    className="bg-[#222] border-[#444]"
+                    className="bg-[#222] border-[#444] rounded-md"
                     autoFocus
                   />
                   <DialogFooter>
                     <Button
                       variant="outline"
                       onClick={() => setNewPageDialogOpen(false)}
-                      className="border-[#444] hover:bg-[#444] hover:text-white"
+                      className="border-[#444] hover:bg-[#444] hover:text-white rounded-md"
                     >
                       Cancel
                     </Button>
-                    <Button onClick={handleCreatePage}>Create Page</Button>
+                    <Button className="rounded-md" onClick={handleCreatePage}>
+                      Create Page
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
@@ -337,93 +314,64 @@ export default function WebsiteBuilderNavbar({
       {/* Center section - Device toggles */}
       <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-1">
         <button
-          className={cn(
-            "relative h-8 w-8 cursor-pointer flex items-center justify-center group",
-            activeDevice === "desktop" && "text-primary",
-          )}
-          onClick={() => {
-            setActiveDevice("desktop")
-            handleChangeView([1920, 1080])
-          }}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "desktop" ? "bg-[#444] rounded" : ""}`}
+          onClick={() => handleDeviceChange("desktop", [1920, 1080])}
         >
           <Monitor className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Desktop
           </span>
         </button>
-
         <button
-          className={cn(
-            "relative h-8 w-8 cursor-pointer flex items-center justify-center group",
-            activeDevice === "laptop" && "text-primary",
-          )}
-          onClick={() => {
-            setActiveDevice("laptop")
-            handleChangeView([1366, 768])
-          }}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "laptop" ? "bg-[#444] rounded" : ""}`}
+          onClick={() => handleDeviceChange("laptop", [1366, 768])}
         >
           <Laptop className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Laptop
           </span>
         </button>
-
         <button
-          className={cn(
-            "relative h-8 w-8 cursor-pointer flex items-center justify-center group",
-            activeDevice === "tablet" && "text-primary",
-          )}
-          onClick={() => {
-            setActiveDevice("tablet")
-            handleChangeView([768, 1024])
-          }}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "tablet" ? "bg-[#444] rounded" : ""}`}
+          onClick={() => handleDeviceChange("tablet", [768, 1024])}
         >
           <Tablet className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Tablet
           </span>
         </button>
-
         <button
-          className={cn(
-            "relative h-8 w-8 cursor-pointer flex items-center justify-center group",
-            activeDevice === "mobile" && "text-primary",
-          )}
-          onClick={() => {
-            setActiveDevice("mobile")
-            handleChangeView([375, 667])
-          }}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "mobile" ? "bg-[#444] rounded" : ""}`}
+          onClick={() => handleDeviceChange("mobile", [375, 667])}
         >
           <Smartphone className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Mobile
           </span>
         </button>
-
         <button
-          className={cn(
-            "relative h-8 w-8 cursor-pointer flex items-center justify-center group",
-            activeDevice === "grid" && "text-primary",
-          )}
-          onClick={() => setActiveDevice("grid")}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "grid" ? "bg-[#444] rounded" : ""}`}
+          onClick={() => dispatch(setActiveDevice("grid"))}
         >
           <LayoutGrid className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Grid
           </span>
         </button>
-
-        {/* Resolution selector */}
         <Select value={selectedResolution} onValueChange={handleResolutionChange}>
-          <SelectTrigger className="h-8 w-40 bg-[#2d2d2d] border-[#444] text-xs">
-            <SelectValue placeholder="Select resolution" />
+          <SelectTrigger className="h-8 w-40 bg-[#2d2d2d] border-[#444] text-xs rounded-md hover:bg-[#333] transition-colors">
+            <SelectValue placeholder={`${canvasSize[0]} x ${canvasSize[1]}`} />
           </SelectTrigger>
-          <SelectContent className="bg-[#333] border-[#444] text-white">
+          <SelectContent className="bg-[#2d2d2d] border-[#444] rounded-md shadow-lg">
             {Object.entries(resolutions).map(([category, resList]) => (
               <SelectGroup key={category}>
-                <SelectLabel>{category}</SelectLabel>
+                <SelectLabel className="text-white text-sm px-3 py-1">{category}</SelectLabel>
                 {resList.map((res) => (
-                  <SelectItem key={res.label} value={res.size.join("x")}>
+                  <SelectItem
+                    key={res.label}
+                    value={res.size.join("x")}
+                    className="px-3 py-2 text-white hover:bg-[#444] rounded-md transition-colors"
+                  >
                     {res.label}
                   </SelectItem>
                 ))}

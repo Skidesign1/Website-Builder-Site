@@ -1,7 +1,6 @@
-import { useState, useContext } from "react"
+"use client"
 import { Link } from "react-router-dom"
-import { logo } from "../assets/assets"
-import { BlockContext } from "../context/miniNavContext"
+import { logo } from "../../assets/assets"
 import {
   ChevronDown,
   ChevronLeft,
@@ -11,16 +10,15 @@ import {
   Smartphone,
   LayoutGrid,
   FileText,
-  Download,
   Settings,
   Minus,
   Plus,
   RefreshCw,
-  Image,
+  ImageIcon,
   Archive,
   CodeXmlIcon,
   User,
-  EyeIcon
+  EyeIcon,
 } from "lucide-react"
 import {
   Select,
@@ -30,7 +28,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./ui/select"
+} from "../../components/ui/select"
+import { useSelector, useDispatch } from "react-redux"
+import { setCanvasSize, setActiveDevice, setSelectedResolution, resetCanvas } from "../reduxState/canvasSlice"
 
 // Resolution presets
 const resolutions = {
@@ -78,64 +78,35 @@ const resolutions = {
 }
 
 export default function WebsiteBuilderToolbar() {
-  const [activeDevice, setActiveDevice] = useState("desktop")
-  const [selectedResolution, setSelectedResolution] = useState("")
+  const dispatch = useDispatch()
+  const { canvasSize, activeDevice, selectedResolution } = useSelector((state) => state.canvas)
 
-  const handleChangeView = (size) => {
-    // Same logic as before...
-  }
-  const handleRemove = () => {
-    console.log("Remove item")
-    // Implementation would depend on what's being removed
-  }
-  const handleAddPhoto = () => {
-    console.log("Add photo")
-  }
-  const handleSave = () => {
-    console.log("Save")
+  // Function to handle device button clicks
+  const handleDeviceChange = (device, defaultSize) => {
+    dispatch(setActiveDevice(device))
+    dispatch(setCanvasSize(defaultSize))
+    dispatch(setSelectedResolution(`${defaultSize[0]}x${defaultSize[1]}`))
   }
 
-  const handleOpenSettings = () => {
-    console.log("Open settings")
-  }
-
-  const handleToggleEditor = () => {
-    console.log("Toggle editor")
-  }
-
-  // Handler functions
-  const handleReset = () => {
-    setActiveDevice("desktop")
-    setSelectedResolution("")
-    setViewSize([190, -1080])
-  }
-  const handleDuplicate = () => {
-    console.log("Duplicate item")
-    // Implementation would depend on what's being duplicated
-  }
-  const handleDocsToggle = () => {
-    console.log("Toggle docs")
-  }
-
+  // Function to handle resolution dropdown changes
   const handleResolutionChange = (value) => {
-    setSelectedResolution(value)
+    dispatch(setSelectedResolution(value))
     const size = value.split("x").map(Number)
-    handleChangeView(size)
+    dispatch(setCanvasSize(size))
   }
 
-  let { close, setClose } = useContext(BlockContext)
-  function handleBlockNav() {
-    setClose(!close)
+  // Function to reset canvas to default state
+  const handleReset = () => {
+    dispatch(resetCanvas())
   }
 
   return (
     <div className="flex items-center justify-between w-full h-12 bg-[#2d2d2d] text-white border-b border-[#222]">
       {/* Left section */}
       <div className="flex items-center space-x-2">
-        <Link className="overflow-x-hidden h-40 w-40 flex justify-center items-center">
-          <img className="w-full h-full object-contain" src={logo} alt="Logo" />
+        <Link to="/" className="overflow-x-hidden h-10 w-10 flex justify-center items-center">
+          <img className="w-full h-full object-contain" src={logo || "/placeholder.svg"} alt="Logo" />
         </Link>
-
         <div className="flex items-center space-x-5 text-sm">
           <div className="flex items-center space-x-1">
             <ChevronLeft className="w-4 h-4" />
@@ -151,81 +122,58 @@ export default function WebsiteBuilderToolbar() {
       {/* Center section - Device toggles */}
       <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-1">
         <button
-          variant="ghost"
-          size="icon"
-          className="relative h-8 w-8 cursor-pointer flex items-center justify-center group"
-          onClick={() => {
-            setActiveDevice("desktop")
-            handleChangeView([1920, 1080])
-          }}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "desktop" ? "bg-[#444] rounded" : ""
+            }`}
+          onClick={() => handleDeviceChange("desktop", [1920, 1080])}
         >
           <Monitor className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Desktop
           </span>
         </button>
-
         <button
-          variant="ghost"
-          size="icon"
-          className="relative h-8 w-8 cursor-pointer flex items-center justify-center group"
-          onClick={() => {
-            setActiveDevice("laptop")
-            handleChangeView([1366, 768])
-          }}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "laptop" ? "bg-[#444] rounded" : ""
+            }`}
+          onClick={() => handleDeviceChange("laptop", [1366, 768])}
         >
           <Laptop className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Laptop
           </span>
         </button>
-
         <button
-          variant="ghost"
-          size="icon"
-          className="relative h-8 w-8 cursor-pointer flex items-center justify-center group"
-          onClick={() => {
-            setActiveDevice("tablet")
-            handleChangeView([768, 1024])
-          }}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "tablet" ? "bg-[#444] rounded" : ""
+            }`}
+          onClick={() => handleDeviceChange("tablet", [768, 1024])}
         >
           <Tablet className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Tablet
           </span>
         </button>
-
         <button
-          variant="ghost"
-          size="icon"
-          className="relative h-8 w-8 cursor-pointer flex items-center justify-center group"
-          onClick={() => {
-            setActiveDevice("mobile")
-            handleChangeView([375, 667])
-          }}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "mobile" ? "bg-[#444] rounded" : ""
+            }`}
+          onClick={() => handleDeviceChange("mobile", [375, 667])}
         >
           <Smartphone className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Mobile
           </span>
         </button>
-
         <button
-          variant="ghost"
-          size="icon"
-          className="relative h-8 w-8 cursor-pointer flex items-center justify-center group"
-          onClick={() => setActiveDevice("grid")}
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "grid" ? "bg-[#444] rounded" : ""
+            }`}
+          onClick={() => dispatch(setActiveDevice("grid"))}
         >
           <LayoutGrid className="w-4 h-4" />
           <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Grid
           </span>
         </button>
-
-        {/* Resolution selector */}
         <Select value={selectedResolution} onValueChange={handleResolutionChange}>
           <SelectTrigger className="h-8 w-40 bg-[#2d2d2d] border-[#444] text-xs">
-            <SelectValue placeholder="Select resolution" />
+            <SelectValue placeholder={`${canvasSize[0]} x ${canvasSize[1]}`} />
           </SelectTrigger>
           <SelectContent>
             {Object.entries(resolutions).map(([category, resList]) => (
@@ -244,44 +192,39 @@ export default function WebsiteBuilderToolbar() {
 
       {/* Right section */}
       <div className="flex items-center space-x-2">
-        {/* Action buttons */}
-        <Link to="/code-editor" variant="ghost" size="icon" className="align-self-center w-8" onClick={handleRemove} title="Preview code">
-          <CodeXmlIcon />
+        <Link to="/code-editor" className="h-8 w-8 flex items-center justify-center" title="Preview code">
+          <CodeXmlIcon className="w-4 h-4" />
         </Link>
-        <button variant="ghost" size="icon" className="h-8 w-8" onClick={handleRemove} title="zoom in">
+        <button className="h-8 w-8 flex items-center justify-center" title="Zoom in">
           <Minus className="w-4 h-4" />
         </button>
-        <button variant="ghost" size="icon" className="h-8 w-8" onClick={handleDuplicate} title="zoom out">
+        <button className="h-8 w-8 flex items-center justify-center" title="Zoom out">
           <Plus className="w-4 h-4" />
         </button>
-        <button variant="ghost" size="icon" className="h-8 w-8" onClick={handleReset} title="Refresh">
+        <button className="h-8 w-8 flex items-center justify-center" onClick={handleReset} title="Refresh">
           <RefreshCw className="w-4 h-4" />
         </button>
-        <button variant="ghost" size="icon" className="h-8 w-8" onClick={handleDocsToggle} title="view Docs">
+        <button className="h-8 w-8 flex items-center justify-center" title="View Docs">
           <FileText className="w-4 h-4" />
         </button>
-        <button variant="ghost" size="icon" className="h-8 w-8" onClick={handleAddPhoto} title="Add Photo">
-          <Image className="w-4 h-4" />
+        <button className="h-8 w-8 flex items-center justify-center" title="Add Photo">
+          <ImageIcon className="w-4 h-4" />
         </button>
-        <button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSave} title="Archive">
+        <button className="h-8 w-8 flex items-center justify-center" title="Archive">
           <Archive className="w-4 h-4" />
         </button>
-        {/* Original buttons */}
-
-        <div onClick={handleSave} title="preview" className="flex items-center space-x-1">
-          <EyeIcon />
+        <button className="h-8 w-8 flex items-center justify-center" title="Preview">
+          <EyeIcon className="w-4 h-4" />
+        </button>
+        <button className="h-8 w-8 flex items-center justify-center" title="Settings">
+          <Settings className="w-4 h-4" />
+        </button>
+        <button className="h-8 w-8 flex items-center justify-center" title="User">
+          <User className="w-4 h-4" />
+        </button>
+        <div title="Language" className="px-2 cursor-pointer text-sm font-medium">
+          EN
         </div>
-
-        {/* <div title="export code" className="flex items-center space-x-1">
-          <Download className="w-4 h-4 mr-1" />
-        </div> */}
-        <button title="settings" variant="ghost" size="icon" className="h-8 w-8" onClick={handleOpenSettings}>
-          <Settings className="w-4 ml-3 h-4" />
-        </button>
-        <button title="user" variant="ghost" size="icon" className="h-8 w-8" onClick={handleToggleEditor}>
-          <User className="w-4 cursor-pointer h-4" />
-        </button>
-        <div title="language" className="px-2 cursor-pointer text-sm font-medium">EN</div>
       </div>
     </div>
   )

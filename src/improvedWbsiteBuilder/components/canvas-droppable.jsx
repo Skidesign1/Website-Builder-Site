@@ -1,7 +1,9 @@
+import { useSelector, useDispatch } from "react-redux"
 import { useDroppable } from "@dnd-kit/core"
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import { cn } from "../../components/lib/utils"
 import { SortableContainer } from "./sortable-container"
+import { setCanvasSize } from "../reduxState/canvasSlice"
 
 export function CanvasDroppable({
   containers,
@@ -11,32 +13,66 @@ export function CanvasDroppable({
   onDeleteContainer,
   onDeleteComponent,
 }) {
+  const dispatch = useDispatch()
+  const { canvasSize, activeDevice } = useSelector((state) => state.canvas)
+
   const { setNodeRef, isOver } = useDroppable({
     id: "canvas-droppable",
     data: {
       accepts: "container",
     },
   })
-  console.log(containers)
+
+  const handleDrop = (event) => {
+    event.preventDefault()
+    const droppedData = event.dataTransfer.getData("text")
+    console.log("Dropped data:", droppedData)
+
+    // Example: Update canvas size based on dropped data (if applicable)
+    if (droppedData === "resize") {
+      dispatch(setCanvasSize([1280, 720])) // Example size
+    }
+  }
+
+  const handleDragOver = (event) => {
+    event.preventDefault()
+  }
+
+  // Add a class based on the active device for responsive styling
+  const deviceClasses = {
+    mobile: "canvas-mobile",
+    tablet: "canvas-tablet",
+    laptop: "canvas-laptop",
+    desktop: "canvas-desktop",
+    grid: "canvas-grid",
+  }
+
   return (
     <div
       ref={setNodeRef}
       className={cn(
-        "flex-1 flex flex-col h-full no-scrollbar overflow-auto",
+        "flex-1 flex flex-col m-auto no-scrollbar overflow-scroll",
         isOver && containers.length === 0 && "bg-muted/20",
-        "w-full",
+        deviceClasses[activeDevice] || "",
       )}
+      style={{
+        width: `${canvasSize[0]}px`,
+        height: `${canvasSize[1]}px`,
+        // border: "1px solid #ccc",
+        transition: "width 0.3s, height 0.3s", // Smooth resizing
+      }}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
     >
-      <div className="flex-1 min-h-[50vh] w-full">
-        {/* Sortable containers - now with no spacing between them */}
-        {/* <div>hello</div> */}
-        <div className="flex ma-h-[100vh] pb-[100%] flex-col w-full max-w-full mx-auto">
+      <div className="flex-1 min-h-[50vh]">
+        {/* Sortable containers */}
+        <div className="flex flex-col w-full mx-auto">
           <SortableContext items={containers.map((container) => container.id)} strategy={verticalListSortingStrategy}>
             {containers.map((container, index) => (
               <div key={container.id} className="relative w-full">
                 {/* Insert placeholder before this container */}
                 {isDraggingNew && overIndex === index && (
-                  <div className=" w-full rounded-none border-2 border-dashed border-primary bg-primary/10" />
+                  <div className="w-full rounded-none border-2 border-dashed border-primary bg-primary/10" />
                 )}
                 <SortableContainer
                   id={container.id}
@@ -56,7 +92,13 @@ export function CanvasDroppable({
           </SortableContext>
 
           {containers.length === 0 && (
-            <div className="flex h-[calc(100vh-150px)] w-full items-center justify-center  bg-muted/30 p-8 text-muted-foreground">
+            <div
+              className="flex h-[calc(100vh-150px)] w-full items-center justify-center bg-muted/30 p-8 text-muted-foreground"
+              style={{
+                width: `${canvasSize[0]}px`,
+                height: `${canvasSize[1]}px`,
+              }}
+            >
               Drag container here to add to canvas
             </div>
           )}

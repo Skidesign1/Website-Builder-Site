@@ -5,7 +5,7 @@ import Toolbar from "./head";
 import ResponsiveSection from "./responsiveSection";
 const TextEditor = () => {
     return (
-        <div className=" bg-white h-screen overflow-auto">
+        <div className=" bg-white h-screen">
 
             {/* Section Tabs */}
             <Toolbar />
