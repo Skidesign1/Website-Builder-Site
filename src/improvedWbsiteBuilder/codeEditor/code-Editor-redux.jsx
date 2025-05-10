@@ -81,7 +81,7 @@ const CodeEditorRedux = () => {
             console.log(`🔍 Fetching component: ${componentName}`);
 
             try {
-                const response = await fetch(`http://localhost:3000/api/component/${componentName}`);
+                const response = await fetch(`https://website-builder-site.onrender.com/api/component/${componentName}`);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch component: ${response.statusText}`);
                 }
@@ -118,9 +118,9 @@ const CodeEditorRedux = () => {
             console.log(`🔍 Fetching JSX file: ${componentName}`);
 
             try {
-                const response = await fetch(`http://localhost:3000/api/component/${componentName}`);
+                const response = await fetch(`https://website-builder-site.onrender.com/api/component/${componentName}`);
                 console.log("📡 Sent request to server:", {
-                    url: `http://localhost:3000/api/component/${componentName}`,
+                    url: `https://website-builder-site.onrender.com/api/component/${componentName}`,
                     method: "GET",
                 });
 
@@ -186,7 +186,7 @@ const CodeEditorRedux = () => {
 
         try {
             const response = await fetch(
-                `http://localhost:3000/api/component/${componentName}`,
+                `https://website-builder-site.onrender.com/api/component/${componentName}`,
                 {
                     method: "POST",
                     headers: {
@@ -197,7 +197,7 @@ const CodeEditorRedux = () => {
             );
 
             console.log("📡 Sent request to server:", {
-                url: `http://localhost:3000/api/component/${componentName}`,
+                url: `https://website-builder-site.onrender.com/api/component/${componentName}`,
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: { content: fileContent },

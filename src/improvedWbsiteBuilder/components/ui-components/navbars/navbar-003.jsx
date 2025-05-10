@@ -1,8 +1,8 @@
 export function Navbar003() {
   return (
-    <div className="w-full flex bg-primary/10 p-3">
-      <div className="flex items-center justify-between">
-        <div className="font-bold text-xl">Brand</div>
+    <div className="w-full   justify-between flex bg-primary/10 p-3">
+      <div className="flex  items-center justify-between">
+        <div className="font-bold text-xl">Luli</div>
         <div className="flex space-x-4">
           <span>Home</span>
           <span>Features</span>

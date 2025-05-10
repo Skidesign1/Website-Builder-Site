@@ -5,8 +5,8 @@ export function Navbar001() {
         <div className="font-bold">Logo</div>
         <div className="flex space-x-4">
           <span>Home</span>
-          <span>Abo</span>
-          <span>Cont</span>
+          <span>About</span>
+          <span>Contact</span>
         </div>
       </div>
     </div>
