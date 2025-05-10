@@ -1,7 +1,7 @@
 export function Navbar004() {
   return (
     <div className="w-full bg-primary/10 p-3">
-      <div className="flex items-center">
+      <div className="flex justify-center items-center">
         <div className="font-bold text-xl mr-8">Company</div>
         <div className="flex space-x-4 flex-1">
           <span>Dashboard</span>

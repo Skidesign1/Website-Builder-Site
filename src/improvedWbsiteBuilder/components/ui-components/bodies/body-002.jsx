@@ -28,8 +28,9 @@ export function Body002() {
             </div>
             <h3 className="font-medium mb-1 text-sm">Feature Three</h3>
             <p className="text-xs text-muted-foreground">
-              A brief description of this feature and its benefits to users.
+              A brief description of these feature and its benefits to users.
             </p>
+            <link>hello world</link>
           </div>
         </div>
       </div>

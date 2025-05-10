@@ -210,6 +210,26 @@ const CodeEditorRedux = () => {
             }
 
             console.log("✅ File saved successfully on the server");
+
+            // Refetch the updated file content
+            const fetchUpdatedFile = async () => {
+                try {
+                    const updatedResponse = await fetch(
+                        `https://website-builder-site.onrender.com/api/component/${componentName}`
+                    );
+                    if (!updatedResponse.ok) {
+                        throw new Error("Failed to fetch updated file");
+                    }
+                    const updatedData = await updatedResponse.json();
+                    console.log("📥 Fetched updated file data:", updatedData);
+                    setFileContent(updatedData.content || "// Updated content not found");
+                } catch (error) {
+                    console.error("❌ Failed to fetch updated file:", error.message);
+                }
+            };
+
+            await fetchUpdatedFile();
+
             dispatch(
                 updateComponentCode({
                     containerId: selectedFile.containerId,

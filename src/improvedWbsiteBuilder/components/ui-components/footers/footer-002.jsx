@@ -5,7 +5,7 @@ export function Footer002() {
         <div>
           <h3 className="font-medium mb-2 text-sm">Product</h3>
           <ul className="space-y-1 text-xs">
-            <li>Features</li>
+            <li>Featuring</li>
             <li>Pricing</li>
             <li>Integrations</li>
             <li>Changelog</li>
