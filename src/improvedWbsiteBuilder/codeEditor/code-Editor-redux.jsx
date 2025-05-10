@@ -125,9 +125,11 @@ const CodeEditorRedux = () => {
                 });
 
                 if (!response.ok) {
+                    if (response.status === 0) {
+                        throw new Error("CORS policy error: Check server configuration or use a proxy.");
+                    }
                     throw new Error(`Failed to fetch JSX file: ${response.statusText}`);
                 }
-
                 const data = await response.json();
                 console.log("📥 Fetched JSX file data:", data);
 
@@ -142,8 +144,12 @@ const CodeEditorRedux = () => {
                 setSelectedFile(jsxFileData);
                 setFileContent(jsxFileData.content);
             } catch (error) {
-                console.error("❌ Failed to fetch JSX file:", error.message);
-                setFileContent("// Failed to load component from server");
+                if (error.message.includes("CORS")) {
+                    console.error("❌ CORS issue detected. Ensure the server allows requests from your origin.");
+                } else {
+                    console.error("❌ Failed to fetch JSX file:", error.message);
+                }
+                setFileContent("// Failed to load component from server due to CORS issue");
             }
         } else if (fileType === "json") {
             console.log("🔍 Preparing JSON file data");
@@ -196,6 +202,13 @@ const CodeEditorRedux = () => {
                 }
             );
 
+            console.log("📡 Sent request to server:", {
+                url: `https://website-builder-site.onrender.com/api/component/${componentName}`,
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: { content: fileContent },
+            });
+
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error("❌ Server responded with an error:", errorData);
@@ -204,25 +217,33 @@ const CodeEditorRedux = () => {
 
             console.log("✅ File saved successfully on the server");
 
-            // Refetch the updated file content to ensure the client has the latest version
-            const updatedResponse = await fetch(
-                `https://website-builder-site.onrender.com/api/component/${componentName}`
-            );
-            if (!updatedResponse.ok) {
-                throw new Error("Failed to fetch updated file");
-            }
-            const updatedData = await updatedResponse.json();
-            console.log("📥 Fetched updated file data:", updatedData);
-            setFileContent(updatedData.content || "// Updated content not found");
+            // Refetch the updated file content
+            const fetchUpdatedFile = async () => {
+                try {
+                    const updatedResponse = await fetch(
+                        `https://website-builder-site.onrender.com/api/component/${componentName}`
+                    );
+                    if (!updatedResponse.ok) {
+                        throw new Error("Failed to fetch updated file");
+                    }
+                    const updatedData = await updatedResponse.json();
+                    console.log("📥 Fetched updated file data:", updatedData);
+                    setFileContent(updatedData.content || "// Updated content not found");
+                } catch (error) {
+                    console.error("❌ Failed to fetch updated file:", error.message);
+                }
+            };
+
+            await fetchUpdatedFile();
 
             dispatch(
                 updateComponentCode({
                     containerId: selectedFile.containerId,
-                    code: updatedData.content || fileContent,
+                    code: fileContent,
                 })
             );
 
-            toast.success("File saved and updated successfully!");
+            toast.success("File saved successfully!");
         } catch (error) {
             console.error("❌ Error saving file:", error.message);
             toast.error("Failed to save file to server");
