@@ -196,13 +196,6 @@ const CodeEditorRedux = () => {
                 }
             );
 
-            console.log("📡 Sent request to server:", {
-                url: `https://website-builder-site.onrender.com/api/component/${componentName}`,
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: { content: fileContent },
-            });
-
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error("❌ Server responded with an error:", errorData);
@@ -211,33 +204,25 @@ const CodeEditorRedux = () => {
 
             console.log("✅ File saved successfully on the server");
 
-            // Refetch the updated file content
-            const fetchUpdatedFile = async () => {
-                try {
-                    const updatedResponse = await fetch(
-                        `https://website-builder-site.onrender.com/api/component/${componentName}`
-                    );
-                    if (!updatedResponse.ok) {
-                        throw new Error("Failed to fetch updated file");
-                    }
-                    const updatedData = await updatedResponse.json();
-                    console.log("📥 Fetched updated file data:", updatedData);
-                    setFileContent(updatedData.content || "// Updated content not found");
-                } catch (error) {
-                    console.error("❌ Failed to fetch updated file:", error.message);
-                }
-            };
-
-            await fetchUpdatedFile();
+            // Refetch the updated file content to ensure the client has the latest version
+            const updatedResponse = await fetch(
+                `https://website-builder-site.onrender.com/api/component/${componentName}`
+            );
+            if (!updatedResponse.ok) {
+                throw new Error("Failed to fetch updated file");
+            }
+            const updatedData = await updatedResponse.json();
+            console.log("📥 Fetched updated file data:", updatedData);
+            setFileContent(updatedData.content || "// Updated content not found");
 
             dispatch(
                 updateComponentCode({
                     containerId: selectedFile.containerId,
-                    code: fileContent,
+                    code: updatedData.content || fileContent,
                 })
             );
 
-            toast.success("File saved successfully!");
+            toast.success("File saved and updated successfully!");
         } catch (error) {
             console.error("❌ Error saving file:", error.message);
             toast.error("Failed to save file to server");
