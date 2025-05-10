@@ -51,7 +51,7 @@ export function CanvasDroppable({
     <div
       ref={setNodeRef}
       className={cn(
-        "flex-1 flex flex-col m-auto no-scrollbar overflow-scroll",
+        "flex-1 pb-[200px] flex flex-col m-auto max-w-[78vw] no-scrollbar overflow-scroll",
         isOver && containers.length === 0 && "bg-muted/20",
         deviceClasses[activeDevice] || "",
       )}

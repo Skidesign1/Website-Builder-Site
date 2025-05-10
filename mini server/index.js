@@ -57,6 +57,53 @@ app.get('/api/component/:name', (req, res) => {
     });
 });
 
+// Route: write to a JSX file in /src/components/
+app.post('/api/component/:name', (req, res) => {
+    const componentName = req.params.name.toLowerCase();
+    const baseDir = path.join(__dirname, '../src/improvedWbsiteBuilder');
+    const findComponentFile = (dir) => {
+        const files = fs.readdirSync(dir);
+
+        for (const file of files) {
+            const fullPath = path.join(dir, file);
+            const stat = fs.statSync(fullPath);
+
+            if (stat.isDirectory()) {
+                const found = findComponentFile(fullPath);
+                if (found) return found;
+            } else if (
+                file.toLowerCase().includes(componentName) &&
+                file.endsWith('.jsx')
+            ) {
+                return fullPath;
+            }
+        }
+
+        return null;
+    };
+
+    const filePath = findComponentFile(baseDir);
+
+    if (!filePath) {
+        return res.status(404).json({ error: 'Component not found' });
+    }
+
+    const { content } = req.body;
+
+    if (!content) {
+        return res.status(400).json({ error: 'No content provided' });
+    }
+
+    fs.writeFile(filePath, content, 'utf-8', (err) => {
+        if (err) {
+            console.error(`❌ Error writing to file:`, err);
+            return res.status(500).json({ error: 'Could not write to the file' });
+        }
+
+        console.log(`✏️ Updated file: ${filePath}`);
+        res.json({ message: 'File updated successfully' });
+    });
+});
 
 // Start server
 app.listen(port, () => {

@@ -131,6 +131,20 @@ const componentRegistry = [
     label: "Navbar007",
     thumbnail: "/placeholder.svg?height=60&width=100",
   },
+  {
+    type: "navbar",
+    id: "navbar-008",
+    text: "Navbar008",
+    category: "navbar",
+    icon: <HomeIcon className="w-4 h-4 text-purple-500" />,
+    component: <ResponsiveNavbar />,
+    config: {
+      name: 'Config',
+      file: config
+    },
+    label: "Navbar008",
+    thumbnail: "/placeholder.svg?height=60&width=100",
+  },
 
   // Hero components
   {

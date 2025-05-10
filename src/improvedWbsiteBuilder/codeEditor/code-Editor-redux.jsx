@@ -65,19 +65,28 @@ const CodeEditorRedux = () => {
     }, [isDarkMode]);
 
     useEffect(() => {
-        if (!selectedContainerId) return;
+        if (!selectedContainerId) {
+            console.warn("⚠️ No container selected for fetching component");
+            return;
+        }
 
         const fetchComponent = async () => {
             const container = containers.find((c) => c.id === selectedContainerId);
-            if (!container || !container.component) return;
+            if (!container || !container.component) {
+                console.warn("⚠️ Selected container or component not found");
+                return;
+            }
 
             const componentName = container.component.component.id;
+            console.log(`🔍 Fetching component: ${componentName}`);
 
             try {
                 const response = await fetch(`http://localhost:3000/api/component/${componentName}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch component: ${response.statusText}`);
+                }
+
                 const data = await response.json();
-                console.log("Fetched component data:", data);
-                console.log("Selected component name:", componentName);
                 const fileData = {
                     containerId: selectedContainerId,
                     componentId: container.component.id,
@@ -88,7 +97,7 @@ const CodeEditorRedux = () => {
                 setSelectedFile(fileData);
                 setFileContent(fileData.content);
             } catch (error) {
-                console.error("❌ Failed to fetch component:", error);
+                console.error("❌ Failed to fetch component:", error.message);
                 setFileContent("// Failed to load component from server");
             }
         };
@@ -97,15 +106,31 @@ const CodeEditorRedux = () => {
     }, [selectedContainerId, containers]);
 
     const handleFileSelect = async (containerId, fileType) => {
+        console.log(`📂 Selecting file for container: ${containerId}, type: ${fileType}`);
         const container = containers.find((c) => c.id === containerId);
-        if (!container || !container.component) return;
+        if (!container || !container.component) {
+            console.warn("⚠️ Container or component not found");
+            return;
+        }
 
         if (fileType === "jsx") {
             const componentName = container.component.component.id;
+            console.log(`🔍 Fetching JSX file: ${componentName}`);
 
             try {
-                const response = await fetch(`https://website-builder-site.onrender.com/api/component/${componentName}`);
+                const response = await fetch(`http://localhost:3000/api/component/${componentName}`);
+                console.log("📡 Sent request to server:", {
+                    url: `http://localhost:3000/api/component/${componentName}`,
+                    method: "GET",
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch JSX file: ${response.statusText}`);
+                }
+
                 const data = await response.json();
+                console.log("📥 Fetched JSX file data:", data);
+
                 const jsxFileData = {
                     containerId,
                     componentId: container.component.id,
@@ -114,20 +139,14 @@ const CodeEditorRedux = () => {
                     type: "jsx",
                 };
 
-                // Only update the selected file if it's a different file type or a new selection
-                if (
-                    !selectedFile ||
-                    selectedFile.containerId !== containerId ||
-                    selectedFile.type !== "jsx"
-                ) {
-                    setSelectedFile(jsxFileData);
-                    setFileContent(jsxFileData.content);
-                }
+                setSelectedFile(jsxFileData);
+                setFileContent(jsxFileData.content);
             } catch (error) {
-                console.error("❌ Failed to fetch JSX file:", error);
+                console.error("❌ Failed to fetch JSX file:", error.message);
                 setFileContent("// Failed to load component from server");
             }
         } else if (fileType === "json") {
+            console.log("🔍 Preparing JSON file data");
             const jsonFileData = {
                 containerId,
                 componentId: container.component.id,
@@ -136,15 +155,8 @@ const CodeEditorRedux = () => {
                 type: "json",
             };
 
-            // Only update the selected file if it's a different file type or a new selection
-            if (
-                !selectedFile ||
-                selectedFile.containerId !== containerId ||
-                selectedFile.type !== "json"
-            ) {
-                setSelectedFile(jsonFileData);
-                setFileContent(jsonFileData.content);
-            }
+            setSelectedFile(jsonFileData);
+            setFileContent(jsonFileData.content);
         }
     };
 
@@ -155,20 +167,61 @@ const CodeEditorRedux = () => {
         }));
     };
 
-    const saveFile = () => {
+    const saveFile = async () => {
         if (!selectedFile) {
+            console.error("❌ No file selected for saving");
             toast.error("No file selected");
             return;
         }
 
-        dispatch(
-            updateComponentCode({
-                containerId: selectedFile.containerId,
-                code: fileContent,
-            })
-        );
+        if (!fileContent) {
+            console.error("❌ File content is empty");
+            toast.error("File content is empty");
+            return;
+        }
 
-        toast.success("File saved successfully!");
+        const componentName = selectedFile.name.replace(".jsx", "");
+        console.log(`📝 Attempting to save file: ${componentName}`);
+        console.log(`📄 File content:`, fileContent);
+
+        try {
+            const response = await fetch(
+                `http://localhost:3000/api/component/${componentName}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ content: fileContent }),
+                }
+            );
+
+            console.log("📡 Sent request to server:", {
+                url: `http://localhost:3000/api/component/${componentName}`,
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: { content: fileContent },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("❌ Server responded with an error:", errorData);
+                throw new Error(errorData.error || "Failed to save file to server");
+            }
+
+            console.log("✅ File saved successfully on the server");
+            dispatch(
+                updateComponentCode({
+                    containerId: selectedFile.containerId,
+                    code: fileContent,
+                })
+            );
+
+            toast.success("File saved successfully!");
+        } catch (error) {
+            console.error("❌ Error saving file:", error.message);
+            toast.error("Failed to save file to server");
+        }
     };
 
     const handleExport = async () => {

@@ -100,6 +100,7 @@ const resolutions = {
     { label: "3840 x 2160 — 4K UHD Monitors", size: [3840, 2160] },
     { label: "5120 x 1440 — Super Ultra-wide Monitors", size: [5120, 1440] },
     { label: "5120 x 2880 — 5K Display Monitors", size: [5120, 2880] },
+    { label: "Full Canvas — Full Width and Height", size: [5120, 10033] }, // Added default resolution
   ],
 }
 
@@ -133,7 +134,7 @@ export default function WebsiteBuilderNavbar({
   // Handle resolution dropdown changes
   const handleResolutionChange = (value) => {
     dispatch(setSelectedResolution(value))
-    const size = value.split("x").map(Number)
+    const size = value === "100%x100%" ? ["100%", "100%"] : value.split("x").map(Number) // Handle full canvas resolution
     handleChangeView(size)
   }
 
@@ -264,20 +265,7 @@ export default function WebsiteBuilderNavbar({
                   <span>{page.name}</span>
                 </DropdownMenuItem>
               ))}
-              {/* <DropdownMenuSeparator className="border-[#555]" /> */}
               <Dialog open={newPageDialogOpen} onOpenChange={setNewPageDialogOpen}>
-                {/* <DialogTrigger asChild>
-                  <DropdownMenuItem
-                    onSelect={(e) => {
-                      e.preventDefault()
-                      setNewPageDialogOpen(true)
-                    }}
-                    className="text-primary px-3 py-2 hover:bg-[#444] transition-colors"
-                  >
-                    <PlusIcon className="mr-2 h-4 w-4" />
-                    <span>Create New Page</span>
-                  </DropdownMenuItem>
-                </DialogTrigger> */}
                 <DialogContent className="bg-black border-[#444] text-white rounded-lg shadow-lg">
                   <DialogHeader>
                     <DialogTitle>Create New Page</DialogTitle>
@@ -318,7 +306,7 @@ export default function WebsiteBuilderNavbar({
           onClick={() => handleDeviceChange("desktop", [1920, 1080])}
         >
           <Monitor className="w-4 h-4" />
-          <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Desktop
           </span>
         </button>
@@ -327,7 +315,7 @@ export default function WebsiteBuilderNavbar({
           onClick={() => handleDeviceChange("laptop", [1366, 768])}
         >
           <Laptop className="w-4 h-4" />
-          <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Laptop
           </span>
         </button>
@@ -336,7 +324,7 @@ export default function WebsiteBuilderNavbar({
           onClick={() => handleDeviceChange("tablet", [768, 1024])}
         >
           <Tablet className="w-4 h-4" />
-          <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Tablet
           </span>
         </button>
@@ -345,7 +333,7 @@ export default function WebsiteBuilderNavbar({
           onClick={() => handleDeviceChange("mobile", [375, 667])}
         >
           <Smartphone className="w-4 h-4" />
-          <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Mobile
           </span>
         </button>
@@ -354,7 +342,7 @@ export default function WebsiteBuilderNavbar({
           onClick={() => dispatch(setActiveDevice("grid"))}
         >
           <LayoutGrid className="w-4 h-4" />
-          <span className="absolute bottom-full mb-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
             Grid
           </span>
         </button>
@@ -370,7 +358,11 @@ export default function WebsiteBuilderNavbar({
                   <SelectItem
                     key={res.label}
                     value={res.size.join("x")}
-                    className="px-3 py-2 text-white hover:bg-[#444] rounded-md transition-colors"
+                    className={cn(
+                      "px-10 py-2 text-white hover:bg-[#444] rounded-md transition-colors",
+                      selectedResolution === res.size.join("x") ? "bg-[#555]" : "",
+                      "no-checkmark" // Add a custom class to hide the checkmark
+                    )}
                   >
                     {res.label}
                   </SelectItem>

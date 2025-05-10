@@ -2,17 +2,22 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 
 const ResponsiveNavbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { canvasSize, activeDevice } = useSelector((state) => state.canvas)
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
-    <nav className="bg-gray-800 text-white min-w-[50vw]">
-      <div className=" min-w-[50vw] mx-auto px-4 py-3 flex justify-between items-center">
+    <nav className="bg-gray-800 text-white"
+    >
+      <div className=" mx-auto px-4 py-3 flex justify-between items-center" style={{
+        width: `${canvasSize[0]}px`,
+      }}>
         {/* Brand Logo */}
         <div className="text-2xl font-bold">
           <a href="#">MyWebsite</a>
