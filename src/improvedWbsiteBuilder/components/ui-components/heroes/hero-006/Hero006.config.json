@@ -1,0 +1,81 @@
+{
+    "layout": "center", 
+    "background": {
+      "type": "gradient", 
+      "gradient": "from-indigo-500 via-purple-500 to-pink-500",
+      "image": ""
+    },
+    "text": {
+      "color": "white"
+    },
+    "padding": {
+      "x": 6,
+      "y": 24
+    },
+    "badge": {
+      "show": true,
+      "text": "🚀 Launch Special",
+      "textColor": "white",
+      "bgColor": "indigo-700",
+      "rounded": "full",
+      "padding": {
+        "x": 4,
+        "y": 1
+      }
+    },
+    "heading": {
+      "text": "Build fast, launch faster.",
+      "size": "6xl",
+      "weight": "bold",
+      "animate": "fade-in-down"
+    },
+    "subheading": {
+      "text": "Everything you need to launch your startup in style. Flexible, customizable, and easy to use.",
+      "size": "xl",
+      "color": "gray-100"
+    },
+    "spacing": {
+      "between": 6,
+      "imageTop": 10
+    },
+    "cta": {
+      "spacing": 4,
+      "buttons": [
+        {
+          "text": "Get Started",
+          "href": "#get-started",
+          "background": "white",
+          "hoverBg": "gray-100",
+          "textColor": "indigo-700",
+          "fontWeight": "semibold",
+          "size": {
+            "x": 6,
+            "y": 3
+          },
+          "rounded": "lg"
+        },
+        {
+          "text": "Learn More",
+          "href": "#learn-more",
+          "background": "transparent",
+          "hoverBg": "white/10",
+          "textColor": "white",
+          "fontWeight": "medium",
+          "size": {
+            "x": 6,
+            "y": 3
+          },
+          "rounded": "lg"
+        }
+      ]
+    },
+    "image": {
+      "src": "/assets/hero-image.png",
+      "alt": "Hero Image",
+      "width": "96",
+      "height": "auto",
+      "rounded": "xl",
+      "shadow": "2xl"
+    }
+  }
+  

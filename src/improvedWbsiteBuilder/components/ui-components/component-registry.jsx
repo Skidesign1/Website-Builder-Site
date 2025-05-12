@@ -12,6 +12,8 @@ import { Hero001 } from "./heroes/hero-001"
 import { Hero002 } from "./heroes/hero-002"
 import { Hero003 } from "./heroes/hero-003"
 import { Hero004 } from "./heroes/hero-004"
+import  Hero006 from "./heroes/hero-006/Hero006" 
+import  Hero006Config  from "./heroes/hero-006/Hero006.config.json"
 
 import { Body001 } from "./bodies/body-001"
 import { Body002 } from "./bodies/body-002"
@@ -197,6 +199,32 @@ const componentRegistry = [
     label: "Hero005",
     thumbnail: "/placeholder.svg?height=60&width=100",
   },
+
+  
+
+  {
+    type: "hero",
+    id: "hero-006",
+    text: "Hero006",
+    category: "hero",
+    icon: <FooterIcon className="w-4 h-4 text-purple-500" />,
+    component: <Hero006 />,
+    config: {
+      name: 'Config',
+      file: Hero006Config
+    },
+    label: "Hero006",
+    thumbnail: "/placeholder.svg?height=60&width=100",
+  },
+
+
+
+
+
+
+
+
+
   // Body components
   {
     type: "body",
