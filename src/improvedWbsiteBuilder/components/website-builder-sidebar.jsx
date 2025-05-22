@@ -36,7 +36,7 @@ export function WebsiteBuilderSidebar({
     const fetchData = async () => {
       setLoading(true)
       try {
-        const res = await fetch("http://localhost:3000/api/components")
+        const res = await fetch("https://website-builder-site-1.onrender.com/api/components")
         const data = await res.json()
         setCategories(data.categories || [])
         setComponents(data.components || [])
