@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss";
+* {
+  font-family: "Poppins", serif;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.canvas-container {
+  overflow: auto;
+  max-width: 100%;
+  max-height: calc(100vh - 4rem);
+}
+
+.sidebar {
+  width: 240px;
+  overflow: auto;
+  height: calc(100vh - 64px);
+}
+
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+
+.canvas-inner {
+  max-height: 100vh;
+  position: relative;
+  z-index: 10000;
+}
+
+/* second developer style */
+
+.mygrid {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+  grid-template-rows: 90vh;
+  overflow: hidden;
+}
+
+.maincont {
+  max-height: 100vh;
+  max-width: 100%;
+}
+
+.myborder {
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+
+/* height of main body*/
+
+.height {
+  height: 440px;
+}
+
+.overstyle {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  /* padding-left: 2rem;
+  padding-right: 6rem; */
+}
+
+.sub-over {
+  display: none;
+  position: absolute;
+  top: 0px;
+  right: 45px;
+  font-size: 20px;
+}
+
+.overstyle:hover {
+  filter: brightness(90%);
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.overstyle:hover .sub-over {
+  display: block;
+}
+
+/*canvas mainframe*/
+
+.first-layout {
+  height: 6rem;
+  border-bottom: 1px solid black;
+}
+
+.second-layout {
+  height: 26rem;
+  border-bottom: 1px solid black;
+}
+
+.get {
+  padding: 3px;
+}
+
+.get:active {
+  color: goldenrod;
+}
+
+.get:hover {
+  background-color: goldenrod;
+}
+
+.drag {
+  touch-action: none;
+}
+
+@media only screen and (max-width: 480px) {
+  .drag {
+    touch-action: none;
+    cursor: -moz-grab;
+    cursor: -webkit-grabbing;
+  }
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.over {
+  overflow-y: scroll;
+}

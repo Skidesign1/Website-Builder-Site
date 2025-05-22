@@ -1,0 +1,3 @@
+.no-checkmark::before {
+  display: none !important; /* Hides the default checkmark */
+}

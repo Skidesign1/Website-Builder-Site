@@ -1,0 +1,137 @@
+{
+  "brand": {
+    "logo": {
+      "src": "/assets/logo.png",
+      "alt": "Brand Logo",
+      "size": {
+        "width": 12,
+        "height": 12
+      }
+    },
+    "name": "Micah",
+    "textSize": "3xl",
+    "textColor": "gray-900",
+    "spacing": 4
+  },
+  "navigation": {
+    "links": [
+      {
+        "name": "Home",
+        "href": "home",
+        "active": true
+      },
+      {
+        "name": "Features",
+        "href": "fet",
+        "active": false
+      },
+      {
+        "name": "Solutions",
+        "href": "#",
+        "active": false
+      },
+      {
+        "name": "Pricing",
+        "href": "#",
+        "active": false
+      },
+      {
+        "name": "Resources",
+        "href": "#",
+        "active": false
+      }
+    ],
+    "desktop": {
+      "spacing": 14,
+      "textSize": "lg",
+      "padding": {
+        "x": 4,
+        "y": 3
+      },
+      "activeIndicator": {
+        "height": "3px",
+        "width": "4/5",
+        "color": "indigo-600",
+        "rounded": "full",
+        "position": "bottom-2"
+      }
+    },
+    "mobile": {
+      "textSize": "xl",
+      "padding": {
+        "x": 5,
+        "y": 4
+      },
+      "spacing": 5,
+      "activeBackground": "indigo-50",
+      "activeTextColor": "indigo-700"
+    }
+  },
+  "cta": {
+    "primary": {
+      "text": "Get started",
+      "href": "#",
+      "color": {
+        "from": "indigo-600",
+        "to": "indigo-500",
+        "hoverFrom": "indigo-700",
+        "hoverTo": "indigo-600"
+      },
+      "textColor": "white",
+      "size": {
+        "x": "8",
+        "y": "4"
+      },
+      "rounded": "xl",
+      "icon": {
+        "path": "M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z",
+        "size": {
+          "width": 5,
+          "height": 5
+        }
+      }
+    },
+    "secondary": {
+      "text": "Log in",
+      "href": "#",
+      "textColor": "gray-700",
+      "hoverTextColor": "gray-900",
+      "size": {
+        "x": 6,
+        "y": 3
+      }
+    },
+    "spacing": 8
+  },
+  "mobileMenu": {
+    "button": {
+      "size": {
+        "width": 8,
+        "height": 8
+      },
+      "padding": 4,
+      "icon": {
+        "open": "M4 6h16M4 12h16M4 18h16",
+        "close": "M6 18L18 6M6 6l12 12"
+      }
+    },
+    "background": "white/95",
+    "border": "gray-200",
+    "sectionSpacing": 6
+  },
+  "styles": {
+    "header": {
+      "background": "white/95",
+      "border": "gray-200",
+      "height": 24,
+      "padding": {
+        "x": 8
+      }
+    },
+    "hoverTransition": "duration-200",
+    "shadow": {
+      "default": "sm",
+      "hover": "lg"
+    }
+  }
+}

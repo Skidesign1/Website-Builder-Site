@@ -1,0 +1,66 @@
+{
+  "companyName": "YourCompany",
+  "description": "Building innovative solutions to help you grow your business and achieve your goals.",
+  "logo": "/logo.png",
+  "socialLinks": [
+    { "name": "Facebook", "icon": "facebook-f", "url": "https://facebook.com" },
+    { "name": "Twitter", "icon": "twitter", "url": "https://twitter.com" },
+    { "name": "Instagram", "icon": "instagram", "url": "https://instagram.com" },
+    { "name": "LinkedIn", "icon": "linkedin-in", "url": "https://linkedin.com" }
+  ],
+  "links": [
+    {
+      "title": "Company",
+      "items": [
+        { "name": "About Us", "url": "/about" },
+        { "name": "Careers", "url": "/careers" },
+        { "name": "Blog", "url": "/blog" },
+        { "name": "Contact", "url": "/contact" }
+      ]
+    },
+    {
+      "title": "Products",
+      "items": [
+        { "name": "Features", "url": "/features" },
+        { "name": "Pricing", "url": "/pricing" },
+        { "name": "API", "url": "/api" },
+        { "name": "Integrations", "url": "/integrations" }
+      ]
+    },
+    {
+      "title": "Resources",
+      "items": [
+        { "name": "Documentation", "url": "/docs" },
+        { "name": "Guides", "url": "/guides" },
+        { "name": "Support", "url": "/support" },
+        { "name": "Community", "url": "/community" }
+      ]
+    }
+  ],
+  "bottomLinks": [
+    { "name": "Privacy Policy", "url": "/privacy" },
+    { "name": "Terms of Service", "url": "/terms" },
+    { "name": "Cookie Policy", "url": "/cookies" }
+  ],
+  "styles": {
+    "footer": "bg-gray-900 text-white pt-12 pb-6",
+    "container": "container mx-auto px-4",
+    "grid": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8",
+    "column": "flex flex-col space-y-4",
+    "logoContainer": "flex items-center",
+    "logo": "h-8 mr-2",
+    "companyName": "text-2xl font-bold text-indigo-400",
+    "description": "text-gray-400",
+    "socialContainer": "flex space-x-4",
+    "socialLink": "text-gray-400 hover:text-indigo-400 transition-colors duration-300",
+    "socialIcon": "text-xl",
+    "sectionTitle": "text-lg font-semibold text-indigo-400",
+    "sectionList": "space-y-2",
+    "link": "text-gray-400 hover:text-indigo-400 transition-colors duration-300",
+    "divider": "border-t border-gray-800 my-6",
+    "bottomBar": "flex flex-col md:flex-row justify-between items-center",
+    "copyright": "text-gray-500 text-sm mb-4 md:mb-0",
+    "bottomLinks": "flex space-x-6",
+    "bottomLink": "text-gray-500 hover:text-indigo-400 text-sm transition-colors duration-300"
+  }
+}
