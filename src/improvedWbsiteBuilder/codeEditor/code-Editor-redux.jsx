@@ -21,7 +21,7 @@ import {
     Minimize,
 } from "lucide-react";
 import { toast } from "sonner";
-// import CodePreview from "./codepreview";
+import CodePreview from "./codepreview";
 import {
     ResizablePanelGroup,
     ResizablePanel,
