@@ -179,39 +179,43 @@ export default function WebsiteBuilderNavbar({
   }
 
   return (
-    <div className="flex items-center justify-between w-full h-12 bg-[#2d2d2d] text-white border-b border-[#222]">
-      {/* Left section */}
-      <div className="flex items-center space-x-2">
-        <Link className="overflow-x-hidden h-40 w-40 flex justify-center items-center">
-          <img className="w-full h-full object-contain" src={logo} alt="Logo" />
+    <div className='flex items-center justify-between w-full h-12 bg-[#2d2d2d] text-white border-b border-[#222]'>
+      <div className='flex items-center space-x-2'>
+        <Link className='overflow-x-hidden h-40 w-40 flex justify-center items-center'>
+          <img
+            className='w-full h-full object-contain'
+            src={logo}
+            alt='Logo'
+            style={{ filter: 'invert(1)' }}
+          />
         </Link>
 
-        <div className="flex items-center space-x-5 text-sm">
-          <div className="flex items-center space-x-1">
-            <ChevronLeft className="w-4 h-4" />
+        <div className='flex items-center space-x-5 text-sm'>
+          <div className='flex items-center space-x-1'>
+            <ChevronLeft className='w-4 h-4' />
             <span>My Sites</span>
           </div>
 
           {/* Page selector dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center space-x-1 px-2 py-0.5 bg-[#444] rounded-lg cursor-pointer hover:bg-[#555] transition-colors">
+              <div className='flex items-center space-x-1 px-2 py-0.5 bg-[#444] rounded-lg cursor-pointer hover:bg-[#555] transition-colors'>
                 <span>
-                  Page:{" "}
+                  Page:{' '}
                   {isEditingPage ? (
                     <Input
                       value={editPageName}
-                      onChange={(e) => setEditPageName(e.target.value)}
-                      className="h-6 w-32 bg-[#333] border-[#555] text-white rounded-md"
-                      onClick={(e) => e.stopPropagation()}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault()
-                          savePageEdit()
-                        } else if (e.key === "Escape") {
-                          cancelPageEdit()
+                      onChange={e => setEditPageName(e.target.value)}
+                      className='h-6 w-32 bg-[#333] border-[#555] text-white rounded-md'
+                      onClick={e => e.stopPropagation()}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          savePageEdit();
+                        } else if (e.key === 'Escape') {
+                          cancelPageEdit();
                         }
-                        e.stopPropagation()
+                        e.stopPropagation();
                       }}
                       autoFocus
                     />
@@ -220,75 +224,70 @@ export default function WebsiteBuilderNavbar({
                   )}
                 </span>
                 {isEditingPage ? (
-                  <div className="flex space-x-1">
+                  <div className='flex space-x-1'>
                     <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-5 w-5"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        savePageEdit()
-                      }}
-                    >
-                      <Check className="h-3 w-3" />
+                      variant='ghost'
+                      size='icon'
+                      className='h-5 w-5'
+                      onClick={e => {
+                        e.stopPropagation();
+                        savePageEdit();
+                      }}>
+                      <Check className='h-3 w-3' />
                     </Button>
                     <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-5 w-5"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        cancelPageEdit()
-                      }}
-                    >
-                      <X className="h-3 w-3" />
+                      variant='ghost'
+                      size='icon'
+                      className='h-5 w-5'
+                      onClick={e => {
+                        e.stopPropagation();
+                        cancelPageEdit();
+                      }}>
+                      <X className='h-3 w-3' />
                     </Button>
                   </div>
                 ) : (
-                  <ChevronDown className="w-3 h-3" />
+                  <ChevronDown className='w-3 h-3' />
                 )}
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              align="start"
-              className="w-56 bg-black border-[#444] text-white rounded-lg shadow-lg overflow-hidden"
-            >
-              {pages.map((page) => (
+              align='start'
+              className='w-56 bg-black border-[#444] text-white rounded-lg shadow-lg overflow-hidden'>
+              {pages.map(page => (
                 <DropdownMenuItem
                   key={page.id}
                   className={cn(
-                    "flex items-center cursor-pointer justify-between group px-3 py-2 hover:bg-[#444] transition-colors",
-                    activePage.id === page.id && "bg-primary/20"
+                    'flex items-center cursor-pointer justify-between group px-3 py-2 hover:bg-[#444] transition-colors',
+                    activePage.id === page.id && 'bg-primary/20'
                   )}
-                  onSelect={() => handlePageSelect(page)}
-                >
+                  onSelect={() => handlePageSelect(page)}>
                   <span>{page.name}</span>
                 </DropdownMenuItem>
               ))}
               <Dialog open={newPageDialogOpen} onOpenChange={setNewPageDialogOpen}>
-                <DialogContent className="bg-black border-[#444] text-white rounded-lg shadow-lg">
+                <DialogContent className='bg-black border-[#444] text-white rounded-lg shadow-lg'>
                   <DialogHeader>
                     <DialogTitle>Create New Page</DialogTitle>
-                    <DialogDescription className="text-muted-foreground">
+                    <DialogDescription className='text-muted-foreground'>
                       Enter a name for your new page.
                     </DialogDescription>
                   </DialogHeader>
                   <Input
                     value={newPageName}
-                    onChange={(e) => setNewPageName(e.target.value)}
-                    placeholder="Page name"
-                    className="bg-[#222] border-[#444] rounded-md"
+                    onChange={e => setNewPageName(e.target.value)}
+                    placeholder='Page name'
+                    className='bg-[#222] border-[#444] rounded-md'
                     autoFocus
                   />
                   <DialogFooter>
                     <Button
-                      variant="outline"
+                      variant='outline'
                       onClick={() => setNewPageDialogOpen(false)}
-                      className="border-[#444] hover:bg-[#444] hover:text-white rounded-md"
-                    >
+                      className='border-[#444] hover:bg-[#444] hover:text-white rounded-md'>
                       Cancel
                     </Button>
-                    <Button className="rounded-md" onClick={handleCreatePage}>
+                    <Button className='rounded-md' onClick={handleCreatePage}>
                       Create Page
                     </Button>
                   </DialogFooter>
@@ -300,70 +299,74 @@ export default function WebsiteBuilderNavbar({
       </div>
 
       {/* Center section - Device toggles */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-1">
+      <div className='absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-1'>
         <button
-          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "desktop" ? "bg-[#444] rounded" : ""}`}
-          onClick={() => handleDeviceChange("desktop", [1920, 1080])}
-        >
-          <Monitor className="w-4 h-4" />
-          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${
+            activeDevice === 'desktop' ? 'bg-[#444] rounded' : ''
+          }`}
+          onClick={() => handleDeviceChange('desktop', [1920, 1080])}>
+          <Monitor className='w-4 h-4' />
+          <span className='absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity'>
             Desktop
           </span>
         </button>
         <button
-          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "laptop" ? "bg-[#444] rounded" : ""}`}
-          onClick={() => handleDeviceChange("laptop", [1366, 768])}
-        >
-          <Laptop className="w-4 h-4" />
-          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${
+            activeDevice === 'laptop' ? 'bg-[#444] rounded' : ''
+          }`}
+          onClick={() => handleDeviceChange('laptop', [1366, 768])}>
+          <Laptop className='w-4 h-4' />
+          <span className='absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity'>
             Laptop
           </span>
         </button>
         <button
-          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "tablet" ? "bg-[#444] rounded" : ""}`}
-          onClick={() => handleDeviceChange("tablet", [768, 1024])}
-        >
-          <Tablet className="w-4 h-4" />
-          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${
+            activeDevice === 'tablet' ? 'bg-[#444] rounded' : ''
+          }`}
+          onClick={() => handleDeviceChange('tablet', [768, 1024])}>
+          <Tablet className='w-4 h-4' />
+          <span className='absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity'>
             Tablet
           </span>
         </button>
         <button
-          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "mobile" ? "bg-[#444] rounded" : ""}`}
-          onClick={() => handleDeviceChange("mobile", [375, 667])}
-        >
-          <Smartphone className="w-4 h-4" />
-          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${
+            activeDevice === 'mobile' ? 'bg-[#444] rounded' : ''
+          }`}
+          onClick={() => handleDeviceChange('mobile', [375, 667])}>
+          <Smartphone className='w-4 h-4' />
+          <span className='absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity'>
             Mobile
           </span>
         </button>
         <button
-          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${activeDevice === "grid" ? "bg-[#444] rounded" : ""}`}
-          onClick={() => dispatch(setActiveDevice("grid"))}
-        >
-          <LayoutGrid className="w-4 h-4" />
-          <span className="absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          className={`relative h-8 w-8 cursor-pointer flex items-center justify-center group ${
+            activeDevice === 'grid' ? 'bg-[#444] rounded' : ''
+          }`}
+          onClick={() => dispatch(setActiveDevice('grid'))}>
+          <LayoutGrid className='w-4 h-4' />
+          <span className='absolute top-full mt-1 text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity'>
             Grid
           </span>
         </button>
         <Select value={selectedResolution} onValueChange={handleResolutionChange}>
-          <SelectTrigger className="h-8 w-40 bg-[#2d2d2d] border-[#444] text-xs rounded-md hover:bg-[#333] transition-colors">
+          <SelectTrigger className='h-8 w-40 bg-[#2d2d2d] border-[#444] text-xs rounded-md hover:bg-[#333] transition-colors'>
             <SelectValue placeholder={`${canvasSize[0]} x ${canvasSize[1]}`} />
           </SelectTrigger>
-          <SelectContent className="bg-[#2d2d2d] border-[#444] rounded-md shadow-lg">
+          <SelectContent className='bg-[#2d2d2d] border-[#444] rounded-md shadow-lg'>
             {Object.entries(resolutions).map(([category, resList]) => (
               <SelectGroup key={category}>
-                <SelectLabel className="text-white text-sm px-3 py-1">{category}</SelectLabel>
-                {resList.map((res) => (
+                <SelectLabel className='text-white text-sm px-3 py-1'>{category}</SelectLabel>
+                {resList.map(res => (
                   <SelectItem
                     key={res.label}
-                    value={res.size.join("x")}
+                    value={res.size.join('x')}
                     className={cn(
-                      "px-10 py-2 text-white hover:bg-[#444] rounded-md transition-colors",
-                      selectedResolution === res.size.join("x") ? "bg-[#555]" : "",
-                      "no-checkmark" // Add a custom class to hide the checkmark
-                    )}
-                  >
+                      'px-10 py-2 text-white hover:bg-[#444] rounded-md transition-colors',
+                      selectedResolution === res.size.join('x') ? 'bg-[#555]' : '',
+                      'no-checkmark' // Add a custom class to hide the checkmark
+                    )}>
                     {res.label}
                   </SelectItem>
                 ))}
@@ -374,41 +377,47 @@ export default function WebsiteBuilderNavbar({
       </div>
 
       {/* Right section */}
-      <div className="flex items-center space-x-2">
+      <div className='flex items-center space-x-2'>
         {/* Action buttons */}
-        <Link to='code-editor' className="h-8 w-8 flex items-center justify-center" title="Preview code">
-          <Code className="w-4 h-4" />
+        <Link
+          to='code-editor'
+          className='h-8 w-8 flex items-center justify-center'
+          title='Preview code'>
+          <Code className='w-4 h-4' />
         </Link>
-        <button className="h-8 w-8 flex items-center justify-center" title="Zoom out">
-          <Minus className="w-4 h-4" />
+        <button className='h-8 w-8 flex items-center justify-center' title='Zoom out'>
+          <Minus className='w-4 h-4' />
         </button>
-        <button className="h-8 w-8 flex items-center justify-center" title="Zoom in">
-          <Plus className="w-4 h-4" />
+        <button className='h-8 w-8 flex items-center justify-center' title='Zoom in'>
+          <Plus className='w-4 h-4' />
         </button>
-        <button className="h-8 w-8 flex items-center justify-center" title="Refresh" onClick={handleReset}>
-          <RefreshCw className="w-4 h-4" />
+        <button
+          className='h-8 w-8 flex items-center justify-center'
+          title='Refresh'
+          onClick={handleReset}>
+          <RefreshCw className='w-4 h-4' />
         </button>
-        <button className="h-8 w-8 flex items-center justify-center" title="View Docs">
-          <FileText className="w-4 h-4" />
+        <button className='h-8 w-8 flex items-center justify-center' title='View Docs'>
+          <FileText className='w-4 h-4' />
         </button>
-        <button className="h-8 w-8 flex items-center justify-center" title="Add Photo">
-          <ImageIcon className="w-4 h-4" />
+        <button className='h-8 w-8 flex items-center justify-center' title='Add Photo'>
+          <ImageIcon className='w-4 h-4' />
         </button>
-        <button className="h-8 w-8 flex items-center justify-center" title="Archive">
-          <Archive className="w-4 h-4" />
+        <button className='h-8 w-8 flex items-center justify-center' title='Archive'>
+          <Archive className='w-4 h-4' />
         </button>
 
-        <button className="h-8 w-8 flex items-center justify-center" title="Preview">
-          <Eye className="w-4 h-4" />
+        <button className='h-8 w-8 flex items-center justify-center' title='Preview'>
+          <Eye className='w-4 h-4' />
         </button>
-        <button className="h-8 w-8 flex items-center justify-center" title="Settings">
-          <Settings className="w-4 h-4" />
+        <button className='h-8 w-8 flex items-center justify-center' title='Settings'>
+          <Settings className='w-4 h-4' />
         </button>
-        <button className="h-8 w-8 flex items-center justify-center" title="User">
-          <User className="w-4 h-4" />
+        <button className='h-8 w-8 flex items-center justify-center' title='User'>
+          <User className='w-4 h-4' />
         </button>
-        <div className="px-2 cursor-pointer text-sm font-medium">EN</div>
+        <div className='px-2 cursor-pointer text-sm font-medium'>EN</div>
       </div>
     </div>
-  )
+  );
 }
