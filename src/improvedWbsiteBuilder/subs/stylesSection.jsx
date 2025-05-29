@@ -1,32 +1,71 @@
 'use client';
+
 import React, { useState } from 'react';
-import { Button } from '../components/ui/button'; // Adjust path if needed: e.g., .../ui/button
-import { Input } from '../components/ui/input'; // Adjust path if needed
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '../components/ui/select'; // Adjust path if needed
+} from '../components/ui/select';
 
 export default function MyComponent() {
-  const [fontSize, setFontSize] = useState(14);
-  const [fontFamily, setFontFamily] = useState('Roboto');
-  const [color, setColor] = useState('#ff0000');
-  const [textAlign, setTextAlign] = useState('center');
-  const [textDecoration, setTextDecoration] = useState('underline');
-  const [opacity, setOpacity] = useState('1'); // Opacity state as string, input type number handles conversion
-  const [letterSpacing, setLetterSpacing] = useState('0px'); // Default to valid CSS
-  const [overflow, setOverflow] = useState('visible');
-  const [width, setWidth] = useState('100px'); // More practical default
-  const [height, setHeight] = useState('100px'); // More practical default
-  const [borderRadius, setBorderRadius] = useState('0px');
-  const [objectFit, setObjectFit] = useState('contain');
-  const [padding, setPadding] = useState('10px');
-  const [borderStyle, setBorderStyle] = useState('solid'); // Changed default to solid for visibility
+  const dispatch = useDispatch();
+  const containerStyle = useSelector(state => state.containerStyle);
+
+  const [fontSize, setFontSize] = useState(containerStyle.fontSize);
+  const [fontFamily, setFontFamily] = useState(containerStyle.fontFamily);
+  const [color, setColor] = useState(containerStyle.color);
+  const [textAlign, setTextAlign] = useState(containerStyle.textAlign);
+  const [opacity, setOpacity] = useState(containerStyle.opacity);
+  const [letterSpacing, setLetterSpacing] = useState(containerStyle.letterSpacing);
+  const [width, setWidth] = useState(containerStyle.width);
+  const [height, setHeight] = useState(containerStyle.height);
+  const [borderRadius, setBorderRadius] = useState(containerStyle.borderRadius);
+  const [objectFit, setObjectFit] = useState(containerStyle.objectFit);
+  const [padding, setPadding] = useState(containerStyle.padding);
+  const [margin, setMargin] = useState(containerStyle.margin || '0px');
+  const [boxShadow, setBoxShadow] = useState(containerStyle.boxShadow || 'none');
+  const [position, setPosition] = useState(containerStyle.position || 'static');
+  const [borderStyle, setBorderStyle] = useState(containerStyle.borderStyle);
+  const [headerBackground, setHeaderBackground] = useState(containerStyle.headerBackground || 'white/95');
+  const [headerBorder, setHeaderBorder] = useState(containerStyle.headerBorder || 'gray-200');
+  const [shadowDefault, setShadowDefault] = useState(containerStyle.shadowDefault || 'sm');
+  const [headerPaddingX, setHeaderPaddingX] = useState(containerStyle.headerPaddingX || 8);
+  const [headerHeight, setHeaderHeight] = useState(containerStyle.headerHeight || 24);
+  const [logoSrc, setLogoSrc] = useState(containerStyle.logoSrc || '/assets/logo.png');
+  const [logoAlt, setLogoAlt] = useState(containerStyle.logoAlt || 'Brand Logo');
+  const [logoSizeHeight, setLogoSizeHeight] = useState(containerStyle.logoSizeHeight || 12);
+  const [logoSizeWidth, setLogoSizeWidth] = useState(containerStyle.logoSizeWidth || 12);
+  const [brandName, setBrandName] = useState(containerStyle.brandName || 'Micah');
+  const [textSize, setTextSize] = useState(containerStyle.textSize || '3xl');
+  const [textColor, setTextColor] = useState(containerStyle.textColor || 'gray-900');
+  const [desktopSpacing, setDesktopSpacing] = useState(containerStyle.desktopSpacing || 14);
+  const [desktopPaddingX, setDesktopPaddingX] = useState(containerStyle.desktopPaddingX || 4);
+  const [desktopPaddingY, setDesktopPaddingY] = useState(containerStyle.desktopPaddingY || 3);
+  const [activeIndicatorColor, setActiveIndicatorColor] = useState(containerStyle.activeIndicatorColor || 'indigo-600');
+  const [activeIndicatorHeight, setActiveIndicatorHeight] = useState(containerStyle.activeIndicatorHeight || '3px');
+  const [activeIndicatorWidth, setActiveIndicatorWidth] = useState(containerStyle.activeIndicatorWidth || '4/5');
+  const [activeIndicatorRounded, setActiveIndicatorRounded] = useState(containerStyle.activeIndicatorRounded || 'full');
+  const [ctaSpacing, setCtaSpacing] = useState(containerStyle.ctaSpacing || 8);
+  const [ctaPrimarySizeX, setCtaPrimarySizeX] = useState(containerStyle.ctaPrimarySizeX || 8);
+  const [ctaPrimarySizeY, setCtaPrimarySizeY] = useState(containerStyle.ctaPrimarySizeY || 4);
+  const [ctaPrimaryRounded, setCtaPrimaryRounded] = useState(containerStyle.ctaPrimaryRounded || 'xl');
+  const [ctaPrimaryColorFrom, setCtaPrimaryColorFrom] = useState(containerStyle.ctaPrimaryColorFrom || 'indigo-600');
+  const [ctaPrimaryColorTo, setCtaPrimaryColorTo] = useState(containerStyle.ctaPrimaryColorTo || 'indigo-500');
+  const [ctaPrimaryTextColor, setCtaPrimaryTextColor] = useState(containerStyle.ctaPrimaryTextColor || 'white');
+  const [ctaPrimaryIconSizeWidth, setCtaPrimaryIconSizeWidth] = useState(containerStyle.ctaPrimaryIconSizeWidth || 5);
+  const [ctaPrimaryIconSizeHeight, setCtaPrimaryIconSizeHeight] = useState(containerStyle.ctaPrimaryIconSizeHeight || 5);
+  const [mobileMenuButtonPadding, setMobileMenuButtonPadding] = useState(containerStyle.mobileMenuButtonPadding || 4);
+  const [mobileMenuButtonSizeHeight, setMobileMenuButtonSizeHeight] = useState(containerStyle.mobileMenuButtonSizeHeight || 8);
+  const [mobileMenuButtonSizeWidth, setMobileMenuButtonSizeWidth] = useState(containerStyle.mobileMenuButtonSizeWidth || 8);
+  const [mobileMenuBackground, setMobileMenuBackground] = useState(containerStyle.mobileMenuBackground || 'white/95');
+  const [mobileMenuBorder, setMobileMenuBorder] = useState(containerStyle.mobileMenuBorder || 'gray-200');
+  const [mobileMenuSectionSpacing, setMobileMenuSectionSpacing] = useState(containerStyle.mobileMenuSectionSpacing || 6);
 
   const commonInputClass =
     'h-9 bg-[#333] border-[#555] text-white rounded-md focus:border-primary placeholder:text-gray-500';
@@ -51,13 +90,23 @@ export default function MyComponent() {
           <Input
             type='number'
             value={fontSize}
-            onChange={e => setFontSize(parseInt(e.target.value, 10) || 0)}
+            onChange={e => {
+              const newFontSize = parseInt(e.target.value, 10) || 0;
+              setFontSize(newFontSize);
+              dispatch({ type: 'containerStyle/setFontSize', payload: newFontSize });
+            }}
             className={commonInputClass}
           />
         </div>
         <div>
           <label className='block text-gray-400 text-xs font-medium mb-1'>Font Family:</label>
-          <Select value={fontFamily} onValueChange={setFontFamily}>
+          <Select
+            value={fontFamily}
+            onValueChange={value => {
+              setFontFamily(value);
+              dispatch({ type: 'containerStyle/setFontFamily', payload: value });
+            }}
+          >
             <SelectTrigger className={commonSelectTriggerClass}>
               <SelectValue placeholder='Select family' />
             </SelectTrigger>
@@ -87,13 +136,19 @@ export default function MyComponent() {
             <Input
               type='color'
               value={color}
-              onChange={e => setColor(e.target.value)}
+              onChange={e => {
+                setColor(e.target.value);
+                dispatch({ type: 'containerStyle/setColor', payload: e.target.value });
+              }}
               className='w-9 h-9 p-0.5 border border-[#555] bg-[#333] rounded-md cursor-pointer'
             />
             <Input
               type='text'
               value={color}
-              onChange={e => setColor(e.target.value)}
+              onChange={e => {
+                setColor(e.target.value);
+                dispatch({ type: 'containerStyle/setColor', payload: e.target.value });
+              }}
               className={`${commonInputClass} flex-1`}
               placeholder='#RRGGBB'
             />
@@ -102,7 +157,13 @@ export default function MyComponent() {
 
         <div>
           <label className='block text-gray-400 text-xs font-medium mb-1'>Text Align:</label>
-          <Select value={textAlign} onValueChange={setTextAlign}>
+          <Select
+            value={textAlign}
+            onValueChange={value => {
+              setTextAlign(value);
+              dispatch({ type: 'containerStyle/setTextAlign', payload: value });
+            }}
+          >
             <SelectTrigger className={commonSelectTriggerClass}>
               <SelectValue placeholder='Select alignment' />
             </SelectTrigger>
@@ -124,36 +185,19 @@ export default function MyComponent() {
         </div>
 
         <div>
-          <label className='block text-gray-400 text-xs font-medium mb-1'>Decoration:</label>
-          <Select value={textDecoration} onValueChange={setTextDecoration}>
-            <SelectTrigger className={commonSelectTriggerClass}>
-              <SelectValue placeholder='Select decoration' />
-            </SelectTrigger>
-            <SelectContent className={commonSelectContentClass}>
-              <SelectItem value='none' className={commonSelectItemClass}>
-                None
-              </SelectItem>
-              <SelectItem value='underline' className={commonSelectItemClass}>
-                Underline
-              </SelectItem>
-              <SelectItem value='overline' className={commonSelectItemClass}>
-                Overline
-              </SelectItem>
-              <SelectItem value='line-through' className={commonSelectItemClass}>
-                Line-through
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
           <label className='block text-gray-400 text-xs font-medium mb-1'>Opacity (0-1):</label>
           <Input
             type='number'
             value={opacity}
             onChange={e => {
               const val = parseFloat(e.target.value);
-              if (val >= 0 && val <= 1) setOpacity(e.target.value);
-              else if (e.target.value === '') setOpacity('');
+              if (val >= 0 && val <= 1) {
+                setOpacity(e.target.value);
+                dispatch({
+                  type: 'containerStyle/setOpacity',
+                  payload: parseFloat(e.target.value),
+                });
+              } else if (e.target.value === '') setOpacity('');
             }}
             className={commonInputClass}
             min='0'
@@ -167,32 +211,13 @@ export default function MyComponent() {
           <Input
             type='text'
             value={letterSpacing}
-            onChange={e => setLetterSpacing(e.target.value)}
+            onChange={e => {
+              setLetterSpacing(e.target.value);
+              dispatch({ type: 'containerStyle/setLetterSpacing', payload: e.target.value });
+            }}
             className={commonInputClass}
             placeholder='e.g., 2px or 0.1em'
           />
-        </div>
-        <div>
-          <label className='block text-gray-400 text-xs font-medium mb-1'>Overflow:</label>
-          <Select value={overflow} onValueChange={setOverflow}>
-            <SelectTrigger className={commonSelectTriggerClass}>
-              <SelectValue placeholder='Select overflow' />
-            </SelectTrigger>
-            <SelectContent className={commonSelectContentClass}>
-              <SelectItem value='visible' className={commonSelectItemClass}>
-                Visible
-              </SelectItem>
-              <SelectItem value='hidden' className={commonSelectItemClass}>
-                Hidden
-              </SelectItem>
-              <SelectItem value='scroll' className={commonSelectItemClass}>
-                Scroll
-              </SelectItem>
-              <SelectItem value='auto' className={commonSelectItemClass}>
-                Auto
-              </SelectItem>
-            </SelectContent>
-          </Select>
         </div>
 
         <div>
@@ -200,7 +225,10 @@ export default function MyComponent() {
           <Input
             type='text'
             value={width}
-            onChange={e => setWidth(e.target.value)}
+            onChange={e => {
+              setWidth(e.target.value);
+              dispatch({ type: 'containerStyle/setWidth', payload: e.target.value });
+            }}
             className={commonInputClass}
             placeholder='e.g., 100px or 50%'
           />
@@ -211,7 +239,10 @@ export default function MyComponent() {
           <Input
             type='text'
             value={height}
-            onChange={e => setHeight(e.target.value)}
+            onChange={e => {
+              setHeight(e.target.value);
+              dispatch({ type: 'containerStyle/setHeight', payload: e.target.value });
+            }}
             className={commonInputClass}
             placeholder='e.g., 100px or auto'
           />
@@ -222,7 +253,10 @@ export default function MyComponent() {
           <Input
             type='text'
             value={borderRadius}
-            onChange={e => setBorderRadius(e.target.value)}
+            onChange={e => {
+              setBorderRadius(e.target.value);
+              dispatch({ type: 'containerStyle/setBorderRadius', payload: e.target.value });
+            }}
             className={commonInputClass}
             placeholder='e.g., 8px or 50%'
           />
@@ -230,7 +264,43 @@ export default function MyComponent() {
 
         <div>
           <label className='block text-gray-400 text-xs font-medium mb-1'>Object Fit:</label>
-          <Select value={objectFit} onValueChange={setObjectFit}>
+          <Select
+            value={objectFit}
+            onValueChange={value => {
+              setObjectFit(value);
+              dispatch({ type: 'containerStyle/setObjectFit', payload: value });
+            }}
+          >
+            <SelectTrigger className={commonSelectTriggerClass}>
+              <SelectValue placeholder='Select object fit' />
+            </SelectTrigger>
+            <SelectContent className={commonSelectContentClass}>
+              <SelectItem value='contain' className={commonSelectItemClass}>
+                Contain
+              </SelectItem>
+              <SelectItem value='cover' className={commonSelectItemClass}>
+                Cover
+              </SelectItem>
+              <SelectItem value='fill' className={commonSelectItemClass}>
+                Fill
+              </SelectItem>
+              <SelectItem value='none' className={commonSelectItemClass}>
+                None
+              </SelectItem>
+              <SelectItem value='scale-down' className={commonSelectItemClass}>
+                Scale-down
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <label className='block text-gray-400 text-xs font-medium mb-1'>Object Fit:</label>
+          <Select
+            value={objectFit}
+            onValueChange={value => {
+              setObjectFit(value);
+              dispatch({ type: 'containerStyle/setObjectFit', payload: value });
+            }}>
             <SelectTrigger className={commonSelectTriggerClass}>
               <SelectValue placeholder='Select object fit' />
             </SelectTrigger>
@@ -258,7 +328,10 @@ export default function MyComponent() {
           <Input
             type='text'
             value={padding}
-            onChange={e => setPadding(e.target.value)}
+            onChange={e => {
+              setPadding(e.target.value);
+              dispatch({ type: 'containerStyle/setPadding', payload: e.target.value });
+            }}
             className={commonInputClass}
             placeholder='e.g., 10px or 10px 20px'
           />
@@ -266,7 +339,12 @@ export default function MyComponent() {
 
         <div>
           <label className='block text-gray-400 text-xs font-medium mb-1'>Border Style:</label>
-          <Select value={borderStyle} onValueChange={setBorderStyle}>
+          <Select
+            value={borderStyle}
+            onValueChange={value => {
+              setBorderStyle(value);
+              dispatch({ type: 'containerStyle/setBorderStyle', payload: value });
+            }}>
             <SelectTrigger className={commonSelectTriggerClass}>
               <SelectValue placeholder='Select border style' />
             </SelectTrigger>
@@ -289,7 +367,65 @@ export default function MyComponent() {
             </SelectContent>
           </Select>
         </div>
+
+        <div>
+          <label className='block text-gray-400 text-xs font-medium mb-1'>Margin:</label>
+          <Input
+            type='text'
+            value={margin}
+            onChange={e => {
+              setMargin(e.target.value);
+              dispatch({ type: 'containerStyle/setMargin', payload: e.target.value });
+            }}
+            className={commonInputClass}
+            placeholder='e.g., 10px or 10px 20px'
+          />
+        </div>
+
+        <div>
+          <label className='block text-gray-400 text-xs font-medium mb-1'>Box Shadow:</label>
+          <Input
+            type='text'
+            value={boxShadow}
+            onChange={e => {
+              setBoxShadow(e.target.value);
+              dispatch({ type: 'containerStyle/setBoxShadow', payload: e.target.value });
+            }}
+            className={commonInputClass}
+            placeholder='e.g., 2px 2px 4px #000000'
+          />
+        </div>
+
+        <div>
+          <label className='block text-gray-400 text-xs font-medium mb-1'>Position:</label>
+          <Select
+            value={position}
+            onValueChange={value => {
+              setPosition(value);
+              dispatch({ type: 'containerStyle/setPosition', payload: value });
+            }}>
+            <SelectTrigger className={commonSelectTriggerClass}>
+              <SelectValue placeholder='Select position' />
+            </SelectTrigger>
+            <SelectContent className={commonSelectContentClass}>
+              <SelectItem value='static' className={commonSelectItemClass}>
+                Static
+              </SelectItem>
+              <SelectItem value='relative' className={commonSelectItemClass}>
+                Relative
+              </SelectItem>
+              <SelectItem value='absolute' className={commonSelectItemClass}>
+                Absolute
+              </SelectItem>
+              <SelectItem value='fixed' className={commonSelectItemClass}>
+                Fixed
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
     </div>
   );
 }
+
+// Add dispatch actions for all the new inputs
