@@ -194,10 +194,41 @@ export const websiteBuilderSlice = createSlice({
 
             state.pageContainers[pageId] = state.pageContainers[pageId].map((container) => {
                 if (container.id === containerId && container.component) {
-                    console.log(JSON.parse(JSON.stringify(container)));
                     return {
                         ...container,
                         component: updateDeepestComponent(container.component),
+                    };
+                }
+                return container;
+            });
+        },
+        updateComponentConfig: (state, action) => {
+            const { containerId, config } = action.payload;
+            const pageId = state.activePage.id;
+
+            const updateDeepestConfig = (component) => {
+                if (
+                    component &&
+                    typeof component === "object" &&
+                    component.component &&
+                    typeof component.component === "object"
+                ) {
+                    return {
+                        ...component,
+                        component: updateDeepestConfig(component.component),
+                    };
+                }
+                return {
+                    ...component,
+                    config: config,
+                };
+            };
+
+            state.pageContainers[pageId] = state.pageContainers[pageId].map((container) => {
+                if (container.id === containerId && container.component) {
+                    return {
+                        ...container,
+                        component: updateDeepestConfig(container.component),
                     };
                 }
                 return container;
@@ -224,6 +255,7 @@ export const {
     moveComponentBetweenContainers,
     addContainer,
     updateComponentCode,
+    updateComponentConfig,
 } = websiteBuilderSlice.actions
 
 // Selectors

@@ -19,21 +19,29 @@ const registryTemplate = [
         type: "navbar",
         id: "navbar-001",
         componentUrl: "https://cdn.filestackcontent.com/sFsbERTfTI2otDO85jvg",
+        configFile: 'navConfig.json',
         label: "Navbar001",
     },
     {
         type: "navbar",
         id: "navbar-002",
         componentUrl: "https://cdn.filestackcontent.com/Gdqs4CpRXO1fueLAEKUQ",
-        configFile: 'navConfig.json', // changed from NavbarConfig to configFile
         label: "Navbar002",
     },
+    {
+        type: "footer",
+        id: "footer-001",
+        componentUrl: "https://cdn.filestackcontent.com/cXZQsjTwQ1WqFBdoJ9df",
+        configFile: 'footerConfig001.json',
+        label: "footer001",
+    }
     // Add more components here if needed
 ];
 
 // Categories metadata
 const categories = [
     { id: "navbar", label: "Navbar", icon: null }, // You can add icon info here if you want
+    { id: "footer", label: "Footer", icon: null },
     // Add other categories if you have them
 ];
 

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     selectContainers,
     updateComponentCode,
+    updateComponentConfig,
 } from "../reduxState/websiteBuilderSlice";
 import MonacoEditor from "@monaco-editor/react";
 import {
@@ -124,14 +125,29 @@ const CodeEditorRedux = () => {
             toast.error("File content is empty");
             return;
         }
-        // Simulate save (no API call)
-        dispatch(
-            updateComponentCode({
-                containerId: selectedFile.containerId,
-                code: fileContent,
-            })
-        );
-        toast.success("File saved successfully!");
+        // Check file type and dispatch to appropriate reducer
+        if (selectedFile.type === "jsx") {
+            dispatch(
+                updateComponentCode({
+                    containerId: selectedFile.containerId,
+                    code: fileContent,
+                })
+            );
+            toast.success("JSX file saved successfully!");
+        } else if (selectedFile.type === "json") {
+            // You need to implement updateComponentConfig in your redux slice for this to work
+            if (typeof updateComponentConfig === 'function') {
+                dispatch(
+                    updateComponentConfig({
+                        containerId: selectedFile.containerId,
+                        config: JSON.parse(fileContent),
+                    })
+                );
+                toast.success("JSON config saved successfully!");
+            } else {
+                toast.error("Saving JSON config is not implemented!");
+            }
+        }
     };
 
     const handleExport = () => {

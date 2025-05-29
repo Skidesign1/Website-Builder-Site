@@ -37,10 +37,13 @@ export function WebsiteBuilderSidebar({
       setLoading(true)
       try {
         const res = await fetch("https://website-builder-site-1.onrender.com/api/components")
+        // const res = await fetch("http://localhost:3000/api/components")
         const data = await res.json()
         setCategories(data.categories || [])
         setComponents(data.components || [])
-        window.NavbarConfig = data.components[1].config
+        window.NavbarConfig = data.components[0].config
+        window.footerConfig001 = data.components[2].config
+        console.log("Footer Config:", window.footerConfig001)
         setLoading(false)
       } catch (err) {
         setError("Failed to load components")

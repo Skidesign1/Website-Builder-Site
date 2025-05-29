@@ -23,6 +23,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/postcss": "^4.1.7",
     "class-variance-authority": "^0.7.1",
+    "filestack-js": "^3.40.6",
     "lucide-react": "^0.511.0",
     "postcss": "^8.5.3",
     "react": "^19.1.0",
