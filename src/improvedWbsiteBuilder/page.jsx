@@ -37,6 +37,7 @@ import {
 } from './reduxState/websiteBuilderSlice';
 import WebsiteBuilderNavbar from './components/website-builder-navbar';
 import TextEditor from './subs/textEditor';
+import { getComponentElements } from './lib/componentService';
 
 export default function WebsiteBuilderPage() {
   const dispatch = useDispatch();
@@ -196,6 +197,7 @@ export default function WebsiteBuilderPage() {
                 type: active.data.current.type,
                 label: active.data.current.label,
                 component: active.data.current.component,
+                elements: getComponentElements(active.data.current.type),
               },
             })
           );

@@ -1,7 +1,7 @@
 {
   "brand": {
     "logo": {
-      "src": "/assets/logo.png",
+      "src": "/src/assets/skye_logo.png",
       "alt": "Brand Logo",
       "size": {
         "width": 12,
@@ -119,6 +119,16 @@
     "border": "gray-200",
     "sectionSpacing": 6
   },
+  "elements": [
+    {"id": "logo", "type": "img", "content": "Logo"},
+    {"id": "nav1", "type": "a", "content": "Home"},
+    {"id": "nav2", "type": "a", "content": "Features"},
+    {"id": "nav3", "type": "a", "content": "Solutions"},
+    {"id": "nav4", "type": "a", "content": "Pricing"},
+    {"id": "nav5", "type": "a", "content": "Resources"},
+    {"id": "cta1", "type": "button", "content": "Log in"},
+    {"id": "cta2", "type": "button", "content": "Get started"}
+  ],
   "styles": {
     "header": {
       "background": "white/95",

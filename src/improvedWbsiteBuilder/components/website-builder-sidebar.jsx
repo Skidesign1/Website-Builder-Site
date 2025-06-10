@@ -110,20 +110,7 @@ export function WebsiteBuilderSidebar({
     })
     .filter(category => category.components.length > 0 || searchTerm === ''); // Keep category if it has components or if there's an active search (to show "no results in category")
 
-  if (loading) {
-    return (
-      <div className='bg-[#222222] text-gray-300 p-4 min-h-screen flex items-center justify-center'>
-        Loading components...
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <div className='bg-[#222222] text-red-400 p-4 min-h-screen flex flex-col items-center justify-center text-center'>
-        {error}
-      </div>
-    );
-  }
+  // Show loading indicators only for the components that are loading
 
   return (
     <div className='no-scrollbar bg-[#222222] text-white p-2.5 h-screen flex flex-col'>
@@ -168,55 +155,82 @@ export function WebsiteBuilderSidebar({
           </div>
 
           <div className='space-y-2'>
-            {groupedComponents.map(category => (
-              <div
-                key={category.id}
-                className='border border-[#444] rounded-md overflow-hidden bg-[#2d2d2d]'>
-                <button
-                  className='w-full flex items-center justify-between p-2.5 bg-[#333333] hover:bg-[#3a3a3a] transition-colors'
-                  onClick={() => toggleCategory(category.id)}>
-                  <div className='flex items-center'>
-                    {categoryIcons[category.iconKey] || categoryIcons.default}
-                    <span className='font-medium text-xs text-gray-200'>{category.label}</span>
+            {loading ? (
+              // Show skeleton loaders for each category
+              <div className='space-y-2'>
+                {[1, 2, 3].map(cat => (
+                  <div
+                    key={cat}
+                    className='border border-[#444] rounded-md overflow-hidden bg-[#2d2d2d]'>
+                    <div className='w-full flex items-center justify-between p-2.5 bg-[#333333]'>
+                      <div className='flex items-center'>
+                        <div className='bg-gray-700 rounded-full w-4 h-4 mr-2'></div>
+                        <div className='bg-gray-700 rounded-md h-4 w-20'></div>
+                      </div>
+                      <div className='bg-gray-700 rounded-md h-4 w-4'></div>
+                    </div>
+                    <div className='p-2 grid grid-cols-2 gap-1.5 bg-[#2d2d2d]'>
+                      {[1, 2, 3, 4].map(comp => (
+                        <div key={comp} className='bg-gray-700 rounded-md h-16'></div>
+                      ))}
+                    </div>
                   </div>
-                  <ChevronDown
-                    className={cn(
-                      'h-4 w-4 text-gray-400 transition-transform',
-                      expandedCategories[category.id] ? 'rotate-180' : ''
-                    )}
-                  />
-                </button>
-
-                {expandedCategories[category.id] && (
-                  <div className='p-2 grid grid-cols-2 gap-1.5 bg-[#2d2d2d]'>
-                    {category.components.map(component => (
-                      <DraggableComponent
-                        key={component.id}
-                        id={component.id}
-                        type={component.type}
-                        label={component.label}
-                        icon={categoryIcons[component.iconKey] || categoryIcons.default} // Pass an icon to DraggableComponent if it supports it
-                        thumbnail={component.thumbnail}
-                        component={component}
-                        // DraggableComponent should be styled internally like:
-                        // className="bg-[#383838] p-2 rounded-md text-center cursor-grab hover:bg-[#444444] text-xs text-gray-300"
+                ))}
+              </div>
+            ) : error ? (
+              <div className='text-red-400 text-center py-4 text-sm'>{error}</div>
+            ) : (
+              // Render actual components when loaded
+              <div className='space-y-2'>
+                {groupedComponents.map(category => (
+                  <div
+                    key={category.id}
+                    className='border border-[#444] rounded-md overflow-hidden bg-[#2d2d2d]'>
+                    <button
+                      className='w-full flex items-center justify-between p-2.5 bg-[#333333] hover:bg-[#3a3a3a] transition-colors'
+                      onClick={() => toggleCategory(category.id)}>
+                      <div className='flex items-center'>
+                        {categoryIcons[category.iconKey] || categoryIcons.default}
+                        <span className='font-medium text-xs text-gray-200'>{category.label}</span>
+                      </div>
+                      <ChevronDown
+                        className={cn(
+                          'h-4 w-4 text-gray-400 transition-transform',
+                          expandedCategories[category.id] ? 'rotate-180' : ''
+                        )}
                       />
-                    ))}
-                    {category.components.length === 0 && (
-                      <p className='col-span-2 text-[11px] text-gray-500 text-center py-3'>
-                        {searchTerm
-                          ? `No components match "${searchTerm}" in this category.`
-                          : `No components in this category.`}
-                      </p>
+                    </button>
+
+                    {expandedCategories[category.id] && (
+                      <div className='p-2 grid grid-cols-2 gap-1.5 bg-[#2d2d2d]'>
+                        {category.components.map(component => (
+                          <DraggableComponent
+                            key={component.id}
+                            id={component.id}
+                            type={component.type}
+                            label={component.label}
+                            icon={categoryIcons[component.iconKey] || categoryIcons.default}
+                            thumbnail={component.thumbnail}
+                            component={component}
+                          />
+                        ))}
+                        {category.components.length === 0 && (
+                          <p className='col-span-2 text-[11px] text-gray-500 text-center py-3'>
+                            {searchTerm
+                              ? `No components match "${searchTerm}" in this category.`
+                              : `No components in this category.`}
+                          </p>
+                        )}
+                      </div>
                     )}
                   </div>
+                ))}
+                {groupedComponents.length === 0 && searchTerm !== '' && (
+                  <p className='text-xs text-gray-400 text-center py-4'>
+                    No components found for "{searchTerm}".
+                  </p>
                 )}
               </div>
-            ))}
-            {groupedComponents.length === 0 && searchTerm !== '' && (
-              <p className='text-xs text-gray-400 text-center py-4'>
-                No components found for "{searchTerm}".
-              </p>
             )}
           </div>
 
